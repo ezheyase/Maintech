@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MenTex</title>
+    <title>MenTech - Trouvez votre technicien</title>
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -12,7 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* ========== STYLES (identiques à la version précédente) ========== */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         :root {
             --primary: #4361ee; --secondary: #3f37c9; --accent: #f72585; --dark: #1a1a2e; --light: #f8f9fa;
@@ -321,17 +320,24 @@
     <div class="toast" id="toast"></div>
 
     <script>
-        // ==================== CONFIG ====================
+        // ==================== CONFIGURATION ====================
+        // URL du backend (obligatoire pour la communication client/technicien)
+        const BACKEND_URL = 'https://mentech-backend.pxxl.click';
+        
+        // Webhooks Discord (ne changent pas)
         const SUPPORT_WEBHOOK = 'https://discord.com/api/webhooks/1473875137165135924/jkbRfQ1NtKICiKfVLJ5mb7aCcEyoyXECjv35lL5FgvP6v8hv3Pq7nnZr3SZt8hpetv6O';
         const CONFIRMATION_WEBHOOK = 'https://discord.com/api/webhooks/1473811156626837617/N1_ynWzRTcgErVHaV2OiOq8bWmAnLtU8FDOqAYOia621T6u-XhIrfBJgHE6t4EPzbDhC';
         const RECRUITMENT_WEBHOOK = 'https://discord.com/api/webhooks/1473825828700946555/TU29M7GsUXb24Hn8nphfviURKa3uHdt6KA5JyVWvzkLvj83Moy7UdZWR0-GXE1O-fIYj';
         
+        // Comptes techniciens (pour la démo)
         const TECH_ACCOUNTS = { 'TECH001':'mentech2025', 'YASSINE':'ezher123', 'MOHAMED':'berrada123', 'SAID':'bennani123', 'RACHID':'cherkaoui123' };
 
         // ==================== STATE ====================
         let currentUser = null, currentRole = null, currentCity = 'Maroc', currentService = null, currentProblem = null, currentTech = null, currentMission = null;
-        let missions = [], waitingTimer = null, waitingSeconds = 30, notificationInterval = null, supportMessages = [], supportCheckInterval = null;
-        let selectedTechId = null; // store tech id before showing address modal
+        let missions = [];
+        let waitingTimer = null, waitingSeconds = 30, notificationInterval = null;
+        let supportMessages = [], supportPollInterval = null, supportSessionId = null;
+        let selectedTechId = null;
 
         // ==================== LOGIN ====================
         function switchTab(role) {
@@ -363,12 +369,15 @@
                 document.getElementById('client-views').style.display = 'none';
                 document.getElementById('tech-views').style.display = 'block';
                 document.getElementById('user-badge').innerHTML = '<i class="fas fa-toolbox"></i> ' + currentUser.name;
-                loadTechMissions(); startNotificationCheck();
+                loadTechMissions();
+                startNotificationCheck();
             } else {
                 document.getElementById('client-views').style.display = 'block';
                 document.getElementById('tech-views').style.display = 'none';
                 document.getElementById('user-badge').innerHTML = '<i class="fas fa-user"></i> ' + currentUser.name;
-                buildCategories(); detectLocation(); startSupportCheck();
+                buildCategories(); detectLocation();
+                supportSessionId = 'session_' + Date.now() + '_' + currentUser.name;
+                startSupportPolling();
             }
         }
 
@@ -378,7 +387,7 @@
             document.getElementById('navbar').style.display = 'none';
             document.getElementById('main-container').style.display = 'none';
             if (notificationInterval) clearInterval(notificationInterval);
-            if (supportCheckInterval) clearInterval(supportCheckInterval);
+            if (supportPollInterval) clearInterval(supportPollInterval);
         }
 
         // ==================== LOCATION ====================
@@ -407,20 +416,32 @@
             setTimeout(()=>toast.style.display='none',3000);
         }
 
-        // ==================== SUPPORT ====================
+        // ==================== SUPPORT CHAT ====================
         function toggleSupport() { document.getElementById('support-modal').classList.toggle('open'); }
-        function loadSupportMessages() {
-            const saved = localStorage.getItem('mentech_support_'+currentUser?.name);
-            if(saved) { supportMessages = JSON.parse(saved); renderSupportMessages(); }
-            else {
-                supportMessages = [{
-                    id: Date.now(), text: 'Salam! 👋 Je suis Majda. Comment puis-je vous aider?', sender: 'support',
-                    time: new Date().toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' })
-                }];
-                saveSupportMessages(); renderSupportMessages();
+
+        async function loadSupportMessages() {
+            if (!supportSessionId) return;
+            try {
+                const res = await fetch(`${BACKEND_URL}/api/support/messages/${supportSessionId}`);
+                const data = await res.json();
+                if (data.messages && data.messages.length > 0) {
+                    supportMessages = data.messages;
+                    renderSupportMessages();
+                } else {
+                    // Message de bienvenue par défaut
+                    supportMessages = [{
+                        id: Date.now(),
+                        text: 'Salam! 👋 Je suis Majda. Comment puis-je vous aider?',
+                        sender: 'support',
+                        time: new Date().toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' })
+                    }];
+                    renderSupportMessages();
+                }
+            } catch (e) {
+                console.error('Erreur chargement messages', e);
             }
         }
-        function saveSupportMessages() { if(currentUser) localStorage.setItem('mentech_support_'+currentUser.name, JSON.stringify(supportMessages)); }
+
         function renderSupportMessages() {
             const container = document.getElementById('support-messages');
             container.innerHTML = supportMessages.map(msg => `
@@ -430,43 +451,47 @@
                 </div>`).join('');
             container.scrollTop = container.scrollHeight;
         }
-        function startSupportCheck() {
-            supportCheckInterval = setInterval(() => {
-                const saved = localStorage.getItem('mentech_support_replies');
-                if(saved) {
-                    const replies = JSON.parse(saved);
-                    const newReplies = replies.filter(r => !supportMessages.some(m => m.id === r.id));
-                    if(newReplies.length) { supportMessages = [...supportMessages, ...newReplies]; saveSupportMessages(); renderSupportMessages(); }
-                }
-            },2000);
+
+        function startSupportPolling() {
+            supportPollInterval = setInterval(async () => {
+                if (!supportSessionId) return;
+                try {
+                    const res = await fetch(`${BACKEND_URL}/api/support/messages/${supportSessionId}`);
+                    const data = await res.json();
+                    if (data.messages && data.messages.length > supportMessages.length) {
+                        supportMessages = data.messages;
+                        renderSupportMessages();
+                    }
+                } catch (e) {}
+            }, 2000);
         }
+
         async function sendSupport() {
             const input = document.getElementById('support-input');
             const text = input.value.trim();
-            if(!text || !currentUser) return;
-            const time = new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-            const msgId = Date.now();
-            supportMessages.push({ id:msgId, text, sender:'user', time });
-            saveSupportMessages(); renderSupportMessages();
+            if (!text || !currentUser) return;
+
+            const time = new Date().toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
+            const tempMsg = { id: Date.now(), text, sender: 'user', time };
+            supportMessages.push(tempMsg);
+            renderSupportMessages();
             input.value = '';
+
             try {
-                await fetch(SUPPORT_WEBHOOK, {
-                    method:'POST', headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify({ content:`📞 **SUPPORT**\n👤 **Client:** ${currentUser.name}\n📱 **Tél:** ${currentUser.phone}\n💬 **Message:** ${text}` })
+                await fetch(`${BACKEND_URL}/api/support`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: currentUser.name,
+                        phone: currentUser.phone,
+                        message: text,
+                        sessionId: supportSessionId
+                    })
                 });
-            } catch(e) {}
-            // Auto reply after 2s
-            setTimeout(() => {
-                const replyId = Date.now()+1;
-                supportMessages.push({
-                    id:replyId, text:'Merci pour ton message! Un agent va te répondre dans quelques instants.', sender:'support',
-                    time: new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})
-                });
-                saveSupportMessages(); renderSupportMessages();
-            },2000);
+            } catch (e) {}
         }
 
-        // ==================== SERVICES (LONG LIST) ====================
+        // ==================== SERVICES ====================
         const SERVICES = [
             { id: 'electricite', name: 'Électricité', icon: 'fa-bolt', count: 12 },
             { id: 'plomberie', name: 'Plomberie', icon: 'fa-wrench', count: 8 },
@@ -518,17 +543,17 @@
         };
 
         const TECHNICIANS = [
-            { id:1, name:'Yassine Ezher', specialty:'antenne', rating:5.0, reviews:312, phone:'0719089944' },
-            { id:2, name:'Mohamed Berrada', specialty:'electricite', rating:4.9, reviews:234, phone:'0612345678' },
-            { id:3, name:'Youssef El Idrissi', specialty:'plomberie', rating:4.8, reviews:187, phone:'0634567890' },
-            { id:4, name:'Said Bennani', specialty:'telephone', rating:4.9, reviews:312, phone:'0656789012' },
-            { id:5, name:'Rachid Cherkaoui', specialty:'climatisation', rating:4.8, reviews:143, phone:'0667890123' },
-            { id:6, name:'Hicham Zouheir', specialty:'menuiserie', rating:4.7, reviews:132, phone:'0678901234' },
-            { id:7, name:'Karim Naciri', specialty:'antenne', rating:4.7, reviews:156, phone:'0645678901' },
-            { id:8, name:'Abderrahim Fassi', specialty:'serrurerie', rating:4.8, reviews:178, phone:'0661122334' },
-            { id:9, name:'Driss Bensouda', specialty:'vitrerie', rating:4.6, reviews:98, phone:'0662233445' },
-            { id:10, name:'Hassan Jardin', specialty:'jardinage', rating:4.8, reviews:145, phone:'0663344556' },
-            { id:11, name:'Salma Coiffure', specialty:'coiffure', rating:4.9, reviews:312, phone:'0664455667' }
+            { id:1, name:'Yassine Ezher', specialty:'antenne', rating:5.0, reviews:312, phone:'0719089944', price:150 },
+            { id:2, name:'Mohamed Berrada', specialty:'electricite', rating:4.9, reviews:234, phone:'0612345678', price:180 },
+            { id:3, name:'Youssef El Idrissi', specialty:'plomberie', rating:4.8, reviews:187, phone:'0634567890', price:160 },
+            { id:4, name:'Said Bennani', specialty:'telephone', rating:4.9, reviews:312, phone:'0656789012', price:120 },
+            { id:5, name:'Rachid Cherkaoui', specialty:'climatisation', rating:4.8, reviews:143, phone:'0667890123', price:200 },
+            { id:6, name:'Hicham Zouheir', specialty:'menuiserie', rating:4.7, reviews:132, phone:'0678901234', price:170 },
+            { id:7, name:'Karim Naciri', specialty:'antenne', rating:4.7, reviews:156, phone:'0645678901', price:140 },
+            { id:8, name:'Abderrahim Fassi', specialty:'serrurerie', rating:4.8, reviews:178, phone:'0661122334', price:130 },
+            { id:9, name:'Driss Bensouda', specialty:'vitrerie', rating:4.6, reviews:98, phone:'0662233445', price:120 },
+            { id:10, name:'Hassan Jardin', specialty:'jardinage', rating:4.8, reviews:145, phone:'0663344556', price:150 },
+            { id:11, name:'Salma Coiffure', specialty:'coiffure', rating:4.9, reviews:312, phone:'0664455667', price:100 }
         ];
 
         // ==================== CLIENT FLOW ====================
@@ -556,7 +581,6 @@
 
         function selectProblem(problem) {
             currentProblem = problem;
-            // Show technicians for this service
             const techs = TECHNICIANS.filter(t => t.specialty === currentService.id);
             document.getElementById('technicians-grid').innerHTML = techs.map(t => `
                 <div class="technician-card">
@@ -567,7 +591,7 @@
                     <div class="technician-body">
                         <div class="technician-detail"><i class="fas fa-star"></i><span class="rating">${'★'.repeat(Math.floor(t.rating))}${'☆'.repeat(5-Math.floor(t.rating))}</span><span>${t.rating} (${t.reviews})</span></div>
                         <div class="technician-detail"><i class="fas fa-phone"></i><span>${t.phone}</span></div>
-                        <div class="technician-detail"><i class="fas fa-coins"></i><span>${t.price || 150} MAD/h</span></div>
+                        <div class="technician-detail"><i class="fas fa-coins"></i><span>${t.price} MAD/h</span></div>
                     </div>
                     <div class="technician-footer">
                         <button class="hire-btn" onclick="openMissionDetails(${t.id})">Engager</button>
@@ -580,7 +604,6 @@
             const custom = document.getElementById('custom-problem').value.trim();
             if(!custom) { showToast('Veuillez décrire votre problème', 'error'); return; }
             currentProblem = custom;
-            // Show technicians for the current service
             const techs = TECHNICIANS.filter(t => t.specialty === currentService.id);
             document.getElementById('technicians-grid').innerHTML = techs.map(t => `
                 <div class="technician-card">
@@ -588,7 +611,7 @@
                     <div class="technician-body">
                         <div class="technician-detail"><i class="fas fa-star"></i><span class="rating">${'★'.repeat(Math.floor(t.rating))}${'☆'.repeat(5-Math.floor(t.rating))}</span><span>${t.rating} (${t.reviews})</span></div>
                         <div class="technician-detail"><i class="fas fa-phone"></i><span>${t.phone}</span></div>
-                        <div class="technician-detail"><i class="fas fa-coins"></i><span>${t.price || 150} MAD/h</span></div>
+                        <div class="technician-detail"><i class="fas fa-coins"></i><span>${t.price} MAD/h</span></div>
                     </div>
                     <div class="technician-footer"><button class="hire-btn" onclick="openMissionDetails(${t.id})">Engager</button></div>
                 </div>`).join('');
@@ -613,9 +636,9 @@
 
             const missionId = 'MT-' + Date.now().toString(36).toUpperCase();
             const now = new Date().toLocaleString('fr-FR');
-            const price = tech.price || 150;
+            const price = tech.price;
 
-            currentMission = {
+            const missionData = {
                 id: missionId,
                 clientName: currentUser.name,
                 clientPhone: currentUser.phone,
@@ -632,11 +655,19 @@
                 createdAt: Date.now()
             };
 
-            missions.push(currentMission);
-            saveMissions();
-            closeMissionDetails();
+            // Envoyer au backend
+            try {
+                await fetch(`${BACKEND_URL}/api/mission`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(missionData)
+                });
+            } catch(e) { console.error('Erreur envoi mission backend', e); }
 
-            // Send to Discord (format like the image)
+            missions.push(missionData);
+            localStorage.setItem('mentech_missions', JSON.stringify(missions));
+
+            // Notification Discord
             const discordMsg = {
                 content: `**🔧 NOUVELLE MISSION — En attente de confirmation tech**\n\n**N° Mission**\n${missionId}\n\n**Tél. client**\n${currentUser.phone}\n\n**Service**\n${currentService.name}\n\n**Problème**\n${currentProblem}\n\n**Adresse**\n${currentCity} — ${address}\n\n**Prix**\n${price} MAD/h\n\n**Note**\n${note || '—'}\n\n**Client**\n${currentUser.name}\n\n**Technicien**\n${tech.name}\n\n**Tél. tech**\n${tech.phone}\n\n---\nMENTECH — Le technicien doit répondre OUI ou NON`
             };
@@ -648,6 +679,7 @@
                 });
             } catch(e) {}
 
+            closeMissionDetails();
             showWaitingScreen(tech.name);
         }
 
@@ -676,25 +708,37 @@
         }
         function handleTimeout() {
             document.getElementById('waiting-screen').classList.remove('active');
-            if(currentMission) { currentMission.status = 'declined'; saveMissions(); }
             showToast('⏱️ Délai dépassé - Mission annulée', 'error');
             goHome();
         }
         function cancelWaiting() {
             clearInterval(waitingTimer);
             document.getElementById('waiting-screen').classList.remove('active');
-            if(currentMission) { currentMission.status = 'declined'; saveMissions(); }
             showToast('Mission annulée', 'error');
             goHome();
         }
 
         // ==================== TECH VIEW ====================
-        function loadTechMissions() {
-            const pending = missions.filter(m => m.status === 'pending');
-            const completed = missions.filter(m => m.status === 'confirmed' || m.status === 'declined');
+        async function loadTechMissions() {
+            if (!currentUser || currentRole !== 'tech') return;
+            try {
+                const res = await fetch(`${BACKEND_URL}/api/mission/pending/${currentUser.name}`);
+                const data = await res.json();
+                if (data.missions) {
+                    renderTechMissions(data.missions);
+                }
+            } catch (e) {
+                console.error('Erreur chargement missions tech', e);
+            }
+        }
+
+        function renderTechMissions(pendingMissions) {
+            const pending = pendingMissions.filter(m => m.status === 'pending');
+            const completed = pendingMissions.filter(m => m.status === 'confirmed' || m.status === 'declined');
+
             document.getElementById('pending-count').textContent = pending.length;
             document.getElementById('completed-count').textContent = completed.length;
-            const totalEarned = missions.filter(m=>m.status==='confirmed' && m.price).reduce((sum,m)=>sum+parseInt(m.price||0),0);
+            const totalEarned = completed.filter(m=>m.status==='confirmed').reduce((sum,m)=>sum+parseInt(m.price||0),0);
             document.getElementById('total-earned').textContent = totalEarned;
 
             document.getElementById('pending-missions').innerHTML = pending.map(m => {
@@ -742,38 +786,30 @@
         }
 
         async function respondToMission(missionId, response) {
-            const mission = missions.find(m => m.id === missionId);
-            if(!mission) return;
-            mission.status = response;
-            saveMissions();
-
-            await fetch(CONFIRMATION_WEBHOOK, {
-                method:'POST', headers:{'Content-Type':'application/json'},
-                body:JSON.stringify({ content: response==='confirmed'
-                    ? `✅ **MISSION CONFIRMÉE**\n👤 **Client:** ${mission.clientName}\n📞 **Tél:** ${mission.clientPhone}\n🔧 **Technicien:** ${mission.techName}`
-                    : `❌ **MISSION REFUSÉE**\n👤 **Client:** ${mission.clientName}\n🔧 **Technicien:** ${mission.techName}` })
-            });
-
-            if(response==='confirmed') { document.getElementById('waiting-screen').classList.remove('active'); if(waitingTimer) clearInterval(waitingTimer); }
-            showToast(response==='confirmed'?'Mission confirmée!':'Mission refusée');
-            loadTechMissions();
+            try {
+                await fetch(`${BACKEND_URL}/api/tech-response`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ missionId, techName: currentUser.name, response })
+                });
+                showToast(response === 'confirmed' ? 'Mission confirmée!' : 'Mission refusée');
+                loadTechMissions();
+            } catch (e) {}
         }
 
         async function declarePrice(missionId) {
             const input = document.getElementById(`price-${missionId}`);
             const price = input.value.trim();
             if(!price) return;
-            const mission = missions.find(m=>m.id===missionId);
-            if(mission) {
-                mission.price = price;
-                saveMissions();
-                await fetch(CONFIRMATION_WEBHOOK, {
-                    method:'POST', headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify({ content: `💰 **Prix déclaré**\n🆔 **Mission:** ${missionId}\n💵 **Montant:** ${price} MAD` })
+            try {
+                await fetch(`${BACKEND_URL}/api/tech-response`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ missionId, techName: currentUser.name, response: 'confirmed', price })
                 });
                 showToast(`Prix ${price} MAD enregistré!`);
                 loadTechMissions();
-            }
+            } catch (e) {}
         }
 
         // ==================== NOTIFICATIONS ====================
@@ -781,14 +817,11 @@
             notificationInterval = setInterval(() => {
                 if(currentRole==='tech') {
                     loadTechMissions();
-                    const pending = missions.filter(m=>m.status==='pending').length;
-                    document.getElementById('notification-dot').classList.toggle('active', pending>0);
                 }
-            },2000);
+            }, 3000);
         }
         function showNotifications() {
-            const pending = missions.filter(m=>m.status==='pending').length;
-            showToast(pending ? `${pending} mission(s) en attente` : 'Aucune notification');
+            showToast('Vérifiez vos missions en attente');
         }
 
         // ==================== RECRUITMENT ====================
@@ -831,12 +864,8 @@
             showToast('Veuillez préciser votre problème','error');
         }
 
-        // ==================== LOCAL STORAGE ====================
-        function saveMissions() { localStorage.setItem('mentech_missions', JSON.stringify(missions)); }
-        function loadMissions() { const saved = localStorage.getItem('mentech_missions'); if(saved) missions = JSON.parse(saved); }
-
         // ==================== INIT ====================
-        loadMissions(); buildCategories(); detectLocation();
+        buildCategories(); detectLocation();
     </script>
 </body>
 </html>
