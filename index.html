@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MenTech - Trouvez votre technicien</title>
+    <title>MenTex</title>
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -12,985 +12,159 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
+        /* ========== STYLES (identiques à la version précédente) ========== */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         :root {
-            --primary: #4361ee;
-            --secondary: #3f37c9;
-            --accent: #f72585;
-            --dark: #1a1a2e;
-            --light: #f8f9fa;
-            --success: #4cc9f0;
-            --warning: #f8961e;
-            --danger: #f94144;
-            --whatsapp: #25D366;
-            --discord: #5865F2;
-        }
-
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: white;
-            transition: background 0.3s;
-        }
-
-        /* ==================== LOGIN PAGE ==================== */
-        #login-page {
-            position: fixed;
-            inset: 0;
-            z-index: 2000;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .login-card {
-            max-width: 400px;
-            width: 100%;
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-
-        .login-header {
-            padding: 32px 24px 16px;
-            text-align: center;
-        }
-
-        .login-logo {
-            font-size: 32px;
-            font-weight: bold;
-            color: var(--dark);
-        }
-
-        .login-logo span {
-            color: var(--accent);
-        }
-
-        .login-tabs {
-            display: flex;
-            gap: 8px;
-            padding: 0 24px;
-            margin-bottom: 24px;
-        }
-
-        .login-tab {
-            flex: 1;
-            padding: 12px;
-            text-align: center;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            background: #f0f0f0;
-            color: #666;
-            transition: all 0.2s;
-        }
-
-        .login-tab.active {
-            background: var(--accent);
-            color: white;
-        }
-
-        .login-body {
-            padding: 0 24px 24px;
-        }
-
-        .login-field {
-            margin-bottom: 16px;
-        }
-
-        .login-field label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: #666;
-            margin-bottom: 6px;
-        }
-
-        .login-input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid #ddd;
-            border-radius: 50px;
-            font-size: 15px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .login-input:focus {
-            border-color: var(--accent);
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 16px;
-            background: var(--accent);
-            border: none;
-            border-radius: 50px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 8px;
-        }
-
-        .login-error {
-            color: var(--danger);
-            font-size: 13px;
-            margin-top: 12px;
-            min-height: 20px;
-        }
-
-        /* Navigation */
-        #navbar {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 1rem 5%;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            display: none;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .logo i {
-            color: var(--accent);
-            animation: spin 4s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .nav-user {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .nav-badge {
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(5px);
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .notification-bell {
-            position: relative;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .notification-dot {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 10px;
-            height: 10px;
-            background: var(--accent);
-            border-radius: 50%;
-            display: none;
-        }
-
-        .notification-dot.active {
-            display: block;
-        }
-
-        .logout-btn {
-            background: transparent;
-            border: 2px solid white;
-            color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        /* Main Container */
-        #main-container {
-            margin-top: 80px;
-            padding: 0 5% 2rem;
-            display: none;
-        }
-
-        /* Views */
-        .view {
-            display: none;
-        }
-
-        .view.active {
-            display: block;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 2rem 0;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            animation: slideInDown 1s;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-            animation: slideInUp 1s;
-        }
-
-        @keyframes slideInDown {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        @keyframes slideInUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* Search Box */
-        .search-box {
-            max-width: 600px;
-            margin: 0 auto 3rem;
-            display: flex;
-            background: white;
-            border-radius: 50px;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-        }
-
-        .search-box input {
-            flex: 1;
-            padding: 1.2rem 2rem;
-            border: none;
-            outline: none;
-            font-size: 1rem;
-        }
-
-        .search-box button {
-            padding: 0 2.5rem;
-            background: var(--accent);
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .search-box button:hover {
-            background: var(--primary);
-        }
-
-        /* Stats */
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 4rem;
-            margin-top: 3rem;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: var(--accent);
-        }
-
-        .stat-label {
-            opacity: 0.9;
-        }
-
-        /* Categories */
-        .categories {
-            padding: 4rem 0;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background: var(--accent);
-        }
-
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .category-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .category-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            background: rgba(255, 255, 255, 0.25);
-        }
-
-        .category-card i {
-            font-size: 3rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
-
-        .category-card h3 {
-            margin-bottom: 0.5rem;
-        }
-
-        .category-card p {
-            opacity: 0.8;
-            font-size: 0.9rem;
-        }
-
-        .badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--success);
-            color: white;
-            padding: 0.2rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-
-        /* Subcategories */
-        .subcategories-section {
-            padding: 2rem 0;
-            display: none;
-        }
-
-        .subcategories-section.active {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .back-btn {
-            background: transparent;
-            border: 2px solid white;
-            color: white;
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            transition: all 0.3s;
-        }
-
-        .back-btn:hover {
-            background: white;
-            color: var(--primary);
-        }
-
-        .subcategories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .subcategory-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 1.5rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .subcategory-card:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
-        }
-
-        .subcategory-card i {
-            font-size: 2rem;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-        }
-
-        /* Technicians */
-        .technicians-section {
-            padding: 2rem 0;
-            display: none;
-        }
-
-        .technicians-section.active {
-            display: block;
-        }
-
-        .technicians-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .technician-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(5px);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-
-        .technician-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-
-        .technician-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .technician-avatar {
-            width: 70px;
-            height: 70px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary);
-            border: 3px solid var(--accent);
-        }
-
-        .technician-info h4 {
-            font-size: 1.2rem;
-            margin-bottom: 0.2rem;
-        }
-
-        .technician-specialty {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        .technician-body {
-            padding: 1.5rem;
-        }
-
-        .technician-detail {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 0.8rem;
-            color: rgba(255,255,255,0.9);
-        }
-
-        .technician-detail i {
-            width: 20px;
-            color: var(--accent);
-        }
-
-        .rating {
-            color: #ffd700;
-        }
-
-        .technician-footer {
-            padding: 1.5rem;
-            display: flex;
-            gap: 1rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .hire-btn {
-            flex: 1;
-            padding: 0.8rem;
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .hire-btn:hover {
-            background: var(--primary);
-            transform: translateY(-2px);
-        }
-
-        /* Tech Dashboard */
-        .tech-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(5px);
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 28px;
-            font-weight: bold;
-            color: var(--accent);
-        }
-
-        .missions-list {
-            display: grid;
-            gap: 16px;
-        }
-
-        .mission-card {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(5px);
-            border-radius: 20px;
-            overflow: hidden;
-        }
-
-        .mission-header {
-            padding: 16px;
-            background: rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .mission-id {
-            font-weight: bold;
-            color: var(--accent);
-        }
-
-        .mission-body {
-            padding: 16px;
-        }
-
-        .mission-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .mission-label {
-            color: rgba(255,255,255,0.7);
-        }
-
-        .mission-timer {
-            padding: 16px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .timer-bar {
-            width: 100%;
-            height: 6px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 3px;
-            overflow: hidden;
-            margin: 8px 0;
-        }
-
-        .timer-progress {
-            height: 100%;
-            background: var(--accent);
-            transition: width 1s linear;
-        }
-
-        .mission-actions {
-            padding: 16px;
-            display: flex;
-            gap: 8px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .accept-btn {
-            flex: 1;
-            padding: 12px;
-            background: var(--success);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .decline-btn {
-            flex: 1;
-            padding: 12px;
-            background: var(--danger);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        /* Waiting Screen */
-        #waiting-screen {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.9);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 3000;
-        }
-
-        #waiting-screen.active {
-            display: flex;
-        }
-
-        .waiting-card {
-            max-width: 450px;
-            width: 90%;
-            background: white;
-            border-radius: 20px;
-            padding: 32px;
-            text-align: center;
-            color: var(--dark);
-        }
-
-        .waiting-spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid #ddd;
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 24px;
-        }
-
-        .waiting-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .waiting-sub {
-            color: #666;
-            margin-bottom: 24px;
-        }
-
-        .waiting-timer {
-            font-size: 48px;
-            font-weight: bold;
-            color: var(--warning);
-            margin-bottom: 24px;
-        }
-
-        .waiting-bar {
-            width: 100%;
-            height: 8px;
-            background: #ddd;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 16px;
-        }
-
-        .waiting-progress {
-            height: 100%;
-            background: var(--accent);
-            transition: width 1s linear;
-        }
-
-        .waiting-cancel button {
-            background: transparent;
-            border: 1px solid #ddd;
-            color: #666;
-            padding: 8px 16px;
-            border-radius: 50px;
-            cursor: pointer;
-        }
-
-        /* Support Chat */
-        .support-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: var(--whatsapp);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 28px;
-            cursor: pointer;
-            z-index: 90;
-            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
-        }
-
-        .support-modal {
-            position: fixed;
-            bottom: 100px;
-            right: 30px;
-            width: 350px;
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            display: none;
-            z-index: 95;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        }
-
-        .support-modal.open {
-            display: block;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .support-header {
-            background: var(--whatsapp);
-            color: white;
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .support-avatar {
-            width: 40px;
-            height: 40px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--whatsapp);
-            font-weight: bold;
-        }
-
-        .support-messages {
-            height: 300px;
-            overflow-y: auto;
-            padding: 16px;
-            background: #f5f5f5;
-        }
-
-        .message {
-            display: flex;
-            gap: 8px;
-            max-width: 80%;
-            margin-bottom: 12px;
-        }
-
-        .message.support {
-            align-self: flex-start;
-        }
-
-        .message.user {
-            align-self: flex-end;
-            flex-direction: row-reverse;
-            margin-left: auto;
-        }
-
-        .message-avatar {
-            width: 28px;
-            height: 28px;
-            background: var(--whatsapp);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .message-bubble {
-            padding: 10px 14px;
-            background: white;
-            border-radius: 18px;
-            font-size: 13px;
-        }
-
-        .message.support .message-bubble {
-            background: #e0f7e0;
-        }
-
-        .message.user .message-bubble {
-            background: var(--primary);
-            color: white;
-        }
-
-        .message-time {
-            font-size: 10px;
-            color: #999;
-            margin-top: 4px;
-            display: block;
-        }
-
-        .support-input {
-            padding: 12px;
-            border-top: 1px solid #ddd;
-            display: flex;
-            gap: 8px;
-        }
-
-        .support-input input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 50px;
-            outline: none;
-        }
-
-        .support-input button {
-            width: 45px;
-            height: 45px;
-            background: var(--whatsapp);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            cursor: pointer;
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--accent);
-            color: white;
-            padding: 16px 24px;
-            border-radius: 50px;
-            font-weight: 600;
-            display: none;
-            z-index: 2000;
-        }
-
-        /* Recruitment Form */
-        .recruitment-form {
-            max-width: 500px;
-            margin: 0 auto;
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(5px);
-            border-radius: 20px;
-            padding: 32px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: white;
-            margin-bottom: 6px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 50px;
-            font-size: 15px;
-            outline: none;
-        }
-
-        .file-upload {
-            padding: 30px;
-            background: rgba(255,255,255,0.2);
-            border: 2px dashed white;
-            border-radius: 20px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .file-upload i {
-            font-size: 32px;
-            color: white;
-            margin-bottom: 8px;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            background: var(--accent);
-            border: none;
-            border-radius: 50px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .nav-user { gap: 8px; }
-            .stats { flex-direction: column; gap: 1rem; }
-            .support-modal { width: calc(100% - 40px); right: 20px; }
-        }
+            --primary: #4361ee; --secondary: #3f37c9; --accent: #f72585; --dark: #1a1a2e; --light: #f8f9fa;
+            --success: #4cc9f0; --warning: #f8961e; --danger: #f94144; --whatsapp: #25D366; --discord: #5865F2;
+        }
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: white; }
+        /* ========== LOGIN PAGE ========== */
+        #login-page { position: fixed; inset:0; z-index:2000; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display:flex; align-items:center; justify-content:center; padding:20px; }
+        .login-card { max-width:400px; width:100%; background:white; border-radius:20px; overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,0.3); }
+        .login-header { padding:32px 24px 16px; text-align:center; }
+        .login-logo { font-size:32px; font-weight:bold; color:var(--dark); } .login-logo span { color:var(--accent); }
+        .login-tabs { display:flex; gap:8px; padding:0 24px; margin-bottom:24px; }
+        .login-tab { flex:1; padding:12px; text-align:center; border-radius:50px; font-weight:600; cursor:pointer; background:#f0f0f0; color:#666; transition:all 0.2s; }
+        .login-tab.active { background:var(--accent); color:white; }
+        .login-body { padding:0 24px 24px; }
+        .login-field { margin-bottom:16px; }
+        .login-field label { display:block; font-size:12px; font-weight:600; color:#666; margin-bottom:6px; }
+        .login-input { width:100%; padding:14px 16px; border:1px solid #ddd; border-radius:50px; font-size:15px; outline:none; transition:border-color 0.2s; }
+        .login-input:focus { border-color:var(--accent); }
+        .login-btn { width:100%; padding:16px; background:var(--accent); border:none; border-radius:50px; color:white; font-weight:600; cursor:pointer; margin-top:8px; }
+        .login-error { color:var(--danger); font-size:13px; margin-top:12px; min-height:20px; }
+        /* ========== NAVBAR ========== */
+        #navbar { background:rgba(255,255,255,0.1); backdrop-filter:blur(10px); padding:1rem 5%; position:fixed; width:100%; top:0; z-index:1000; display:none; justify-content:space-between; align-items:center; box-shadow:0 2px 20px rgba(0,0,0,0.1); }
+        .logo { display:flex; align-items:center; gap:10px; font-size:1.5rem; font-weight:bold; }
+        .logo i { color:var(--accent); animation:spin 4s linear infinite; }
+        @keyframes spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+        .nav-user { display:flex; align-items:center; gap:16px; }
+        .nav-badge { background:rgba(255,255,255,0.2); backdrop-filter:blur(5px); padding:0.5rem 1.5rem; border-radius:50px; font-weight:600; display:flex; align-items:center; gap:8px; }
+        .notification-bell { position:relative; width:40px; height:40px; border-radius:50%; background:rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; cursor:pointer; }
+        .notification-dot { position:absolute; top:0; right:0; width:10px; height:10px; background:var(--accent); border-radius:50%; display:none; }
+        .notification-dot.active { display:block; }
+        .logout-btn { background:transparent; border:2px solid white; color:white; padding:0.5rem 1.5rem; border-radius:50px; cursor:pointer; font-weight:600; }
+        /* ========== MAIN CONTAINER ========== */
+        #main-container { margin-top:80px; padding:0 5% 2rem; display:none; }
+        .view { display:none; } .view.active { display:block; }
+        /* ========== HERO ========== */
+        .hero { padding:2rem 0; text-align:center; }
+        .hero h1 { font-size:3rem; margin-bottom:1rem; animation:slideInDown 1s; }
+        .hero p { font-size:1.2rem; margin-bottom:2rem; opacity:0.9; animation:slideInUp 1s; }
+        @keyframes slideInDown { from{transform:translateY(-50px); opacity:0;} to{transform:translateY(0); opacity:1;} }
+        @keyframes slideInUp { from{transform:translateY(50px); opacity:0;} to{transform:translateY(0); opacity:1;} }
+        .search-box { max-width:600px; margin:0 auto 3rem; display:flex; background:white; border-radius:50px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.2); }
+        .search-box input { flex:1; padding:1.2rem 2rem; border:none; outline:none; font-size:1rem; }
+        .search-box button { padding:0 2.5rem; background:var(--accent); color:white; border:none; cursor:pointer; font-weight:600; transition:all 0.3s; }
+        .search-box button:hover { background:var(--primary); }
+        .stats { display:flex; justify-content:center; gap:4rem; margin-top:3rem; }
+        .stat-item { text-align:center; }
+        .stat-number { font-size:2.5rem; font-weight:bold; color:var(--accent); }
+        .stat-label { opacity:0.9; }
+        /* ========== CATEGORIES ========== */
+        .categories { padding:4rem 0; }
+        .section-title { text-align:center; font-size:2.5rem; margin-bottom:3rem; position:relative; }
+        .section-title::after { content:''; position:absolute; bottom:-10px; left:50%; transform:translateX(-50%); width:100px; height:3px; background:var(--accent); }
+        .categories-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:2rem; max-width:1200px; margin:0 auto; }
+        .category-card { background:rgba(255,255,255,0.15); backdrop-filter:blur(5px); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:2rem; text-align:center; cursor:pointer; transition:all 0.3s; position:relative; overflow:hidden; }
+        .category-card:hover { transform:translateY(-10px); box-shadow:0 20px 40px rgba(0,0,0,0.3); background:rgba(255,255,255,0.25); }
+        .category-card i { font-size:3rem; color:var(--accent); margin-bottom:1rem; }
+        .category-card h3 { margin-bottom:0.5rem; }
+        .badge { position:absolute; top:10px; right:10px; background:var(--success); color:white; padding:0.2rem 0.8rem; border-radius:20px; font-size:0.8rem; }
+        /* ========== SUBCATEGORIES ========== */
+        .subcategories-section { padding:2rem 0; display:none; }
+        .subcategories-section.active { display:block; animation:fadeIn 0.5s; }
+        @keyframes fadeIn { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
+        .back-btn { background:transparent; border:2px solid white; color:white; padding:0.8rem 2rem; border-radius:50px; cursor:pointer; font-weight:600; margin-bottom:2rem; transition:all 0.3s; }
+        .back-btn:hover { background:white; color:var(--primary); }
+        .subcategories-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:1.5rem; }
+        .subcategory-card { background:rgba(255,255,255,0.1); border-radius:15px; padding:1.5rem; text-align:center; cursor:pointer; transition:all 0.3s; }
+        .subcategory-card:hover { background:rgba(255,255,255,0.2); transform:scale(1.05); }
+        .subcategory-card i { font-size:2rem; color:var(--accent); margin-bottom:0.5rem; }
+        .custom-problem-area { margin-top:2rem; background:rgba(255,255,255,0.1); border-radius:15px; padding:1.5rem; }
+        .custom-problem-area textarea { width:100%; padding:1rem; border:none; border-radius:10px; font-size:1rem; margin-top:0.5rem; }
+        /* ========== TECHNICIANS ========== */
+        .technicians-section { padding:2rem 0; display:none; }
+        .technicians-section.active { display:block; }
+        .technicians-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:2rem; max-width:1200px; margin:0 auto; }
+        .technician-card { background:rgba(255,255,255,0.15); backdrop-filter:blur(5px); border-radius:20px; overflow:hidden; transition:all 0.3s; }
+        .technician-card:hover { transform:translateY(-10px); box-shadow:0 20px 40px rgba(0,0,0,0.3); }
+        .technician-header { background:linear-gradient(135deg, var(--primary), var(--secondary)); padding:1.5rem; display:flex; align-items:center; gap:1rem; }
+        .technician-avatar { width:70px; height:70px; background:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; font-weight:bold; color:var(--primary); border:3px solid var(--accent); }
+        .technician-info h4 { font-size:1.2rem; margin-bottom:0.2rem; }
+        .technician-specialty { font-size:0.9rem; opacity:0.9; }
+        .technician-body { padding:1.5rem; }
+        .technician-detail { display:flex; align-items:center; gap:10px; margin-bottom:0.8rem; color:rgba(255,255,255,0.9); }
+        .technician-detail i { width:20px; color:var(--accent); }
+        .rating { color:#ffd700; }
+        .technician-footer { padding:1.5rem; display:flex; gap:1rem; border-top:1px solid rgba(255,255,255,0.1); }
+        .hire-btn { flex:1; padding:0.8rem; background:var(--accent); color:white; border:none; border-radius:10px; font-weight:600; cursor:pointer; transition:all 0.3s; }
+        .hire-btn:hover { background:var(--primary); transform:translateY(-2px); }
+        /* ========== TECH DASHBOARD ========== */
+        .tech-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:30px; }
+        .stat-card { background:rgba(255,255,255,0.15); backdrop-filter:blur(5px); border-radius:20px; padding:20px; text-align:center; }
+        .stat-number { font-size:28px; font-weight:bold; color:var(--accent); }
+        .missions-list { display:grid; gap:16px; }
+        .mission-card { background:rgba(255,255,255,0.15); backdrop-filter:blur(5px); border-radius:20px; overflow:hidden; }
+        .mission-header { padding:16px; background:rgba(0,0,0,0.2); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.1); }
+        .mission-id { font-weight:bold; color:var(--accent); }
+        .mission-body { padding:16px; }
+        .mission-row { display:flex; justify-content:space-between; margin-bottom:8px; font-size:14px; }
+        .mission-label { color:rgba(255,255,255,0.7); }
+        .mission-timer { padding:16px; border-top:1px solid rgba(255,255,255,0.1); }
+        .timer-bar { width:100%; height:6px; background:rgba(255,255,255,0.2); border-radius:3px; overflow:hidden; margin:8px 0; }
+        .timer-progress { height:100%; background:var(--accent); transition:width 1s linear; }
+        .mission-actions { padding:16px; display:flex; gap:8px; border-top:1px solid rgba(255,255,255,0.1); }
+        .accept-btn { flex:1; padding:12px; background:var(--success); border:none; border-radius:10px; color:white; font-weight:600; cursor:pointer; }
+        .decline-btn { flex:1; padding:12px; background:var(--danger); border:none; border-radius:10px; color:white; font-weight:600; cursor:pointer; }
+        /* ========== WAITING SCREEN ========== */
+        #waiting-screen { position:fixed; inset:0; background:rgba(0,0,0,0.9); display:none; align-items:center; justify-content:center; z-index:3000; }
+        #waiting-screen.active { display:flex; }
+        .waiting-card { max-width:450px; width:90%; background:white; border-radius:20px; padding:32px; text-align:center; color:var(--dark); }
+        .waiting-spinner { width:60px; height:60px; border:4px solid #ddd; border-top-color:var(--accent); border-radius:50%; animation:spin 1s linear infinite; margin:0 auto 24px; }
+        .waiting-title { font-size:24px; font-weight:bold; margin-bottom:8px; }
+        .waiting-sub { color:#666; margin-bottom:24px; }
+        .waiting-timer { font-size:48px; font-weight:bold; color:var(--warning); margin-bottom:24px; }
+        .waiting-bar { width:100%; height:8px; background:#ddd; border-radius:4px; overflow:hidden; margin-bottom:16px; }
+        .waiting-progress { height:100%; background:var(--accent); transition:width 1s linear; }
+        .waiting-cancel button { background:transparent; border:1px solid #ddd; color:#666; padding:8px 16px; border-radius:50px; cursor:pointer; }
+        /* ========== SUPPORT CHAT ========== */
+        .support-btn { position:fixed; bottom:30px; right:30px; width:60px; height:60px; background:var(--whatsapp); border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:28px; cursor:pointer; z-index:90; box-shadow:0 8px 25px rgba(37,211,102,0.4); }
+        .support-modal { position:fixed; bottom:100px; right:30px; width:350px; background:white; border-radius:20px; overflow:hidden; display:none; z-index:95; box-shadow:0 10px 40px rgba(0,0,0,0.3); }
+        .support-modal.open { display:block; animation:slideIn 0.3s ease; }
+        @keyframes slideIn { from{transform:translateY(20px); opacity:0;} to{transform:translateY(0); opacity:1;} }
+        .support-header { background:var(--whatsapp); color:white; padding:16px; display:flex; align-items:center; gap:12px; }
+        .support-avatar { width:40px; height:40px; background:white; border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--whatsapp); font-weight:bold; }
+        .support-messages { height:300px; overflow-y:auto; padding:16px; background:#f5f5f5; }
+        .message { display:flex; gap:8px; max-width:80%; margin-bottom:12px; }
+        .message.support { align-self:flex-start; }
+        .message.user { align-self:flex-end; flex-direction:row-reverse; margin-left:auto; }
+        .message-avatar { width:28px; height:28px; background:var(--whatsapp); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; color:white; }
+        .message-bubble { padding:10px 14px; background:white; border-radius:18px; font-size:13px; }
+        .message.support .message-bubble { background:#e0f7e0; }
+        .message.user .message-bubble { background:var(--primary); color:white; }
+        .message-time { font-size:10px; color:#999; margin-top:4px; display:block; }
+        .support-input { padding:12px; border-top:1px solid #ddd; display:flex; gap:8px; }
+        .support-input input { flex:1; padding:12px; border:1px solid #ddd; border-radius:50px; outline:none; }
+        .support-input button { width:45px; height:45px; background:var(--whatsapp); border:none; border-radius:50%; color:white; cursor:pointer; }
+        /* ========== TOAST ========== */
+        .toast { position:fixed; top:20px; right:20px; background:var(--accent); color:white; padding:16px 24px; border-radius:50px; font-weight:600; display:none; z-index:2000; }
+        /* ========== RECRUITMENT FORM ========== */
+        .recruitment-form { max-width:500px; margin:0 auto; background:rgba(255,255,255,0.15); backdrop-filter:blur(5px); border-radius:20px; padding:32px; }
+        .form-group { margin-bottom:20px; }
+        .form-group label { display:block; font-size:12px; font-weight:600; color:white; margin-bottom:6px; }
+        .form-control { width:100%; padding:14px; border:none; border-radius:50px; font-size:15px; outline:none; }
+        .file-upload { padding:30px; background:rgba(255,255,255,0.2); border:2px dashed white; border-radius:20px; text-align:center; cursor:pointer; }
+        .file-upload i { font-size:32px; color:white; margin-bottom:8px; }
+        .submit-btn { width:100%; padding:16px; background:var(--accent); border:none; border-radius:50px; color:white; font-weight:600; cursor:pointer; }
+        /* ========== MISSION DETAILS MODAL (address, note) ========== */
+        #mission-details-modal .modal-content { background:white; color:var(--dark); padding:2rem; border-radius:20px; max-width:500px; margin:auto; }
+        .mission-detail-input { margin-bottom:1rem; }
+        .mission-detail-input label { display:block; font-weight:600; margin-bottom:0.3rem; }
+        .mission-detail-input input, .mission-detail-input textarea { width:100%; padding:0.8rem; border:1px solid #ddd; border-radius:10px; }
+        .confirm-mission-btn { background:var(--accent); color:white; border:none; padding:1rem; border-radius:50px; width:100%; font-weight:600; cursor:pointer; margin-top:1rem; }
+        @media (max-width:768px) { .stats { flex-direction:column; gap:1rem; } .support-modal { width:calc(100% - 40px); right:20px; } }
     </style>
 </head>
 <body>
@@ -999,70 +173,35 @@
         <div class="login-card">
             <div class="login-header">
                 <div class="login-logo">Men<span>Tech</span></div>
-                <p style="color: #666; font-size: 13px;">Connectez-vous pour continuer</p>
+                <p style="color: #666;">Connectez-vous pour continuer</p>
             </div>
-            
             <div class="login-tabs">
                 <div class="login-tab active" onclick="switchTab('client')">CLIENT</div>
                 <div class="login-tab" onclick="switchTab('tech')">TECHNICIEN</div>
             </div>
-
             <div class="login-body">
-                <!-- Client Login -->
                 <div id="client-login">
-                    <div class="login-field">
-                        <label>Votre prénom</label>
-                        <input class="login-input" id="client-name" type="text" placeholder="Ex: Yassine">
-                    </div>
-                    <div class="login-field">
-                        <label>Votre téléphone</label>
-                        <input class="login-input" id="client-phone" type="tel" placeholder="06 XX XX XX XX">
-                    </div>
+                    <div class="login-field"><label>Prénom</label><input class="login-input" id="client-name" placeholder="Ex: Yassine"></div>
+                    <div class="login-field"><label>Téléphone</label><input class="login-input" id="client-phone" placeholder="06 XX XX XX XX"></div>
                 </div>
-
-                <!-- Tech Login -->
-                <div id="tech-login" style="display: none;">
-                    <div class="login-field">
-                        <label>Identifiant</label>
-                        <input class="login-input" id="tech-id" type="text" placeholder="Ex: TECH001">
-                    </div>
-                    <div class="login-field">
-                        <label>Mot de passe</label>
-                        <input class="login-input" id="tech-password" type="password" placeholder="••••••">
-                    </div>
+                <div id="tech-login" style="display:none;">
+                    <div class="login-field"><label>Identifiant</label><input class="login-input" id="tech-id" placeholder="Ex: TECH001"></div>
+                    <div class="login-field"><label>Mot de passe</label><input class="login-input" id="tech-password" type="password"></div>
                 </div>
-
                 <div class="login-error" id="login-error"></div>
-
-                <button class="login-btn" onclick="handleLogin()">
-                    SE CONNECTER
-                </button>
-
-                <p style="text-align: center; margin-top: 16px; font-size: 12px; color: #666;">
-                    Pas encore technicien ? 
-                    <span style="color: var(--accent); cursor: pointer;" onclick="showRecruitment()">Rejoignez-nous</span>
-                </p>
+                <button class="login-btn" onclick="handleLogin()">SE CONNECTER</button>
+                <p style="text-align:center; margin-top:16px; font-size:12px; color:#666;">Pas encore technicien ? <span style="color:var(--accent); cursor:pointer;" onclick="showRecruitment()">Rejoignez-nous</span></p>
             </div>
         </div>
     </div>
 
     <!-- Navbar -->
     <nav id="navbar">
-        <div class="logo">
-            <i class="fas fa-cogs"></i>
-            <span>Men<span style="color: var(--accent);">Tech</span></span>
-        </div>
+        <div class="logo"><i class="fas fa-cogs"></i><span>Men<span style="color:var(--accent);">Tech</span></span></div>
         <div class="nav-user">
-            <div class="nav-badge" id="user-badge">
-                <i class="fas fa-user"></i> <span id="user-name"></span>
-            </div>
-            <div class="notification-bell" onclick="showNotifications()">
-                <i class="fas fa-bell"></i>
-                <span class="notification-dot" id="notification-dot"></span>
-            </div>
-            <button class="logout-btn" onclick="logout()">
-                <i class="fas fa-sign-out-alt"></i>
-            </button>
+            <div class="nav-badge" id="user-badge"><i class="fas fa-user"></i> <span id="user-name"></span></div>
+            <div class="notification-bell" onclick="showNotifications()"><i class="fas fa-bell"></i><span class="notification-dot" id="notification-dot"></span></div>
+            <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
         </div>
     </nav>
 
@@ -1073,33 +212,20 @@
             <!-- Home -->
             <div class="view active" id="home-view">
                 <div class="hero">
-                    <h1>Trouvez le technicien <span style="color: var(--accent);">idéal</span></h1>
+                    <h1>Trouvez le technicien <span style="color:var(--accent);">idéal</span></h1>
                     <p>Connectez-vous instantanément avec des experts qualifiés près de chez vous</p>
-                    
                     <div class="search-box">
-                        <input type="text" id="search-input" placeholder="Que recherchez-vous ? (Électroménager, Plomberie, Soudure...)">
+                        <input type="text" id="search-input" placeholder="Que recherchez-vous ? (Électricité, Plomberie, Antenne...)">
                         <button onclick="searchProblem()"><i class="fas fa-search"></i> Rechercher</button>
                     </div>
-
                     <div class="stats">
-                        <div class="stat-item">
-                            <div class="stat-number">500+</div>
-                            <div class="stat-label">Techniciens</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">98%</div>
-                            <div class="stat-label">Satisfaction</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">24/7</div>
-                            <div class="stat-label">Support</div>
-                        </div>
+                        <div class="stat-item"><div class="stat-number">500+</div><div class="stat-label">Techniciens</div></div>
+                        <div class="stat-item"><div class="stat-number">98%</div><div class="stat-label">Satisfaction</div></div>
+                        <div class="stat-item"><div class="stat-number">24/7</div><div class="stat-label">Support</div></div>
                     </div>
                 </div>
-
-                <!-- Categories -->
                 <div class="categories">
-                    <h2 class="section-title">Nos Catégories de Services</h2>
+                    <h2 class="section-title">Nos services</h2>
                     <div class="categories-grid" id="categories-grid"></div>
                 </div>
             </div>
@@ -1107,8 +233,14 @@
             <!-- Problems -->
             <div class="view" id="problems-view">
                 <button class="back-btn" onclick="goHome()"><i class="fas fa-arrow-left"></i> Retour</button>
-                <h2 class="section-title" id="problems-title">Services</h2>
+                <h2 class="section-title" id="problems-title">Choisissez un problème</h2>
                 <div class="subcategories-grid" id="problems-grid"></div>
+                <!-- Custom problem -->
+                <div class="custom-problem-area">
+                    <p><i class="fas fa-pen"></i> Vous ne trouvez pas votre problème ? Décrivez-le ici :</p>
+                    <textarea id="custom-problem" rows="2" placeholder="Ex: Ma machine à laver fait un bruit bizarre..."></textarea>
+                    <button class="back-btn" style="margin-top:1rem; background:var(--accent); border:none; color:white;" onclick="useCustomProblem()">Utiliser cette description</button>
+                </div>
             </div>
 
             <!-- Technicians -->
@@ -1121,103 +253,39 @@
             <!-- Recruitment -->
             <div class="view" id="recruitment-view">
                 <button class="back-btn" onclick="goHome()"><i class="fas fa-arrow-left"></i> Retour</button>
-                
                 <div class="recruitment-form">
-                    <h2 style="text-align: center; margin-bottom: 24px;">REJOINDRE MENTECH</h2>
-                    
-                    <div class="form-group">
-                        <label>Nom complet</label>
-                        <input class="form-control" id="recruit-name" placeholder="Ex: Yassine Ezher">
-                    </div>
-                    <div class="form-group">
-                        <label>Téléphone</label>
-                        <input class="form-control" id="recruit-phone" placeholder="06 XX XX XX XX">
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input class="form-control" id="recruit-email" placeholder="email@exemple.com">
-                    </div>
-                    <div class="form-group">
-                        <label>Ville</label>
-                        <input class="form-control" id="recruit-city" placeholder="Ex: Casablanca">
-                    </div>
-                    <div class="form-group">
-                        <label>Spécialité</label>
-                        <select class="form-control" id="recruit-specialty">
-                            <option>Électricité</option>
-                            <option>Plomberie</option>
-                            <option>Antenne/Parabole</option>
-                            <option>Téléphone</option>
-                            <option>Climatisation</option>
-                            <option>Menuiserie</option>
-                            <option>Peinture</option>
-                            <option>Nettoyage</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>CV (PDF)</label>
-                        <div class="file-upload" onclick="document.getElementById('cv-file').click()">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <span id="cv-file-name">Cliquez pour sélectionner</span>
-                        </div>
-                        <input type="file" id="cv-file" accept=".pdf" style="display: none;" onchange="updateCVName(this)">
-                    </div>
+                    <h2 style="text-align:center; margin-bottom:24px;">REJOINDRE MENTECH</h2>
+                    <div class="form-group"><label>Nom complet</label><input class="form-control" id="recruit-name"></div>
+                    <div class="form-group"><label>Téléphone</label><input class="form-control" id="recruit-phone"></div>
+                    <div class="form-group"><label>Email</label><input class="form-control" id="recruit-email"></div>
+                    <div class="form-group"><label>Ville</label><input class="form-control" id="recruit-city"></div>
+                    <div class="form-group"><label>Spécialité</label><select class="form-control" id="recruit-specialty"><option>Électricité</option><option>Plomberie</option><option>Antenne/Parabole</option><option>Téléphone</option><option>Climatisation</option><option>Menuiserie</option><option>Peinture</option><option>Nettoyage</option></select></div>
+                    <div class="form-group"><label>CV (PDF)</label><div class="file-upload" onclick="document.getElementById('cv-file').click()"><i class="fas fa-cloud-upload-alt"></i><span id="cv-file-name">Cliquez pour sélectionner</span></div><input type="file" id="cv-file" accept=".pdf" style="display:none;" onchange="updateCVName(this)"></div>
                     <button class="submit-btn" onclick="submitRecruitment()">ENVOYER MA CANDIDATURE</button>
                 </div>
             </div>
         </div>
 
         <!-- Tech Views -->
-        <div id="tech-views" style="display: none;">
+        <div id="tech-views" style="display:none;">
             <div class="tech-stats">
-                <div class="stat-card">
-                    <div class="stat-number" id="pending-count">0</div>
-                    <div class="stat-label">En attente</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="completed-count">0</div>
-                    <div class="stat-label">Terminées</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="total-earned">0</div>
-                    <div class="stat-label">MAD gagnés</div>
-                </div>
+                <div class="stat-card"><div class="stat-number" id="pending-count">0</div><div class="stat-label">En attente</div></div>
+                <div class="stat-card"><div class="stat-number" id="completed-count">0</div><div class="stat-label">Terminées</div></div>
+                <div class="stat-card"><div class="stat-number" id="total-earned">0</div><div class="stat-label">MAD gagnés</div></div>
             </div>
-
             <h2 class="section-title">MISSIONS EN ATTENTE</h2>
             <div class="missions-list" id="pending-missions"></div>
-
             <h2 class="section-title">HISTORIQUE</h2>
             <div class="missions-list" id="completed-missions"></div>
         </div>
     </div>
 
     <!-- Support Chat -->
-    <div class="support-btn" onclick="toggleSupport()">
-        <i class="fab fa-whatsapp"></i>
-    </div>
-
+    <div class="support-btn" onclick="toggleSupport()"><i class="fab fa-whatsapp"></i></div>
     <div class="support-modal" id="support-modal">
-        <div class="support-header">
-            <div class="support-avatar">M</div>
-            <div>
-                <h4>Majda - Support</h4>
-                <p>En ligne • Réponse rapide</p>
-            </div>
-        </div>
-        <div class="support-messages" id="support-messages">
-            <div class="message support">
-                <div class="message-avatar">M</div>
-                <div class="message-bubble">
-                    <div>Salam! 👋 Je suis Majda. Comment puis-je vous aider?</div>
-                    <span class="message-time">Maintenant</span>
-                </div>
-            </div>
-        </div>
-        <div class="support-input">
-            <input type="text" id="support-input" placeholder="Écrire un message..." onkeypress="if(event.key==='Enter') sendSupport()">
-            <button onclick="sendSupport()"><i class="fas fa-paper-plane"></i></button>
-        </div>
+        <div class="support-header"><div class="support-avatar">M</div><div><h4>Majda - Support</h4><p>En ligne • Réponse rapide</p></div></div>
+        <div class="support-messages" id="support-messages"></div>
+        <div class="support-input"><input type="text" id="support-input" placeholder="Écrire un message..." onkeypress="if(event.key==='Enter') sendSupport()"><button onclick="sendSupport()"><i class="fas fa-paper-plane"></i></button></div>
     </div>
 
     <!-- Waiting Screen -->
@@ -1227,12 +295,25 @@
             <h2 class="waiting-title">EN ATTENTE</h2>
             <p class="waiting-sub" id="waiting-message">En attente de confirmation du technicien...</p>
             <div class="waiting-timer" id="waiting-timer">30s</div>
-            <div class="waiting-bar">
-                <div class="waiting-progress" id="waiting-progress" style="width: 100%;"></div>
+            <div class="waiting-bar"><div class="waiting-progress" id="waiting-progress" style="width:100%;"></div></div>
+            <div class="waiting-cancel"><button onclick="cancelWaiting()">Annuler la demande</button></div>
+        </div>
+    </div>
+
+    <!-- Mission Details Modal (address & note) -->
+    <div class="modal-overlay" id="mission-details-modal" style="position:fixed; inset:0; background:rgba(0,0,0,0.8); display:none; align-items:center; justify-content:center; z-index:4000;">
+        <div class="modal-content" style="background:white; color:var(--dark); padding:2rem; border-radius:20px; max-width:500px; width:90%;">
+            <h3 style="margin-bottom:1.5rem;">Détails de la mission</h3>
+            <div class="mission-detail-input">
+                <label>Adresse d'intervention *</label>
+                <input type="text" id="mission-address" placeholder="Ex: 12 Rue Hassan II, Ain Aouda">
             </div>
-            <div class="waiting-cancel">
-                <button onclick="cancelWaiting()">Annuler la demande</button>
+            <div class="mission-detail-input">
+                <label>Note pour le technicien (optionnel)</label>
+                <textarea id="mission-note" rows="2" placeholder="Ex: 3ème étage, sonner 2 fois"></textarea>
             </div>
+            <button class="confirm-mission-btn" onclick="submitMissionDetails()">Confirmer la mission</button>
+            <button class="back-btn" style="margin-top:1rem; width:100%;" onclick="closeMissionDetails()">Annuler</button>
         </div>
     </div>
 
@@ -1245,102 +326,54 @@
         const CONFIRMATION_WEBHOOK = 'https://discord.com/api/webhooks/1473811156626837617/N1_ynWzRTcgErVHaV2OiOq8bWmAnLtU8FDOqAYOia621T6u-XhIrfBJgHE6t4EPzbDhC';
         const RECRUITMENT_WEBHOOK = 'https://discord.com/api/webhooks/1473825828700946555/TU29M7GsUXb24Hn8nphfviURKa3uHdt6KA5JyVWvzkLvj83Moy7UdZWR0-GXE1O-fIYj';
         
-        const TECH_ACCOUNTS = {
-            'TECH001': 'mentech2025',
-            'YASSINE': 'ezher123',
-            'MOHAMED': 'berrada123',
-            'SAID': 'bennani123',
-            'RACHID': 'cherkaoui123'
-        };
+        const TECH_ACCOUNTS = { 'TECH001':'mentech2025', 'YASSINE':'ezher123', 'MOHAMED':'berrada123', 'SAID':'bennani123', 'RACHID':'cherkaoui123' };
 
         // ==================== STATE ====================
-        let currentUser = null;
-        let currentRole = null;
-        let currentCity = 'Maroc';
-        let currentService = null;
-        let currentProblem = null;
-        let currentTech = null;
-        let currentMission = null;
-        let missions = [];
-        let waitingTimer = null;
-        let waitingSeconds = 30;
-        let notificationInterval = null;
-        let supportMessages = [];
-        let supportCheckInterval = null;
-        let lastMessageCount = 0;
+        let currentUser = null, currentRole = null, currentCity = 'Maroc', currentService = null, currentProblem = null, currentTech = null, currentMission = null;
+        let missions = [], waitingTimer = null, waitingSeconds = 30, notificationInterval = null, supportMessages = [], supportCheckInterval = null;
+        let selectedTechId = null; // store tech id before showing address modal
 
         // ==================== LOGIN ====================
         function switchTab(role) {
-            document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            if (role === 'client') {
-                document.getElementById('client-login').style.display = 'block';
-                document.getElementById('tech-login').style.display = 'none';
-            } else {
-                document.getElementById('client-login').style.display = 'none';
-                document.getElementById('tech-login').style.display = 'block';
-            }
+            document.querySelectorAll('.login-tab').forEach(t=>t.classList.remove('active')); event.target.classList.add('active');
+            document.getElementById('client-login').style.display = role==='client' ? 'block' : 'none';
+            document.getElementById('tech-login').style.display = role==='tech' ? 'block' : 'none';
         }
 
         function handleLogin() {
             const activeTab = document.querySelector('.login-tab.active').textContent.trim();
-            
             if (activeTab === 'CLIENT') {
                 const name = document.getElementById('client-name').value.trim();
                 const phone = document.getElementById('client-phone').value.trim();
-                
-                if (!name || !phone) {
-                    document.getElementById('login-error').textContent = 'Veuillez remplir tous les champs';
-                    return;
-                }
-                
-                currentUser = { name, phone, role: 'client' };
-                currentRole = 'client';
-                
+                if (!name || !phone) { document.getElementById('login-error').textContent = 'Veuillez remplir tous les champs'; return; }
+                currentUser = { name, phone, role: 'client' }; currentRole = 'client';
             } else {
                 const id = document.getElementById('tech-id').value.trim();
                 const pass = document.getElementById('tech-password').value.trim();
-                
-                if (!id || !pass) {
-                    document.getElementById('login-error').textContent = 'Veuillez remplir tous les champs';
-                    return;
-                }
-                
-                if (TECH_ACCOUNTS[id] && TECH_ACCOUNTS[id] === pass) {
-                    currentUser = { name: id, role: 'tech' };
-                    currentRole = 'tech';
-                } else {
-                    document.getElementById('login-error').textContent = 'Identifiant ou mot de passe incorrect';
-                    return;
-                }
+                if (!id || !pass) { document.getElementById('login-error').textContent = 'Veuillez remplir tous les champs'; return; }
+                if (TECH_ACCOUNTS[id] && TECH_ACCOUNTS[id] === pass) { currentUser = { name: id, role: 'tech' }; currentRole = 'tech'; }
+                else { document.getElementById('login-error').textContent = 'Identifiant ou mot de passe incorrect'; return; }
             }
-            
-            // Login success
             document.getElementById('login-page').style.display = 'none';
             document.getElementById('navbar').style.display = 'flex';
             document.getElementById('main-container').style.display = 'block';
             document.getElementById('user-name').textContent = currentUser.name;
-            
+
             if (currentRole === 'tech') {
                 document.getElementById('client-views').style.display = 'none';
                 document.getElementById('tech-views').style.display = 'block';
                 document.getElementById('user-badge').innerHTML = '<i class="fas fa-toolbox"></i> ' + currentUser.name;
-                loadTechMissions();
-                startNotificationCheck();
+                loadTechMissions(); startNotificationCheck();
             } else {
                 document.getElementById('client-views').style.display = 'block';
                 document.getElementById('tech-views').style.display = 'none';
                 document.getElementById('user-badge').innerHTML = '<i class="fas fa-user"></i> ' + currentUser.name;
-                buildCategories();
-                detectLocation();
-                startSupportCheck();
+                buildCategories(); detectLocation(); startSupportCheck();
             }
         }
 
         function logout() {
-            currentUser = null;
-            currentRole = null;
+            currentUser = null; currentRole = null;
             document.getElementById('login-page').style.display = 'flex';
             document.getElementById('navbar').style.display = 'none';
             document.getElementById('main-container').style.display = 'none';
@@ -1350,10 +383,7 @@
 
         // ==================== LOCATION ====================
         function detectLocation() {
-            if (!navigator.geolocation) {
-                setCity('Maroc');
-                return;
-            }
+            if (!navigator.geolocation) { setCity('Maroc'); return; }
             navigator.geolocation.getCurrentPosition(
                 async (pos) => {
                     try {
@@ -1361,135 +391,82 @@
                         const data = await res.json();
                         const city = data.address.city || data.address.town || data.address.village || 'Maroc';
                         setCity(city);
-                    } catch {
-                        setCity('Ain Aouda');
-                    }
+                    } catch { setCity('Ain Aouda'); }
                 },
                 () => setCity('Ain Aouda')
             );
         }
-
-        function setCity(city) {
-            currentCity = city;
-            // You can display it somewhere if needed
-        }
+        function setCity(city) { currentCity = city; }
 
         // ==================== TOAST ====================
-        function showToast(msg, type = 'success') {
+        function showToast(msg, type='success') {
             const toast = document.getElementById('toast');
             toast.textContent = msg;
             toast.style.background = type === 'success' ? 'var(--accent)' : 'var(--danger)';
             toast.style.display = 'block';
-            setTimeout(() => toast.style.display = 'none', 3000);
+            setTimeout(()=>toast.style.display='none',3000);
         }
 
         // ==================== SUPPORT ====================
-        function toggleSupport() {
-            const modal = document.getElementById('support-modal');
-            modal.classList.toggle('open');
-        }
-
+        function toggleSupport() { document.getElementById('support-modal').classList.toggle('open'); }
         function loadSupportMessages() {
-            const saved = localStorage.getItem('mentech_support_' + currentUser?.name);
-            if (saved) {
-                supportMessages = JSON.parse(saved);
-                renderSupportMessages();
-            } else {
-                const welcomeMsg = {
-                    id: Date.now(),
-                    text: 'Salam! 👋 Je suis Majda. Comment puis-je vous aider?',
-                    sender: 'support',
-                    time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
-                };
-                supportMessages = [welcomeMsg];
-                saveSupportMessages();
-                renderSupportMessages();
+            const saved = localStorage.getItem('mentech_support_'+currentUser?.name);
+            if(saved) { supportMessages = JSON.parse(saved); renderSupportMessages(); }
+            else {
+                supportMessages = [{
+                    id: Date.now(), text: 'Salam! 👋 Je suis Majda. Comment puis-je vous aider?', sender: 'support',
+                    time: new Date().toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' })
+                }];
+                saveSupportMessages(); renderSupportMessages();
             }
         }
-
-        function saveSupportMessages() {
-            if (currentUser) {
-                localStorage.setItem('mentech_support_' + currentUser.name, JSON.stringify(supportMessages));
-            }
-        }
-
+        function saveSupportMessages() { if(currentUser) localStorage.setItem('mentech_support_'+currentUser.name, JSON.stringify(supportMessages)); }
         function renderSupportMessages() {
             const container = document.getElementById('support-messages');
             container.innerHTML = supportMessages.map(msg => `
                 <div class="message ${msg.sender}">
-                    <div class="message-avatar">${msg.sender === 'support' ? 'M' : 'U'}</div>
-                    <div class="message-bubble">
-                        <div>${msg.text}</div>
-                        <span class="message-time">${msg.time}</span>
-                    </div>
-                </div>
-            `).join('');
+                    <div class="message-avatar">${msg.sender==='support'?'M':'U'}</div>
+                    <div class="message-bubble"><div>${msg.text}</div><span class="message-time">${msg.time}</span></div>
+                </div>`).join('');
             container.scrollTop = container.scrollHeight;
         }
-
         function startSupportCheck() {
             supportCheckInterval = setInterval(() => {
                 const saved = localStorage.getItem('mentech_support_replies');
-                if (saved) {
+                if(saved) {
                     const replies = JSON.parse(saved);
                     const newReplies = replies.filter(r => !supportMessages.some(m => m.id === r.id));
-                    if (newReplies.length > 0) {
-                        supportMessages = [...supportMessages, ...newReplies];
-                        saveSupportMessages();
-                        renderSupportMessages();
-                    }
+                    if(newReplies.length) { supportMessages = [...supportMessages, ...newReplies]; saveSupportMessages(); renderSupportMessages(); }
                 }
-            }, 2000);
+            },2000);
         }
-
         async function sendSupport() {
             const input = document.getElementById('support-input');
             const text = input.value.trim();
-            if (!text || !currentUser) return;
-            
-            const time = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+            if(!text || !currentUser) return;
+            const time = new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
             const msgId = Date.now();
-            
-            const userMsg = {
-                id: msgId,
-                text: text,
-                sender: 'user',
-                time: time
-            };
-            
-            supportMessages.push(userMsg);
-            saveSupportMessages();
-            renderSupportMessages();
-            
+            supportMessages.push({ id:msgId, text, sender:'user', time });
+            saveSupportMessages(); renderSupportMessages();
             input.value = '';
-            
             try {
                 await fetch(SUPPORT_WEBHOOK, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        content: `📞 **SUPPORT**\n👤 **Client:** ${currentUser.name}\n📱 **Tél:** ${currentUser.phone}\n💬 **Message:** ${text}`
-                    })
+                    method:'POST', headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({ content:`📞 **SUPPORT**\n👤 **Client:** ${currentUser.name}\n📱 **Tél:** ${currentUser.phone}\n💬 **Message:** ${text}` })
                 });
-            } catch (e) {}
-            
-            // Auto reply after 2 seconds (simulate Majda)
+            } catch(e) {}
+            // Auto reply after 2s
             setTimeout(() => {
-                const replyId = Date.now() + 1;
-                const replyMsg = {
-                    id: replyId,
-                    text: 'Merci pour ton message! Un agent va te répondre dans quelques instants.',
-                    sender: 'support',
-                    time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
-                };
-                
-                supportMessages.push(replyMsg);
-                saveSupportMessages();
-                renderSupportMessages();
-            }, 2000);
+                const replyId = Date.now()+1;
+                supportMessages.push({
+                    id:replyId, text:'Merci pour ton message! Un agent va te répondre dans quelques instants.', sender:'support',
+                    time: new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})
+                });
+                saveSupportMessages(); renderSupportMessages();
+            },2000);
         }
 
-        // ==================== SERVICES ====================
+        // ==================== SERVICES (LONG LIST) ====================
         const SERVICES = [
             { id: 'electricite', name: 'Électricité', icon: 'fa-bolt', count: 12 },
             { id: 'plomberie', name: 'Plomberie', icon: 'fa-wrench', count: 8 },
@@ -1498,27 +475,60 @@
             { id: 'climatisation', name: 'Climatisation', icon: 'fa-snowflake', count: 7 },
             { id: 'menuiserie', name: 'Menuiserie', icon: 'fa-tree', count: 5 },
             { id: 'peinture', name: 'Peinture', icon: 'fa-paint-roller', count: 9 },
-            { id: 'nettoyage', name: 'Nettoyage', icon: 'fa-broom', count: 11 }
+            { id: 'nettoyage', name: 'Nettoyage', icon: 'fa-broom', count: 11 },
+            { id: 'serrurerie', name: 'Serrurerie', icon: 'fa-key', count: 4 },
+            { id: 'vitrerie', name: 'Vitrerie', icon: 'fa-window-maximize', count: 3 },
+            { id: 'aluminium', name: 'Aluminium', icon: 'fa-cube', count: 3 },
+            { id: 'jardinage', name: 'Jardinage', icon: 'fa-leaf', count: 6 },
+            { id: 'piscine', name: 'Piscine', icon: 'fa-swimmer', count: 2 },
+            { id: 'informatique', name: 'Informatique', icon: 'fa-laptop', count: 10 },
+            { id: 'electromenager', name: 'Électroménager', icon: 'fa-tv', count: 14 },
+            { id: 'chauffage', name: 'Chauffage', icon: 'fa-fire', count: 5 },
+            { id: 'gaz', name: 'Gaz', icon: 'fa-burn', count: 3 },
+            { id: 'ascenseur', name: 'Ascenseur', icon: 'fa-elevator', count: 2 },
+            { id: 'portail', name: 'Portail', icon: 'fa-gate', count: 4 },
+            { id: 'store', name: 'Store', icon: 'fa-blind', count: 3 },
+            { id: 'volets', name: 'Volets', icon: 'fa-window-close', count: 3 },
+            { id: 'coiffure', name: 'Coiffure', icon: 'fa-cut', count: 7 }
         ];
 
         const PROBLEMS = {
-            electricite: ['Panne de courant', 'Court-circuit', 'Disjoncteur qui saute', 'Prise défectueuse'],
-            plomberie: ['Fuite d\'eau', 'WC bouché', 'Chauffe-eau en panne', 'Robinet qui fuit'],
-            antenne: ['Pas de signal', 'Image qui neige', 'Installation antenne', 'Orientation parabole'],
-            telephone: ['Écran cassé', 'Batterie qui tient pas', 'Ne charge pas', 'Haut-parleur HS'],
-            climatisation: ['Ne refroidit pas', 'Fuite d\'eau', 'Installation neuve', 'Recharge gaz'],
-            menuiserie: ['Porte qui grince', 'Fenêtre bloquée', 'Montage meuble', 'Pose parquet'],
-            peinture: ['Peinture intérieure', 'Peinture extérieure', 'Enduit lissage', 'Pose papier peint'],
-            nettoyage: ['Nettoyage complet', 'Lavage vitres', 'Nettoyage tapis', 'Désinfection']
+            electricite: ['Panne de courant', 'Court-circuit', 'Disjoncteur qui saute', 'Prise défectueuse', 'Interrupteur HS', 'Installation éclairage', 'Tableau électrique', 'Mise à la terre'],
+            plomberie: ['Fuite d\'eau (robinet / tuyau)', 'WC bouché', 'Chauffe-eau en panne', 'Évier bouché', 'Douche bouchée', 'Pression d\'eau faible', 'Robinet qui fuit', 'Installation sanitaire'],
+            antenne: ['Pas de signal', 'Image qui neige', 'Perte de signal', 'Installation antenne', 'Orientation parabole', 'Câble endommagé', 'Décodeur ne marche pas', 'Signal TNT faible'],
+            telephone: ['Écran cassé', 'Batterie qui tient pas', 'Ne charge pas', 'Haut-parleur HS', 'Micro ne fonctionne pas', 'Téléphone lent', 'Caméra floue', 'Bouton power bloqué'],
+            climatisation: ['Ne refroidit pas', 'Ne chauffe pas', 'Fuite d\'eau', 'Bruit anormal', 'Télécommande HS', 'Installation neuve', 'Recharge gaz', 'Entretien'],
+            menuiserie: ['Porte qui grince', 'Fenêtre bloquée', 'Installation porte', 'Pose parquet', 'Montage meuble', 'Réparation meuble', 'Terrasse bois', 'Escalier qui craque'],
+            peinture: ['Peinture intérieure', 'Peinture extérieure', 'Ravalement façade', 'Enduit lissage', 'Pose papier peint', 'Tadelakt', 'Peinture plafond', 'Retouche'],
+            nettoyage: ['Nettoyage complet', 'Lavage vitres', 'Nettoyage tapis', 'Nettoyage canapé', 'Désinfection', 'Après travaux', 'Nettoyage bureau', 'Nettoyage voiture'],
+            serrurerie: ['Porte claquée', 'Clé cassée', 'Remplacement serrure', 'Porte blindée', 'Coffre-fort', 'Verrou HS'],
+            vitrerie: ['Vitre cassée', 'Double vitrage', 'Miroir sur mesure', 'Fenêtre qui fuit'],
+            aluminium: ['Fenêtre déformée', 'Porte coulissante', 'Véranda', 'Joint d\'étanchéité'],
+            jardinage: ['Tonte pelouse', 'Taille haies', 'Nettoyage jardin', 'Arrosage automatique', 'Création massif', 'Abattage arbre'],
+            piscine: ['Pompe en panne', 'Filtre obstrué', 'Nettoyage', 'Traitement eau'],
+            informatique: ['PC lent', 'Virus', 'Écran PC cassé', 'Clavier HS', 'Récupération données', 'Installation logiciel'],
+            electromenager: ['Réfrigérateur ne refroidit pas', 'Lave-linge ne tourne pas', 'Lave-vaisselle ne vide pas', 'Four ne chauffe plus', 'Micro-ondes HS', 'Aspirateur sans aspiration'],
+            chauffage: ['Chaudière en panne', 'Radiateur froid', 'Thermostat HS', 'Fuite chauffage'],
+            gaz: ['Odeur de gaz', 'Chauffe-eau gaz ne s\'allume pas', 'Cuisson gaz problème'],
+            ascenseur: ['Ascenseur bloqué', 'Porte ne s\'ouvre pas', 'Boutons HS'],
+            portail: ['Portail ne s\'ouvre pas', 'Motorisation HS', 'Télécommande perdue'],
+            store: ['Store bloqué', 'Moteur HS', 'Télécommande ne répond pas'],
+            volets: ['Volet roulant bloqué', 'Lame cassée', 'Moteur qui fait du bruit'],
+            coiffure: ['Coupe femme', 'Coloration', 'Brushing', 'Coupe homme', 'Barbe', 'Coiffure mariage']
         };
 
         const TECHNICIANS = [
-            { id: 1, name: 'Yassine Ezher', specialty: 'antenne', rating: 5.0, reviews: 312, phone: '0719089944' },
-            { id: 2, name: 'Mohamed Berrada', specialty: 'electricite', rating: 4.9, reviews: 234, phone: '0612345678' },
-            { id: 3, name: 'Youssef El Idrissi', specialty: 'plomberie', rating: 4.8, reviews: 187, phone: '0634567890' },
-            { id: 4, name: 'Said Bennani', specialty: 'telephone', rating: 4.9, reviews: 312, phone: '0656789012' },
-            { id: 5, name: 'Rachid Cherkaoui', specialty: 'climatisation', rating: 4.8, reviews: 143, phone: '0667890123' },
-            { id: 6, name: 'Hicham Zouheir', specialty: 'menuiserie', rating: 4.7, reviews: 132, phone: '0678901234' }
+            { id:1, name:'Yassine Ezher', specialty:'antenne', rating:5.0, reviews:312, phone:'0719089944' },
+            { id:2, name:'Mohamed Berrada', specialty:'electricite', rating:4.9, reviews:234, phone:'0612345678' },
+            { id:3, name:'Youssef El Idrissi', specialty:'plomberie', rating:4.8, reviews:187, phone:'0634567890' },
+            { id:4, name:'Said Bennani', specialty:'telephone', rating:4.9, reviews:312, phone:'0656789012' },
+            { id:5, name:'Rachid Cherkaoui', specialty:'climatisation', rating:4.8, reviews:143, phone:'0667890123' },
+            { id:6, name:'Hicham Zouheir', specialty:'menuiserie', rating:4.7, reviews:132, phone:'0678901234' },
+            { id:7, name:'Karim Naciri', specialty:'antenne', rating:4.7, reviews:156, phone:'0645678901' },
+            { id:8, name:'Abderrahim Fassi', specialty:'serrurerie', rating:4.8, reviews:178, phone:'0661122334' },
+            { id:9, name:'Driss Bensouda', specialty:'vitrerie', rating:4.6, reviews:98, phone:'0662233445' },
+            { id:10, name:'Hassan Jardin', specialty:'jardinage', rating:4.8, reviews:145, phone:'0663344556' },
+            { id:11, name:'Salma Coiffure', specialty:'coiffure', rating:4.9, reviews:312, phone:'0664455667' }
         ];
 
         // ==================== CLIENT FLOW ====================
@@ -1529,129 +539,82 @@
                     <i class="fas ${s.icon}"></i>
                     <h3>${s.name}</h3>
                     <p>Problèmes courants...</p>
-                </div>
-            `).join('');
+                </div>`).join('');
         }
 
         function selectService(serviceId) {
             currentService = SERVICES.find(s => s.id === serviceId);
             document.getElementById('problems-title').textContent = currentService.name;
-            
             const problems = PROBLEMS[serviceId] || [];
             document.getElementById('problems-grid').innerHTML = problems.map(p => `
-                <div class="subcategory-card" onclick="selectProblem('${p}')">
+                <div class="subcategory-card" onclick="selectProblem('${p.replace(/'/g, "\\'")}')">
                     <i class="fas fa-tools"></i>
                     <h4>${p}</h4>
-                </div>
-            `).join('');
-            
+                </div>`).join('');
             showClientView('problems-view');
         }
 
         function selectProblem(problem) {
             currentProblem = problem;
-            document.getElementById('techs-title').textContent = problem;
-            
+            // Show technicians for this service
             const techs = TECHNICIANS.filter(t => t.specialty === currentService.id);
-            
             document.getElementById('technicians-grid').innerHTML = techs.map(t => `
                 <div class="technician-card">
                     <div class="technician-header">
                         <div class="technician-avatar">${t.name.charAt(0)}</div>
-                        <div class="technician-info">
-                            <h4>${t.name}</h4>
-                            <p class="technician-specialty">${currentService.name}</p>
-                        </div>
+                        <div class="technician-info"><h4>${t.name}</h4><p class="technician-specialty">${currentService.name}</p></div>
                     </div>
                     <div class="technician-body">
-                        <div class="technician-detail">
-                            <i class="fas fa-star"></i>
-                            <span class="rating">${'★'.repeat(Math.floor(t.rating))}${'☆'.repeat(5-Math.floor(t.rating))}</span>
-                            <span>${t.rating} (${t.reviews})</span>
-                        </div>
-                        <div class="technician-detail">
-                            <i class="fas fa-phone"></i>
-                            <span>${t.phone}</span>
-                        </div>
+                        <div class="technician-detail"><i class="fas fa-star"></i><span class="rating">${'★'.repeat(Math.floor(t.rating))}${'☆'.repeat(5-Math.floor(t.rating))}</span><span>${t.rating} (${t.reviews})</span></div>
+                        <div class="technician-detail"><i class="fas fa-phone"></i><span>${t.phone}</span></div>
+                        <div class="technician-detail"><i class="fas fa-coins"></i><span>${t.price || 150} MAD/h</span></div>
                     </div>
                     <div class="technician-footer">
-                        <button class="hire-btn" onclick="createMission(${t.id})">Engager</button>
+                        <button class="hire-btn" onclick="openMissionDetails(${t.id})">Engager</button>
                     </div>
-                </div>
-            `).join('');
-            
+                </div>`).join('');
             showClientView('techs-view');
         }
 
-        function backToProblems() {
-            if (currentService) selectService(currentService.id);
+        function useCustomProblem() {
+            const custom = document.getElementById('custom-problem').value.trim();
+            if(!custom) { showToast('Veuillez décrire votre problème', 'error'); return; }
+            currentProblem = custom;
+            // Show technicians for the current service
+            const techs = TECHNICIANS.filter(t => t.specialty === currentService.id);
+            document.getElementById('technicians-grid').innerHTML = techs.map(t => `
+                <div class="technician-card">
+                    <div class="technician-header"><div class="technician-avatar">${t.name.charAt(0)}</div><div class="technician-info"><h4>${t.name}</h4><p class="technician-specialty">${currentService.name}</p></div></div>
+                    <div class="technician-body">
+                        <div class="technician-detail"><i class="fas fa-star"></i><span class="rating">${'★'.repeat(Math.floor(t.rating))}${'☆'.repeat(5-Math.floor(t.rating))}</span><span>${t.rating} (${t.reviews})</span></div>
+                        <div class="technician-detail"><i class="fas fa-phone"></i><span>${t.phone}</span></div>
+                        <div class="technician-detail"><i class="fas fa-coins"></i><span>${t.price || 150} MAD/h</span></div>
+                    </div>
+                    <div class="technician-footer"><button class="hire-btn" onclick="openMissionDetails(${t.id})">Engager</button></div>
+                </div>`).join('');
+            showClientView('techs-view');
         }
 
-        function goHome() {
-            showClientView('home-view');
+        function openMissionDetails(techId) {
+            selectedTechId = techId;
+            document.getElementById('mission-details-modal').style.display = 'flex';
         }
 
-        function showClientView(viewId) {
-            document.querySelectorAll('#client-views .view').forEach(v => v.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
+        function closeMissionDetails() {
+            document.getElementById('mission-details-modal').style.display = 'none';
         }
 
-        // ==================== WAITING SCREEN ====================
-        function showWaitingScreen(techName) {
-            const screen = document.getElementById('waiting-screen');
-            document.getElementById('waiting-message').textContent = `En attente de confirmation de ${techName}...`;
-            document.getElementById('waiting-timer').textContent = '30s';
-            document.getElementById('waiting-progress').style.width = '100%';
-            screen.classList.add('active');
-            
-            waitingSeconds = 30;
-            startWaitingTimer();
-        }
+        async function submitMissionDetails() {
+            const address = document.getElementById('mission-address').value.trim();
+            if(!address) { showToast('Veuillez entrer une adresse', 'error'); return; }
+            const note = document.getElementById('mission-note').value.trim();
+            const tech = TECHNICIANS.find(t => t.id === selectedTechId);
+            if(!tech) return;
 
-        function startWaitingTimer() {
-            if (waitingTimer) clearInterval(waitingTimer);
-            
-            waitingTimer = setInterval(() => {
-                waitingSeconds--;
-                document.getElementById('waiting-timer').textContent = waitingSeconds + 's';
-                document.getElementById('waiting-progress').style.width = (waitingSeconds / 30 * 100) + '%';
-                
-                if (waitingSeconds <= 0) {
-                    clearInterval(waitingTimer);
-                    handleTimeout();
-                }
-            }, 1000);
-        }
-
-        function handleTimeout() {
-            document.getElementById('waiting-screen').classList.remove('active');
-            if (currentMission) {
-                currentMission.status = 'declined';
-                saveMissions();
-            }
-            showToast('⏱️ Délai dépassé - Mission annulée', 'error');
-            goHome();
-        }
-
-        function cancelWaiting() {
-            clearInterval(waitingTimer);
-            document.getElementById('waiting-screen').classList.remove('active');
-            if (currentMission) {
-                currentMission.status = 'declined';
-                saveMissions();
-            }
-            showToast('Mission annulée', 'error');
-            goHome();
-        }
-
-        // ==================== MISSIONS ====================
-        async function createMission(techId) {
-            const tech = TECHNICIANS.find(t => t.id === techId);
-            currentTech = tech;
-            
             const missionId = 'MT-' + Date.now().toString(36).toUpperCase();
             const now = new Date().toLocaleString('fr-FR');
-            
+            const price = tech.price || 150;
+
             currentMission = {
                 id: missionId,
                 clientName: currentUser.name,
@@ -1660,138 +623,154 @@
                 techPhone: tech.phone,
                 service: currentService.name,
                 problem: currentProblem,
+                address: address,
+                note: note,
                 city: currentCity,
                 time: now,
+                price: price,
                 status: 'pending',
                 createdAt: Date.now()
             };
-            
+
             missions.push(currentMission);
             saveMissions();
-            
+            closeMissionDetails();
+
+            // Send to Discord (format like the image)
+            const discordMsg = {
+                content: `**🔧 NOUVELLE MISSION — En attente de confirmation tech**\n\n**N° Mission**\n${missionId}\n\n**Tél. client**\n${currentUser.phone}\n\n**Service**\n${currentService.name}\n\n**Problème**\n${currentProblem}\n\n**Adresse**\n${currentCity} — ${address}\n\n**Prix**\n${price} MAD/h\n\n**Note**\n${note || '—'}\n\n**Client**\n${currentUser.name}\n\n**Technicien**\n${tech.name}\n\n**Tél. tech**\n${tech.phone}\n\n---\nMENTECH — Le technicien doit répondre OUI ou NON`
+            };
+
             try {
                 await fetch(CONFIRMATION_WEBHOOK, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        content: `🔧 **NOUVELLE MISSION - ${missionId}**\n👤 **Client:** ${currentUser.name}\n📞 **Tél:** ${currentUser.phone}\n🔧 **Technicien:** ${tech.name}\n🛠️ **Service:** ${currentService.name}\n🔍 **Problème:** ${currentProblem}\n📍 **Ville:** ${currentCity}`
-                    })
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(discordMsg)
                 });
-            } catch (e) {}
-            
+            } catch(e) {}
+
             showWaitingScreen(tech.name);
+        }
+
+        function backToProblems() { if(currentService) selectService(currentService.id); }
+        function goHome() { showClientView('home-view'); }
+        function showClientView(viewId) { document.querySelectorAll('#client-views .view').forEach(v=>v.classList.remove('active')); document.getElementById(viewId).classList.add('active'); }
+
+        // ==================== WAITING SCREEN ====================
+        function showWaitingScreen(techName) {
+            const screen = document.getElementById('waiting-screen');
+            document.getElementById('waiting-message').textContent = `En attente de confirmation de ${techName}...`;
+            document.getElementById('waiting-timer').textContent = '30s';
+            document.getElementById('waiting-progress').style.width = '100%';
+            screen.classList.add('active');
+            waitingSeconds = 30;
+            startWaitingTimer();
+        }
+        function startWaitingTimer() {
+            if(waitingTimer) clearInterval(waitingTimer);
+            waitingTimer = setInterval(() => {
+                waitingSeconds--;
+                document.getElementById('waiting-timer').textContent = waitingSeconds + 's';
+                document.getElementById('waiting-progress').style.width = (waitingSeconds/30*100) + '%';
+                if(waitingSeconds <= 0) { clearInterval(waitingTimer); handleTimeout(); }
+            },1000);
+        }
+        function handleTimeout() {
+            document.getElementById('waiting-screen').classList.remove('active');
+            if(currentMission) { currentMission.status = 'declined'; saveMissions(); }
+            showToast('⏱️ Délai dépassé - Mission annulée', 'error');
+            goHome();
+        }
+        function cancelWaiting() {
+            clearInterval(waitingTimer);
+            document.getElementById('waiting-screen').classList.remove('active');
+            if(currentMission) { currentMission.status = 'declined'; saveMissions(); }
+            showToast('Mission annulée', 'error');
+            goHome();
         }
 
         // ==================== TECH VIEW ====================
         function loadTechMissions() {
             const pending = missions.filter(m => m.status === 'pending');
             const completed = missions.filter(m => m.status === 'confirmed' || m.status === 'declined');
-            
             document.getElementById('pending-count').textContent = pending.length;
             document.getElementById('completed-count').textContent = completed.length;
-            
-            const totalEarned = missions
-                .filter(m => m.status === 'confirmed' && m.price)
-                .reduce((sum, m) => sum + parseInt(m.price || 0), 0);
+            const totalEarned = missions.filter(m=>m.status==='confirmed' && m.price).reduce((sum,m)=>sum+parseInt(m.price||0),0);
             document.getElementById('total-earned').textContent = totalEarned;
-            
+
             document.getElementById('pending-missions').innerHTML = pending.map(m => {
-                const elapsed = Math.floor((Date.now() - m.createdAt) / 1000);
-                const remaining = Math.max(0, 30 - elapsed);
-                const percent = (remaining / 30) * 100;
-                
+                const elapsed = Math.floor((Date.now()-m.createdAt)/1000);
+                const remaining = Math.max(0,30-elapsed);
+                const percent = (remaining/30)*100;
                 return `
                     <div class="mission-card">
-                        <div class="mission-header">
-                            <span class="mission-id">${m.id}</span>
-                            <span>${m.time}</span>
-                        </div>
+                        <div class="mission-header"><span class="mission-id">${m.id}</span><span>${m.time}</span></div>
                         <div class="mission-body">
                             <div class="mission-row"><span class="mission-label">Client</span><span>${m.clientName}</span></div>
-                            <div class="mission-row"><span class="mission-label">Téléphone</span><span>${m.clientPhone}</span></div>
+                            <div class="mission-row"><span class="mission-label">Tél. client</span><span>${m.clientPhone}</span></div>
                             <div class="mission-row"><span class="mission-label">Service</span><span>${m.service}</span></div>
                             <div class="mission-row"><span class="mission-label">Problème</span><span>${m.problem}</span></div>
+                            <div class="mission-row"><span class="mission-label">Adresse</span><span>${m.address}</span></div>
+                            <div class="mission-row"><span class="mission-label">Note</span><span>${m.note || '—'}</span></div>
                         </div>
                         <div class="mission-timer">
-                            <div class="timer-bar"><div class="timer-progress" style="width: ${percent}%;"></div></div>
+                            <div class="timer-bar"><div class="timer-progress" style="width:${percent}%;"></div></div>
                             <div class="timer-text"><i class="fas fa-clock"></i> ${remaining}s restantes</div>
                         </div>
                         <div class="mission-actions">
-                            <button class="accept-btn" onclick="respondToMission('${m.id}', 'confirmed')">✅ Accepter</button>
-                            <button class="decline-btn" onclick="respondToMission('${m.id}', 'declined')">❌ Refuser</button>
+                            <button class="accept-btn" onclick="respondToMission('${m.id}','confirmed')">✅ Accepter</button>
+                            <button class="decline-btn" onclick="respondToMission('${m.id}','declined')">❌ Refuser</button>
                         </div>
-                    </div>
-                `;
-            }).join('');
-            
+                    </div>`}).join('');
+
             document.getElementById('completed-missions').innerHTML = completed.map(m => `
                 <div class="mission-card">
-                    <div class="mission-header">
-                        <span class="mission-id">${m.id}</span>
-                        <span>${m.time}</span>
-                    </div>
+                    <div class="mission-header"><span class="mission-id">${m.id}</span><span>${m.time}</span></div>
                     <div class="mission-body">
                         <div class="mission-row"><span class="mission-label">Client</span><span>${m.clientName}</span></div>
                         <div class="mission-row"><span class="mission-label">Service</span><span>${m.service}</span></div>
-                        <div class="mission-row"><span class="mission-label">Statut</span><span style="color: ${m.status === 'confirmed' ? 'var(--success)' : 'var(--danger)'}">${m.status === 'confirmed' ? '✅ Confirmée' : '❌ Refusée'}</span></div>
+                        <div class="mission-row"><span class="mission-label">Statut</span><span style="color:${m.status==='confirmed'?'var(--success)':'var(--danger)'}">${m.status==='confirmed'?'✅ Confirmée':'❌ Refusée'}</span></div>
                         ${m.price ? `<div class="mission-row"><span class="mission-label">Prix</span><span>${m.price} MAD</span></div>` : ''}
                     </div>
-                    ${m.status === 'confirmed' && !m.price ? `
-                    <div style="padding: 16px; border-top: 1px solid rgba(255,255,255,0.1);">
-                        <div style="display: flex; gap: 8px;">
+                    ${m.status==='confirmed' && !m.price ? `
+                    <div style="padding:16px; border-top:1px solid rgba(255,255,255,0.1);">
+                        <div style="display:flex; gap:8px;">
                             <input type="number" id="price-${m.id}" placeholder="Montant reçu" style="flex:1; padding:8px; border:none; border-radius:50px;">
                             <button onclick="declarePrice('${m.id}')" style="background:var(--warning); border:none; border-radius:50px; padding:8px 16px; color:white; cursor:pointer;">Valider</button>
                         </div>
-                    </div>
-                    ` : ''}
-                </div>
-            `).join('');
+                    </div>` : ''}
+                </div>`).join('');
         }
 
         async function respondToMission(missionId, response) {
             const mission = missions.find(m => m.id === missionId);
-            if (!mission) return;
-            
+            if(!mission) return;
             mission.status = response;
             saveMissions();
-            
+
             await fetch(CONFIRMATION_WEBHOOK, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    content: response === 'confirmed' 
-                        ? `✅ **MISSION CONFIRMÉE**\n👤 **Client:** ${mission.clientName}\n📞 **Tél:** ${mission.clientPhone}\n🔧 **Technicien:** ${mission.techName}`
-                        : `❌ **MISSION REFUSÉE**\n👤 **Client:** ${mission.clientName}\n🔧 **Technicien:** ${mission.techName}`
-                })
+                method:'POST', headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({ content: response==='confirmed'
+                    ? `✅ **MISSION CONFIRMÉE**\n👤 **Client:** ${mission.clientName}\n📞 **Tél:** ${mission.clientPhone}\n🔧 **Technicien:** ${mission.techName}`
+                    : `❌ **MISSION REFUSÉE**\n👤 **Client:** ${mission.clientName}\n🔧 **Technicien:** ${mission.techName}` })
             });
-            
-            if (response === 'confirmed') {
-                document.getElementById('waiting-screen').classList.remove('active');
-                if (waitingTimer) clearInterval(waitingTimer);
-            }
-            
-            showToast(response === 'confirmed' ? 'Mission confirmée!' : 'Mission refusée');
+
+            if(response==='confirmed') { document.getElementById('waiting-screen').classList.remove('active'); if(waitingTimer) clearInterval(waitingTimer); }
+            showToast(response==='confirmed'?'Mission confirmée!':'Mission refusée');
             loadTechMissions();
         }
 
         async function declarePrice(missionId) {
             const input = document.getElementById(`price-${missionId}`);
             const price = input.value.trim();
-            if (!price) return;
-            
-            const mission = missions.find(m => m.id === missionId);
-            if (mission) {
+            if(!price) return;
+            const mission = missions.find(m=>m.id===missionId);
+            if(mission) {
                 mission.price = price;
                 saveMissions();
-                
                 await fetch(CONFIRMATION_WEBHOOK, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        content: `💰 **Prix déclaré**\n🆔 **Mission:** ${missionId}\n💵 **Montant:** ${price} MAD`
-                    })
+                    method:'POST', headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({ content: `💰 **Prix déclaré**\n🆔 **Mission:** ${missionId}\n💵 **Montant:** ${price} MAD` })
                 });
-                
                 showToast(`Prix ${price} MAD enregistré!`);
                 loadTechMissions();
             }
@@ -1800,16 +779,15 @@
         // ==================== NOTIFICATIONS ====================
         function startNotificationCheck() {
             notificationInterval = setInterval(() => {
-                if (currentRole === 'tech') {
+                if(currentRole==='tech') {
                     loadTechMissions();
-                    const pending = missions.filter(m => m.status === 'pending').length;
-                    document.getElementById('notification-dot').classList.toggle('active', pending > 0);
+                    const pending = missions.filter(m=>m.status==='pending').length;
+                    document.getElementById('notification-dot').classList.toggle('active', pending>0);
                 }
-            }, 2000);
+            },2000);
         }
-
         function showNotifications() {
-            const pending = missions.filter(m => m.status === 'pending').length;
+            const pending = missions.filter(m=>m.status==='pending').length;
             showToast(pending ? `${pending} mission(s) en attente` : 'Aucune notification');
         }
 
@@ -1822,69 +800,43 @@
             document.getElementById('tech-views').style.display = 'none';
             showClientView('recruitment-view');
         }
-
-        function updateCVName(input) {
-            document.getElementById('cv-file-name').textContent = input.files[0]?.name || 'Cliquez pour sélectionner';
-        }
-
+        function updateCVName(input) { document.getElementById('cv-file-name').textContent = input.files[0]?.name || 'Cliquez pour sélectionner'; }
         async function submitRecruitment() {
             const name = document.getElementById('recruit-name').value.trim();
             const phone = document.getElementById('recruit-phone').value.trim();
             const email = document.getElementById('recruit-email').value.trim();
             const city = document.getElementById('recruit-city').value.trim();
             const specialty = document.getElementById('recruit-specialty').value;
-            
-            if (!name || !phone || !email || !city) {
-                showToast('Veuillez remplir tous les champs', 'error');
-                return;
-            }
-            
-            try {
-                await fetch(RECRUITMENT_WEBHOOK, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        content: `📄 **NOUVELLE CANDIDATURE**\n👤 **Nom:** ${name}\n📱 **Tél:** ${phone}\n📧 **Email:** ${email}\n📍 **Ville:** ${city}\n🔧 **Spécialité:** ${specialty}`
-                    })
-                });
-            } catch (e) {}
-            
-            showToast('Candidature envoyée!');
-            goHome();
+            if(!name || !phone || !email || !city) { showToast('Veuillez remplir tous les champs','error'); return; }
+            await fetch(RECRUITMENT_WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ content:`📄 **NOUVELLE CANDIDATURE**\n👤 **Nom:** ${name}\n📱 **Tél:** ${phone}\n📧 **Email:** ${email}\n📍 **Ville:** ${city}\n🔧 **Spécialité:** ${specialty}` }) });
+            showToast('Candidature envoyée!'); goHome();
         }
 
         // ==================== SEARCH ====================
         function searchProblem() {
             const query = document.getElementById('search-input').value.toLowerCase();
             const keywords = {
-                electricite: ['électricité', 'panne', 'prise', 'lumière'],
-                plomberie: ['plomberie', 'fuite', 'wc', 'robinet'],
-                antenne: ['antenne', 'parabole', 'signal', 'tv'],
-                telephone: ['téléphone', 'smartphone', 'iphone', 'samsung']
+                electricite: ['électricité','panne','prise','lumière','disjoncteur'],
+                plomberie: ['plomberie','fuite','wc','robinet','eau','chauffe-eau'],
+                antenne: ['antenne','parabole','signal','tv','télévision'],
+                telephone: ['téléphone','smartphone','iphone','samsung','écran'],
+                climatisation: ['clim','climatisation','froid','chaud'],
+                menuiserie: ['bois','porte','fenêtre','meuble'],
+                peinture: ['peinture','peintre','décoration'],
+                nettoyage: ['nettoyage','ménage','vitres']
             };
-            for (const [service, words] of Object.entries(keywords)) {
-                if (words.some(word => query.includes(word))) {
-                    selectService(service);
-                    return;
-                }
+            for(const [service,words] of Object.entries(keywords)) {
+                if(words.some(word=>query.includes(word))) { selectService(service); return; }
             }
-            showToast('Veuillez préciser votre problème', 'error');
+            showToast('Veuillez préciser votre problème','error');
         }
 
         // ==================== LOCAL STORAGE ====================
-        function saveMissions() {
-            localStorage.setItem('mentech_missions', JSON.stringify(missions));
-        }
-
-        function loadMissions() {
-            const saved = localStorage.getItem('mentech_missions');
-            if (saved) missions = JSON.parse(saved);
-        }
+        function saveMissions() { localStorage.setItem('mentech_missions', JSON.stringify(missions)); }
+        function loadMissions() { const saved = localStorage.getItem('mentech_missions'); if(saved) missions = JSON.parse(saved); }
 
         // ==================== INIT ====================
-        loadMissions();
-        buildCategories();
-        detectLocation();
+        loadMissions(); buildCategories(); detectLocation();
     </script>
 </body>
 </html>
