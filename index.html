@@ -14,88 +14,26 @@
         }
 
         :root {
-            /* Light Mode - Nature (Blanc & Vert) */
-            --light-bg: #F0FDF4;
-            --light-card: #FFFFFF;
-            --light-text: #14532D;
-            --light-gray: #6B7280;
-            --light-border: #DCFCE7;
-            --light-primary: #16A34A;
-            --light-primary-hover: #15803D;
-            
-            /* Dark Mode */
-            --dark-bg: #020617;
-            --dark-card: #0F172A;
-            --dark-text: #F8FAFC;
-            --dark-gray: #94A3B8;
-            --dark-border: #1E293B;
-            --dark-primary: #E11D48;
-            --dark-primary-hover: #BE123C;
-            
-            /* Shared */
-            --whatsapp: #25D366;
-            --discord: #5865F2;
+            /* Dark Mode - Professional */
+            --bg: #0A0A0A;
+            --card: #141414;
+            --text: #FFFFFF;
+            --text-gray: #A0A0A0;
+            --border: #2A2A2A;
+            --primary: #E31C23;
+            --primary-hover: #B31217;
             --success: #10B981;
             --warning: #F59E0B;
             --danger: #EF4444;
+            --whatsapp: #25D366;
+            --discord: #5865F2;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--dark-bg);
-            color: var(--dark-text);
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.5;
-            transition: all 0.3s ease;
-        }
-
-        body.light-mode {
-            background: var(--light-bg);
-            color: var(--light-text);
-        }
-
-        body.light-mode .card,
-        body.light-mode .navbar,
-        body.light-mode .modal {
-            background: var(--light-card);
-            border-color: var(--light-border);
-        }
-
-        /* Theme Switch */
-        .theme-switch {
-            position: fixed;
-            top: 90px;
-            right: 20px;
-            z-index: 1000;
-            display: flex;
-            gap: 8px;
-            background: var(--dark-card);
-            padding: 4px;
-            border-radius: 100px;
-            border: 1px solid var(--dark-border);
-        }
-
-        .theme-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            color: var(--dark-gray);
-        }
-
-        .theme-btn.active {
-            background: var(--dark-primary);
-            color: white;
-        }
-
-        body.light-mode .theme-btn.active {
-            background: var(--light-primary);
-            color: white;
         }
 
         /* Login Page */
@@ -103,29 +41,20 @@
             position: fixed;
             inset: 0;
             z-index: 2000;
-            background: var(--dark-bg);
+            background: var(--bg);
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
 
-        body.light-mode #login-page {
-            background: var(--light-bg);
-        }
-
         .login-card {
             max-width: 400px;
             width: 100%;
-            background: var(--dark-card);
-            border: 1px solid var(--dark-border);
-            border-radius: 32px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
             overflow: hidden;
-        }
-
-        body.light-mode .login-card {
-            background: var(--light-card);
-            border-color: var(--light-border);
         }
 
         .login-header {
@@ -139,11 +68,7 @@
         }
 
         .login-logo span {
-            color: var(--dark-primary);
-        }
-
-        body.light-mode .login-logo span {
-            color: var(--light-primary);
+            color: var(--primary);
         }
 
         .login-tabs {
@@ -157,23 +82,18 @@
             flex: 1;
             padding: 12px;
             text-align: center;
-            border-radius: 12px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             background: transparent;
-            color: var(--dark-gray);
-            border: 1px solid var(--dark-border);
+            color: var(--text-gray);
+            border: 1px solid var(--border);
         }
 
         .login-tab.active {
-            background: var(--dark-primary);
+            background: var(--primary);
             color: white;
-            border-color: var(--dark-primary);
-        }
-
-        body.light-mode .login-tab.active {
-            background: var(--light-primary);
-            border-color: var(--light-primary);
+            border-color: var(--primary);
         }
 
         .login-body {
@@ -188,36 +108,34 @@
             display: block;
             font-size: 12px;
             font-weight: 600;
-            color: var(--dark-gray);
+            color: var(--text-gray);
             margin-bottom: 6px;
         }
 
         .login-input {
             width: 100%;
             padding: 14px 16px;
-            background: var(--dark-bg);
-            border: 1px solid var(--dark-border);
-            border-radius: 12px;
-            color: var(--dark-text);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
             font-size: 15px;
-        }
-
-        body.light-mode .login-input {
-            background: var(--light-bg);
-            border-color: var(--light-border);
-            color: var(--light-text);
         }
 
         .login-btn {
             width: 100%;
             padding: 16px;
-            background: var(--dark-primary);
+            background: var(--primary);
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             color: white;
             font-weight: 600;
             cursor: pointer;
             margin-top: 8px;
+        }
+
+        .login-btn:hover {
+            background: var(--primary-hover);
         }
 
         .login-error {
@@ -233,18 +151,13 @@
             left: 0;
             right: 0;
             height: 70px;
-            background: var(--dark-card);
-            border-bottom: 1px solid var(--dark-border);
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
             display: none;
             align-items: center;
             justify-content: space-between;
             padding: 0 32px;
             z-index: 100;
-        }
-
-        body.light-mode #navbar {
-            background: var(--light-card);
-            border-color: var(--light-border);
         }
 
         .nav-logo {
@@ -254,11 +167,7 @@
         }
 
         .nav-logo span {
-            color: var(--dark-primary);
-        }
-
-        body.light-mode .nav-logo span {
-            color: var(--light-primary);
+            color: var(--primary);
         }
 
         .nav-user {
@@ -269,9 +178,9 @@
 
         .nav-badge {
             padding: 8px 16px;
-            background: rgba(225, 29, 72, 0.1);
-            border: 1px solid rgba(225, 29, 72, 0.3);
-            border-radius: 100px;
+            background: rgba(227, 28, 35, 0.1);
+            border: 1px solid rgba(227, 28, 35, 0.3);
+            border-radius: 8px;
             font-size: 13px;
             font-weight: 600;
         }
@@ -280,9 +189,9 @@
             position: relative;
             width: 40px;
             height: 40px;
-            border-radius: 50%;
-            background: var(--dark-bg);
-            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            background: var(--bg);
+            border: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -295,7 +204,7 @@
             right: -2px;
             width: 10px;
             height: 10px;
-            background: var(--dark-primary);
+            background: var(--primary);
             border-radius: 50%;
             display: none;
         }
@@ -307,9 +216,9 @@
         .logout-btn {
             padding: 8px 16px;
             background: transparent;
-            border: 1px solid var(--dark-border);
-            border-radius: 100px;
-            color: var(--dark-gray);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-gray);
             cursor: pointer;
         }
 
@@ -353,9 +262,9 @@
             bottom: 100px;
             right: 30px;
             width: 350px;
-            background: var(--dark-card);
-            border: 1px solid var(--dark-border);
-            border-radius: 24px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
             overflow: hidden;
             display: none;
             z-index: 95;
@@ -383,7 +292,7 @@
             width: 40px;
             height: 40px;
             background: white;
-            border-radius: 50%;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -419,7 +328,7 @@
             width: 28px;
             height: 28px;
             background: var(--whatsapp);
-            border-radius: 50%;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -430,9 +339,9 @@
 
         .message-bubble {
             padding: 10px 14px;
-            background: var(--dark-bg);
-            border: 1px solid var(--dark-border);
-            border-radius: 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
             font-size: 13px;
         }
 
@@ -443,14 +352,14 @@
 
         .message-time {
             font-size: 10px;
-            color: var(--dark-gray);
+            color: var(--text-gray);
             margin-top: 4px;
             display: block;
         }
 
         .support-input {
             padding: 12px;
-            border-top: 1px solid var(--dark-border);
+            border-top: 1px solid var(--border);
             display: flex;
             gap: 8px;
         }
@@ -458,10 +367,10 @@
         .support-input input {
             flex: 1;
             padding: 12px;
-            background: var(--dark-bg);
-            border: 1px solid var(--dark-border);
-            border-radius: 100px;
-            color: var(--dark-text);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
         }
 
         .support-input button {
@@ -469,7 +378,7 @@
             height: 45px;
             background: var(--whatsapp);
             border: none;
-            border-radius: 50%;
+            border-radius: 8px;
             color: white;
             cursor: pointer;
         }
@@ -490,15 +399,11 @@
         }
 
         .hero h1 span {
-            color: var(--dark-primary);
-        }
-
-        body.light-mode .hero h1 span {
-            color: var(--light-primary);
+            color: var(--primary);
         }
 
         .hero p {
-            color: var(--dark-gray);
+            color: var(--text-gray);
             font-size: 16px;
             max-width: 500px;
             margin-bottom: 24px;
@@ -507,15 +412,10 @@
         .search-box {
             max-width: 500px;
             display: flex;
-            background: var(--dark-card);
-            border: 1px solid var(--dark-border);
-            border-radius: 100px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
             overflow: hidden;
-        }
-
-        body.light-mode .search-box {
-            background: var(--light-card);
-            border-color: var(--light-border);
         }
 
         .search-box input {
@@ -523,22 +423,22 @@
             padding: 14px 20px;
             background: transparent;
             border: none;
-            color: var(--dark-text);
+            color: var(--text);
             font-size: 15px;
             outline: none;
         }
 
         .search-box button {
             padding: 0 24px;
-            background: var(--dark-primary);
+            background: var(--primary);
             border: none;
             color: white;
             font-weight: 600;
             cursor: pointer;
         }
 
-        body.light-mode .search-box button {
-            background: var(--light-primary);
+        .search-box button:hover {
+            background: var(--primary-hover);
         }
 
         /* Categories */
@@ -555,36 +455,23 @@
         }
 
         .category-card {
-            background: var(--dark-card);
-            border: 1px solid var(--dark-border);
-            border-radius: 16px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
             padding: 20px;
             cursor: pointer;
             transition: all 0.2s;
         }
 
-        body.light-mode .category-card {
-            background: var(--light-card);
-            border-color: var(--light-border);
-        }
-
         .category-card:hover {
-            border-color: var(--dark-primary);
+            border-color: var(--primary);
             transform: translateY(-4px);
-        }
-
-        body.light-mode .category-card:hover {
-            border-color: var(--light-primary);
         }
 
         .category-icon {
             font-size: 32px;
-            color: var(--dark-primary);
+            color: var(--primary);
             margin-bottom: 12px;
-        }
-
-        body.light-mode .category-icon {
-            color: var(--light-primary);
         }
 
         .category-name {
@@ -595,7 +482,7 @@
 
         .category-count {
             font-size: 12px;
-            color: var(--dark-gray);
+            color: var(--text-gray);
         }
 
         /* Problems */
@@ -603,17 +490,13 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1px;
-            background: var(--dark-border);
-            border: 1px solid var(--dark-border);
-        }
-
-        body.light-mode .problems-grid {
-            background: var(--light-border);
-            border-color: var(--light-border);
+            background: var(--border);
+            border: 1px solid var(--border);
+            margin-top: 20px;
         }
 
         .problem-item {
-            background: var(--dark-card);
+            background: var(--card);
             padding: 16px 20px;
             cursor: pointer;
             display: flex;
@@ -621,20 +504,12 @@
             justify-content: space-between;
         }
 
-        body.light-mode .problem-item {
-            background: var(--light-card);
-        }
-
         .problem-item:hover {
-            background: rgba(225, 29, 72, 0.1);
+            background: rgba(227, 28, 35, 0.1);
         }
 
         .problem-item i {
-            color: var(--dark-primary);
-        }
-
-        body.light-mode .problem-item i {
-            color: var(--light-primary);
+            color: var(--primary);
         }
 
         /* Technicians */
@@ -642,23 +517,19 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 16px;
+            margin-top: 20px;
         }
 
         .tech-card {
-            background: var(--dark-card);
-            border: 1px solid var(--dark-border);
-            border-radius: 16px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
             overflow: hidden;
-        }
-
-        body.light-mode .tech-card {
-            background: var(--light-card);
-            border-color: var(--light-border);
         }
 
         .tech-header {
             padding: 16px;
-            background: rgba(225, 29, 72, 0.05);
+            background: rgba(227, 28, 35, 0.05);
             display: flex;
             align-items: center;
             gap: 12px;
@@ -667,18 +538,14 @@
         .tech-avatar {
             width: 50px;
             height: 50px;
-            background: var(--dark-primary);
-            border-radius: 12px;
+            background: var(--primary);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 20px;
             font-weight: 700;
             color: white;
-        }
-
-        body.light-mode .tech-avatar {
-            background: var(--light-primary);
         }
 
         .tech-info h3 {
@@ -688,7 +555,7 @@
 
         .tech-info p {
             font-size: 12px;
-            color: var(--dark-gray);
+            color: var(--text-gray);
         }
 
         .tech-body {
@@ -705,16 +572,12 @@
 
         .tech-detail i {
             width: 18px;
-            color: var(--dark-primary);
-        }
-
-        body.light-mode .tech-detail i {
-            color: var(--light-primary);
+            color: var(--primary);
         }
 
         .tech-footer {
             padding: 16px;
-            border-top: 1px solid var(--dark-border);
+            border-top: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -722,17 +585,17 @@
 
         .hire-btn {
             padding: 8px 20px;
-            background: var(--dark-primary);
+            background: var(--primary);
             border: none;
-            border-radius: 100px;
+            border-radius: 6px;
             color: white;
             font-weight: 600;
             font-size: 12px;
             cursor: pointer;
         }
 
-        body.light-mode .hire-btn {
-            background: var(--light-primary);
+        .hire-btn:hover {
+            background: var(--primary-hover);
         }
 
         /* Tech Dashboard */
@@ -744,26 +607,17 @@
         }
 
         .stat-card {
-            background: var(--dark-card);
-            border: 1px solid var(--dark-border);
-            border-radius: 16px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
             padding: 20px;
-        }
-
-        body.light-mode .stat-card {
-            background: var(--light-card);
-            border-color: var(--light-border);
         }
 
         .stat-number {
             font-size: 28px;
             font-weight: 800;
-            color: var(--dark-primary);
+            color: var(--primary);
             margin-bottom: 4px;
-        }
-
-        body.light-mode .stat-number {
-            color: var(--light-primary);
         }
 
         .missions-list {
@@ -773,33 +627,29 @@
         }
 
         .mission-card {
-            background: var(--dark-card);
-            border: 1px solid var(--dark-border);
-            border-radius: 16px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
             overflow: hidden;
-        }
-
-        body.light-mode .mission-card {
-            background: var(--light-card);
-            border-color: var(--light-border);
         }
 
         .mission-header {
             padding: 16px;
-            background: rgba(225, 29, 72, 0.05);
+            background: rgba(227, 28, 35, 0.05);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid var(--dark-border);
+            border-bottom: 1px solid var(--border);
         }
 
         .mission-id {
             font-weight: 700;
-            color: var(--dark-primary);
+            color: var(--primary);
         }
 
-        body.light-mode .mission-id {
-            color: var(--light-primary);
+        .mission-time {
+            font-size: 12px;
+            color: var(--text-gray);
         }
 
         .mission-body {
@@ -814,18 +664,18 @@
         }
 
         .mission-label {
-            color: var(--dark-gray);
+            color: var(--text-gray);
         }
 
         .mission-timer {
             padding: 16px;
-            border-top: 1px solid var(--dark-border);
+            border-top: 1px solid var(--border);
         }
 
         .timer-bar {
             width: 100%;
             height: 6px;
-            background: var(--dark-border);
+            background: var(--border);
             border-radius: 3px;
             overflow: hidden;
             margin: 8px 0;
@@ -833,12 +683,8 @@
 
         .timer-progress {
             height: 100%;
-            background: var(--dark-primary);
+            background: var(--primary);
             transition: width 1s linear;
-        }
-
-        body.light-mode .timer-progress {
-            background: var(--light-primary);
         }
 
         .timer-text {
@@ -850,7 +696,7 @@
             padding: 16px;
             display: flex;
             gap: 8px;
-            border-top: 1px solid var(--dark-border);
+            border-top: 1px solid var(--border);
         }
 
         .accept-btn {
@@ -858,7 +704,7 @@
             padding: 12px;
             background: var(--success);
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             color: white;
             font-weight: 600;
             cursor: pointer;
@@ -869,112 +715,98 @@
             padding: 12px;
             background: var(--danger);
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             color: white;
             font-weight: 600;
             cursor: pointer;
         }
 
-        .price-declare {
-            padding: 16px;
-            border-top: 1px solid var(--dark-border);
+        /* Waiting Screen */
+        #waiting-screen {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
         }
 
-        .price-input {
+        #waiting-screen.active {
             display: flex;
-            gap: 8px;
-            margin-top: 8px;
         }
 
-        .price-input input {
-            flex: 1;
-            padding: 12px;
-            background: var(--dark-bg);
-            border: 1px solid var(--dark-border);
-            border-radius: 8px;
-            color: var(--dark-text);
-        }
-
-        .price-input button {
-            padding: 12px 20px;
-            background: var(--warning);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        /* Recruitment */
-        .recruitment-form {
-            max-width: 500px;
-            margin: 0 auto;
-            background: var(--dark-card);
-            border: 1px solid var(--dark-border);
-            border-radius: 24px;
+        .waiting-card {
+            max-width: 450px;
+            width: 90%;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
             padding: 32px;
-        }
-
-        body.light-mode .recruitment-form {
-            background: var(--light-card);
-            border-color: var(--light-border);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--dark-gray);
-            margin-bottom: 6px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 14px;
-            background: var(--dark-bg);
-            border: 1px solid var(--dark-border);
-            border-radius: 12px;
-            color: var(--dark-text);
-        }
-
-        body.light-mode .form-control {
-            background: var(--light-bg);
-            border-color: var(--light-border);
-            color: var(--light-text);
-        }
-
-        .file-upload {
-            padding: 30px;
-            background: var(--dark-bg);
-            border: 2px dashed var(--dark-border);
-            border-radius: 12px;
             text-align: center;
-            cursor: pointer;
         }
 
-        .file-upload i {
-            font-size: 32px;
-            color: var(--dark-primary);
+        .waiting-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 24px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .waiting-title {
+            font-size: 24px;
+            font-weight: 700;
             margin-bottom: 8px;
         }
 
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            background: var(--dark-primary);
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
+        .waiting-sub {
+            color: var(--text-gray);
+            margin-bottom: 24px;
         }
 
-        body.light-mode .submit-btn {
-            background: var(--light-primary);
+        .waiting-timer {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--warning);
+            margin-bottom: 24px;
+        }
+
+        .waiting-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .waiting-progress {
+            height: 100%;
+            background: var(--primary);
+            transition: width 1s linear;
+        }
+
+        .waiting-cancel {
+            margin-top: 16px;
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+
+        .waiting-cancel button {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 6px;
+            margin-left: 8px;
+            cursor: pointer;
         }
 
         /* Toast */
@@ -982,10 +814,10 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: var(--dark-primary);
+            background: var(--primary);
             color: white;
             padding: 16px 24px;
-            border-radius: 12px;
+            border-radius: 8px;
             font-weight: 600;
             display: none;
             z-index: 2000;
@@ -994,9 +826,9 @@
         .back-btn {
             padding: 8px 16px;
             background: transparent;
-            border: 1px solid var(--dark-border);
-            border-radius: 100px;
-            color: var(--dark-gray);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-gray);
             cursor: pointer;
             margin-bottom: 20px;
             display: inline-flex;
@@ -1004,27 +836,25 @@
             gap: 8px;
         }
 
+        .back-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
         @media (max-width: 768px) {
             #main-container { padding: 20px; }
             .stats-grid { grid-template-columns: 1fr; }
-            .technicians-grid { grid-template-columns: 1fr; }
             .support-modal { width: calc(100% - 40px); right: 20px; }
         }
     </style>
 </head>
 <body>
-    <!-- Theme Switch -->
-    <div class="theme-switch">
-        <button class="theme-btn light active" onclick="setTheme('light')"><i class="fas fa-sun"></i></button>
-        <button class="theme-btn dark" onclick="setTheme('dark')"><i class="fas fa-moon"></i></button>
-    </div>
-
     <!-- Login Page -->
     <div id="login-page">
         <div class="login-card">
             <div class="login-header">
                 <div class="login-logo">MEN<span>TECH</span></div>
-                <p style="color: var(--dark-gray); font-size: 13px;">Connectez-vous pour continuer</p>
+                <p style="color: var(--text-gray); font-size: 13px;">Connectez-vous pour continuer</p>
             </div>
             
             <div class="login-tabs">
@@ -1063,9 +893,9 @@
                     SE CONNECTER
                 </button>
 
-                <p style="text-align: center; margin-top: 16px; font-size: 12px; color: var(--dark-gray);">
+                <p style="text-align: center; margin-top: 16px; font-size: 12px; color: var(--text-gray);">
                     Pas encore technicien ? 
-                    <span style="color: var(--dark-primary); cursor: pointer;" onclick="showRecruitment()">Rejoignez-nous</span>
+                    <span style="color: var(--primary); cursor: pointer;" onclick="showRecruitment()">Rejoignez-nous</span>
                 </p>
             </div>
         </div>
@@ -1107,8 +937,8 @@
                 <div>
                     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
                         <h2 class="section-title">NOS SERVICES</h2>
-                        <div style="color: var(--dark-gray); font-size: 13px;">
-                            <i class="fas fa-map-marker-alt" style="color: var(--dark-primary);"></i>
+                        <div style="color: var(--text-gray); font-size: 13px;">
+                            <i class="fas fa-map-marker-alt" style="color: var(--primary);"></i>
                             <span id="location-display">Localisation...</span>
                         </div>
                     </div>
@@ -1134,28 +964,28 @@
             <div class="view" id="recruitment-view">
                 <button class="back-btn" onclick="goHome()"><i class="fas fa-arrow-left"></i> Retour</button>
                 
-                <div class="recruitment-form">
+                <div style="max-width: 500px; margin: 0 auto; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 32px;">
                     <h2 style="text-align: center; margin-bottom: 24px;">REJOINDRE MENTECH</h2>
                     
-                    <div class="form-group">
-                        <label>Nom complet</label>
-                        <input class="form-control" id="recruit-name" placeholder="Ex: Yassine Ezher">
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px;">Nom complet</label>
+                        <input class="login-input" id="recruit-name" placeholder="Ex: Yassine Ezher">
                     </div>
-                    <div class="form-group">
-                        <label>Téléphone</label>
-                        <input class="form-control" id="recruit-phone" placeholder="06 XX XX XX XX">
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px;">Téléphone</label>
+                        <input class="login-input" id="recruit-phone" placeholder="06 XX XX XX XX">
                     </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input class="form-control" id="recruit-email" placeholder="email@exemple.com">
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px;">Email</label>
+                        <input class="login-input" id="recruit-email" placeholder="email@exemple.com">
                     </div>
-                    <div class="form-group">
-                        <label>Ville</label>
-                        <input class="form-control" id="recruit-city" placeholder="Ex: Casablanca">
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px;">Ville</label>
+                        <input class="login-input" id="recruit-city" placeholder="Ex: Casablanca">
                     </div>
-                    <div class="form-group">
-                        <label>Spécialité</label>
-                        <select class="form-control" id="recruit-specialty">
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px;">Spécialité</label>
+                        <select class="login-input" id="recruit-specialty">
                             <option>Électricité</option>
                             <option>Plomberie</option>
                             <option>Antenne/Parabole</option>
@@ -1166,15 +996,15 @@
                             <option>Nettoyage</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>CV (PDF)</label>
-                        <div class="file-upload" onclick="document.getElementById('cv-file').click()">
-                            <i class="fas fa-cloud-upload-alt"></i>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px;">CV (PDF)</label>
+                        <div style="padding: 30px; background: var(--bg); border: 2px dashed var(--border); border-radius: 12px; text-align: center; cursor: pointer;" onclick="document.getElementById('cv-file').click()">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 32px; color: var(--primary); margin-bottom: 8px;"></i>
                             <span id="cv-file-name">Cliquez pour sélectionner</span>
                         </div>
                         <input type="file" id="cv-file" accept=".pdf" style="display: none;" onchange="updateCVName(this)">
                     </div>
-                    <button class="submit-btn" onclick="submitRecruitment()">ENVOYER MA CANDIDATURE</button>
+                    <button class="login-btn" onclick="submitRecruitment()">ENVOYER MA CANDIDATURE</button>
                 </div>
             </div>
         </div>
@@ -1213,7 +1043,7 @@
         <div class="support-header">
             <div class="support-avatar">M</div>
             <div>
-                <h4>Majda - Support</h4>
+                <h4>Support</h4>
                 <p>En ligne • Réponse rapide</p>
             </div>
         </div>
@@ -1221,8 +1051,7 @@
             <div class="message support">
                 <div class="message-avatar">M</div>
                 <div class="message-bubble">
-                    <div>Salam! 👋 Ana Majda mn l'équipe Support.</div>
-                    <div>Kifach n9der n3awnek?</div>
+                    <div>Salam! Comment puis-je vous aider?</div>
                     <span class="message-time">Maintenant</span>
                 </div>
             </div>
@@ -1233,16 +1062,38 @@
         </div>
     </div>
 
+    <!-- Waiting Screen -->
+    <div id="waiting-screen">
+        <div class="waiting-card">
+            <div class="waiting-spinner"></div>
+            <h2 class="waiting-title">EN ATTENTE</h2>
+            <p class="waiting-sub" id="waiting-message">En attente de confirmation du technicien...</p>
+            <div class="waiting-timer" id="waiting-timer">30s</div>
+            <div class="waiting-bar">
+                <div class="waiting-progress" id="waiting-progress" style="width: 100%;"></div>
+            </div>
+            <div class="waiting-cancel">
+                <span>Annuler la demande</span>
+                <button onclick="cancelWaiting()">Annuler</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast -->
     <div class="toast" id="toast"></div>
 
     <script>
         // ==================== CONFIG ====================
-        const BACKEND_URL = 'https://mentech-backend.pxxl.click';
+        const SUPPORT_WEBHOOK = 'https://discord.com/api/webhooks/1473875137165135924/jkbRfQ1NtKICiKfVLJ5mb7aCcEyoyXECjv35lL5FgvP6v8hv3Pq7nnZr3SZt8hpetv6O';
+        const CONFIRMATION_WEBHOOK = 'https://discord.com/api/webhooks/1473811156626837617/N1_ynWzRTcgErVHaV2OiOq8bWmAnLtU8FDOqAYOia621T6u-XhIrfBJgHE6t4EPzbDhC';
+        const RECRUITMENT_WEBHOOK = 'https://discord.com/api/webhooks/1473825828700946555/TU29M7GsUXb24Hn8nphfviURKa3uHdt6KA5JyVWvzkLvj83Moy7UdZWR0-GXE1O-fIYj';
         
         const TECH_ACCOUNTS = {
             'TECH001': 'mentech2025',
-            'YASSINE': 'ezher123'
+            'YASSINE': 'ezher123',
+            'MOHAMED': 'berrada123',
+            'SAID': 'bennani123',
+            'RACHID': 'cherkaoui123'
         };
 
         // ==================== STATE ====================
@@ -1251,27 +1102,12 @@
         let currentCity = 'Maroc';
         let currentService = null;
         let currentProblem = null;
+        let currentTech = null;
+        let currentMission = null;
         let missions = [];
-        let currentSessionId = null;
+        let waitingTimer = null;
+        let waitingSeconds = 30;
         let notificationInterval = null;
-
-        // ==================== THEME ====================
-        function setTheme(theme) {
-            if (theme === 'light') {
-                document.body.classList.add('light-mode');
-                document.querySelector('.theme-btn.light').classList.add('active');
-                document.querySelector('.theme-btn.dark').classList.remove('active');
-                localStorage.setItem('theme', 'light');
-            } else {
-                document.body.classList.remove('light-mode');
-                document.querySelector('.theme-btn.dark').classList.add('active');
-                document.querySelector('.theme-btn.light').classList.remove('active');
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'light') setTheme('light');
 
         // ==================== LOGIN ====================
         function switchTab(role) {
@@ -1380,7 +1216,7 @@
         function showToast(msg, type = 'success') {
             const toast = document.getElementById('toast');
             toast.textContent = msg;
-            toast.style.background = type === 'success' ? 'var(--dark-primary)' : 'var(--danger)';
+            toast.style.background = type === 'success' ? 'var(--primary)' : 'var(--danger)';
             toast.style.display = 'block';
             setTimeout(() => toast.style.display = 'none', 3000);
         }
@@ -1411,18 +1247,12 @@
             input.value = '';
             messages.scrollTop = messages.scrollHeight;
             
-            const sessionId = currentSessionId || 'session-' + Date.now();
-            currentSessionId = sessionId;
-            
             try {
-                await fetch(`${BACKEND_URL}/api/support`, {
+                await fetch(SUPPORT_WEBHOOK, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        name: currentUser.name,
-                        phone: currentUser.phone || 'Non renseigné',
-                        message: message,
-                        sessionId: sessionId
+                        content: `📞 **SUPPORT**\n👤 ${currentUser.name}\n📱 ${currentUser.phone || 'Non renseigné'}\n💬 ${message}`
                     })
                 });
             } catch (e) {}
@@ -1430,33 +1260,35 @@
 
         // ==================== SERVICES ====================
         const SERVICES = [
-            { id: 'electricite', name: 'Électricité', icon: 'fa-bolt', count: 45 },
-            { id: 'plomberie', name: 'Plomberie', icon: 'fa-wrench', count: 38 },
-            { id: 'antenne', name: 'Antenne', icon: 'fa-satellite-dish', count: 32 },
-            { id: 'telephone', name: 'Téléphone', icon: 'fa-mobile-alt', count: 56 },
-            { id: 'climatisation', name: 'Climatisation', icon: 'fa-snowflake', count: 28 },
-            { id: 'menuiserie', name: 'Menuiserie', icon: 'fa-tree', count: 34 },
-            { id: 'peinture', name: 'Peinture', icon: 'fa-paint-roller', count: 42 },
-            { id: 'nettoyage', name: 'Nettoyage', icon: 'fa-broom', count: 67 }
+            { id: 'electricite', name: 'Électricité', icon: 'fa-bolt', count: 12, techs: ['Mohamed Berrada', 'Said Bennani'] },
+            { id: 'plomberie', name: 'Plomberie', icon: 'fa-wrench', count: 8, techs: ['Youssef El Idrissi', 'Rachid Cherkaoui'] },
+            { id: 'antenne', name: 'Antenne/Parabole', icon: 'fa-satellite-dish', count: 6, techs: ['Yassine Ezher', 'Karim Naciri'] },
+            { id: 'telephone', name: 'Téléphone', icon: 'fa-mobile-alt', count: 15, techs: ['Said Bennani', 'Hicham Zouheir'] },
+            { id: 'climatisation', name: 'Climatisation', icon: 'fa-snowflake', count: 7, techs: ['Rachid Cherkaoui', 'Mohamed Berrada'] },
+            { id: 'menuiserie', name: 'Menuiserie', icon: 'fa-tree', count: 5, techs: ['Hicham Zouheir'] },
+            { id: 'peinture', name: 'Peinture', icon: 'fa-paint-roller', count: 9, techs: ['Karim Naciri'] },
+            { id: 'nettoyage', name: 'Nettoyage', icon: 'fa-broom', count: 11, techs: ['Youssef El Idrissi'] }
         ];
 
         const PROBLEMS = {
-            electricite: ['Panne de courant', 'Court-circuit', 'Disjoncteur qui saute', 'Prise défectueuse'],
-            plomberie: ['Fuite d\'eau', 'WC bouché', 'Chauffe-eau en panne', 'Robinet qui fuit'],
-            antenne: ['Pas de signal', 'Image qui neige', 'Installation antenne', 'Orientation parabole'],
-            telephone: ['Écran cassé', 'Batterie qui tient pas', 'Ne charge pas', 'Haut-parleur HS'],
-            climatisation: ['Ne refroidit pas', 'Fuite d\'eau', 'Installation neuve', 'Recharge gaz'],
-            menuiserie: ['Porte qui grince', 'Fenêtre bloquée', 'Montage meuble', 'Pose parquet'],
-            peinture: ['Peinture intérieure', 'Peinture extérieure', 'Enduit lissage', 'Pose papier peint'],
-            nettoyage: ['Nettoyage complet', 'Lavage vitres', 'Nettoyage tapis', 'Désinfection']
+            electricite: ['Panne de courant', 'Court-circuit', 'Disjoncteur qui saute', 'Prise défectueuse', 'Installation tableau'],
+            plomberie: ['Fuite d\'eau', 'WC bouché', 'Chauffe-eau en panne', 'Robinet qui fuit', 'Douche bouchée'],
+            antenne: ['Pas de signal', 'Image qui neige', 'Installation antenne', 'Orientation parabole', 'Câble endommagé'],
+            telephone: ['Écran cassé', 'Batterie qui tient pas', 'Ne charge pas', 'Haut-parleur HS', 'Téléphone lent'],
+            climatisation: ['Ne refroidit pas', 'Fuite d\'eau', 'Installation neuve', 'Recharge gaz', 'Bruit anormal'],
+            menuiserie: ['Porte qui grince', 'Fenêtre bloquée', 'Montage meuble', 'Pose parquet', 'Réparation meuble'],
+            peinture: ['Peinture intérieure', 'Peinture extérieure', 'Enduit lissage', 'Pose papier peint', 'Ravalement'],
+            nettoyage: ['Nettoyage complet', 'Lavage vitres', 'Nettoyage tapis', 'Désinfection', 'Après travaux']
         };
 
         const TECHNICIANS = [
             { id: 1, name: 'Yassine Ezher', specialty: 'antenne', rating: 5.0, reviews: 312, phone: '0719089944' },
-            { id: 2, name: 'Mohammed Berrada', specialty: 'electricite', rating: 4.9, reviews: 234, phone: '0612345678' },
-            { id: 3, name: 'Fatima Zahra', specialty: 'electricite', rating: 4.8, reviews: 178, phone: '0623456789' },
-            { id: 4, name: 'Youssef El Idrissi', specialty: 'plomberie', rating: 4.8, reviews: 187, phone: '0634567890' },
-            { id: 5, name: 'Said Bennani', specialty: 'telephone', rating: 4.9, reviews: 312, phone: '0656789012' }
+            { id: 2, name: 'Mohamed Berrada', specialty: 'electricite', rating: 4.9, reviews: 234, phone: '0612345678' },
+            { id: 3, name: 'Youssef El Idrissi', specialty: 'plomberie', rating: 4.8, reviews: 187, phone: '0634567890' },
+            { id: 4, name: 'Said Bennani', specialty: 'telephone', rating: 4.9, reviews: 312, phone: '0656789012' },
+            { id: 5, name: 'Rachid Cherkaoui', specialty: 'climatisation', rating: 4.8, reviews: 143, phone: '0667890123' },
+            { id: 6, name: 'Hicham Zouheir', specialty: 'menuiserie', rating: 4.7, reviews: 132, phone: '0678901234' },
+            { id: 7, name: 'Karim Naciri', specialty: 'antenne', rating: 4.7, reviews: 156, phone: '0645678901' }
         ];
 
         // ==================== CLIENT FLOW ====================
@@ -1511,7 +1343,7 @@
                         </div>
                     </div>
                     <div class="tech-footer">
-                        <span style="color: var(--warning);">À négocier</span>
+                        <span style="color: var(--warning);">Prix à négocier</span>
                         <button class="hire-btn" onclick="createMission(${t.id})">Engager</button>
                     </div>
                 </div>
@@ -1533,14 +1365,63 @@
             document.getElementById(viewId).classList.add('active');
         }
 
+        // ==================== WAITING SCREEN ====================
+        function showWaitingScreen(techName) {
+            const screen = document.getElementById('waiting-screen');
+            document.getElementById('waiting-message').textContent = `En attente de confirmation de ${techName}...`;
+            document.getElementById('waiting-timer').textContent = '30s';
+            document.getElementById('waiting-progress').style.width = '100%';
+            screen.classList.add('active');
+            
+            waitingSeconds = 30;
+            startWaitingTimer();
+        }
+
+        function startWaitingTimer() {
+            if (waitingTimer) clearInterval(waitingTimer);
+            
+            waitingTimer = setInterval(() => {
+                waitingSeconds--;
+                document.getElementById('waiting-timer').textContent = waitingSeconds + 's';
+                document.getElementById('waiting-progress').style.width = (waitingSeconds / 30 * 100) + '%';
+                
+                if (waitingSeconds <= 0) {
+                    clearInterval(waitingTimer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            document.getElementById('waiting-screen').classList.remove('active');
+            if (currentMission) {
+                currentMission.status = 'declined';
+                saveMissions();
+            }
+            showToast('⏱️ Délai dépassé - Mission annulée', 'error');
+            goHome();
+        }
+
+        function cancelWaiting() {
+            clearInterval(waitingTimer);
+            document.getElementById('waiting-screen').classList.remove('active');
+            if (currentMission) {
+                currentMission.status = 'declined';
+                saveMissions();
+            }
+            showToast('Mission annulée', 'error');
+            goHome();
+        }
+
         // ==================== MISSIONS ====================
         async function createMission(techId) {
             const tech = TECHNICIANS.find(t => t.id === techId);
+            currentTech = tech;
             
             const missionId = 'MT-' + Date.now().toString(36).toUpperCase();
             const now = new Date().toLocaleString('fr-FR');
             
-            const mission = {
+            currentMission = {
                 id: missionId,
                 clientName: currentUser.name,
                 clientPhone: currentUser.phone,
@@ -1554,80 +1435,97 @@
                 createdAt: Date.now()
             };
             
-            missions.push(mission);
+            missions.push(currentMission);
             saveMissions();
             
+            // Send to Discord confirmation channel
             try {
-                await fetch(`${BACKEND_URL}/api/mission`, {
+                await fetch(CONFIRMATION_WEBHOOK, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(mission)
+                    body: JSON.stringify({
+                        content: `🔧 **NOUVELLE MISSION - ${missionId}**\n👤 **Client:** ${currentUser.name}\n📞 **Tél:** ${currentUser.phone}\n🔧 **Technicien:** ${tech.name}\n🛠️ **Service:** ${currentService.name}\n🔍 **Problème:** ${currentProblem}\n📍 **Ville:** ${currentCity}\n⏱️ **Délai:** 30 secondes pour répondre`
+                    })
                 });
             } catch (e) {}
             
-            showToast(`Mission ${missionId} créée!`);
-            goHome();
+            // Show waiting screen
+            showWaitingScreen(tech.name);
         }
 
         // ==================== TECH VIEW ====================
         function loadTechMissions() {
             const pending = missions.filter(m => m.status === 'pending');
-            const completed = missions.filter(m => m.status === 'completed' || m.status === 'declined');
+            const completed = missions.filter(m => m.status === 'confirmed' || m.status === 'declined');
             
             document.getElementById('pending-count').textContent = pending.length;
             document.getElementById('completed-count').textContent = completed.length;
             
             const totalEarned = missions
-                .filter(m => m.status === 'completed' && m.price)
+                .filter(m => m.status === 'confirmed' && m.price)
                 .reduce((sum, m) => sum + parseInt(m.price || 0), 0);
             document.getElementById('total-earned').textContent = totalEarned;
             
-            document.getElementById('pending-missions').innerHTML = pending.map(m => `
-                <div class="mission-card" id="mission-${m.id}">
-                    <div class="mission-header">
-                        <span class="mission-id">${m.id}</span>
-                        <span>${m.time}</span>
+            // Pending missions
+            document.getElementById('pending-missions').innerHTML = pending.map(m => {
+                const elapsed = Math.floor((Date.now() - m.createdAt) / 1000);
+                const remaining = Math.max(0, 30 - elapsed);
+                const percent = (remaining / 30) * 100;
+                
+                return `
+                    <div class="mission-card">
+                        <div class="mission-header">
+                            <span class="mission-id">${m.id}</span>
+                            <span class="mission-time">${m.time}</span>
+                        </div>
+                        <div class="mission-body">
+                            <div class="mission-row">
+                                <span class="mission-label">Client</span>
+                                <span>${m.clientName}</span>
+                            </div>
+                            <div class="mission-row">
+                                <span class="mission-label">Téléphone</span>
+                                <span>${m.clientPhone}</span>
+                            </div>
+                            <div class="mission-row">
+                                <span class="mission-label">Service</span>
+                                <span>${m.service}</span>
+                            </div>
+                            <div class="mission-row">
+                                <span class="mission-label">Problème</span>
+                                <span>${m.problem}</span>
+                            </div>
+                            <div class="mission-row">
+                                <span class="mission-label">Ville</span>
+                                <span>${m.city}</span>
+                            </div>
+                        </div>
+                        <div class="mission-timer">
+                            <div class="timer-bar">
+                                <div class="timer-progress" style="width: ${percent}%;"></div>
+                            </div>
+                            <div class="timer-text">
+                                <i class="fas fa-clock"></i> ${remaining}s restantes
+                            </div>
+                        </div>
+                        <div class="mission-actions">
+                            <button class="accept-btn" onclick="respondToMission('${m.id}', 'confirmed')">
+                                ✅ Accepter
+                            </button>
+                            <button class="decline-btn" onclick="respondToMission('${m.id}', 'declined')">
+                                ❌ Refuser
+                            </button>
+                        </div>
                     </div>
-                    <div class="mission-body">
-                        <div class="mission-row">
-                            <span class="mission-label">Client</span>
-                            <span>${m.clientName}</span>
-                        </div>
-                        <div class="mission-row">
-                            <span class="mission-label">Téléphone</span>
-                            <span>${m.clientPhone}</span>
-                        </div>
-                        <div class="mission-row">
-                            <span class="mission-label">Service</span>
-                            <span>${m.service}</span>
-                        </div>
-                        <div class="mission-row">
-                            <span class="mission-label">Problème</span>
-                            <span>${m.problem}</span>
-                        </div>
-                    </div>
-                    <div class="mission-timer">
-                        <div class="timer-bar">
-                            <div class="timer-progress" id="timer-${m.id}" style="width: 100%;"></div>
-                        </div>
-                        <div class="timer-text" id="timer-text-${m.id}">
-                            <i class="fas fa-clock"></i> 30s restantes
-                        </div>
-                    </div>
-                    <div class="mission-actions">
-                        <button class="accept-btn" onclick="respondMission('${m.id}', 'accepted')">Accepter</button>
-                        <button class="decline-btn" onclick="respondMission('${m.id}', 'declined')">Refuser</button>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
             
-            pending.forEach(m => startTimer(m.id));
-            
+            // Completed missions
             document.getElementById('completed-missions').innerHTML = completed.map(m => `
                 <div class="mission-card">
                     <div class="mission-header">
                         <span class="mission-id">${m.id}</span>
-                        <span>${m.time}</span>
+                        <span class="mission-time">${m.time}</span>
                     </div>
                     <div class="mission-body">
                         <div class="mission-row">
@@ -1640,17 +1538,22 @@
                         </div>
                         <div class="mission-row">
                             <span class="mission-label">Statut</span>
-                            <span style="color: ${m.status === 'completed' ? 'var(--success)' : 'var(--danger)'}">
-                                ${m.status === 'completed' ? 'Acceptée' : 'Refusée'}
+                            <span style="color: ${m.status === 'confirmed' ? 'var(--success)' : 'var(--danger)'}">
+                                ${m.status === 'confirmed' ? '✅ Confirmée' : '❌ Refusée'}
                             </span>
                         </div>
-                        ${m.price ? `<div class="mission-row"><span>💰 Prix</span><span>${m.price} MAD</span></div>` : ''}
+                        ${m.price ? `
+                        <div class="mission-row">
+                            <span class="mission-label">Prix</span>
+                            <span>${m.price} MAD</span>
+                        </div>
+                        ` : ''}
                     </div>
-                    ${m.status === 'completed' && !m.price ? `
-                    <div class="price-declare">
-                        <div class="price-input">
-                            <input type="number" id="price-${m.id}" placeholder="Montant reçu">
-                            <button onclick="declarePrice('${m.id}')">Valider</button>
+                    ${m.status === 'confirmed' && !m.price ? `
+                    <div style="padding: 16px; border-top: 1px solid var(--border);">
+                        <div style="display: flex; gap: 8px;">
+                            <input type="number" id="price-${m.id}" placeholder="Montant reçu" style="flex: 1; padding: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text);">
+                            <button onclick="declarePrice('${m.id}')" style="padding: 12px 20px; background: var(--warning); border: none; border-radius: 6px; color: white; cursor: pointer;">Valider</button>
                         </div>
                     </div>
                     ` : ''}
@@ -1658,44 +1561,28 @@
             `).join('');
         }
 
-        function startTimer(missionId) {
+        async function respondToMission(missionId, response) {
             const mission = missions.find(m => m.id === missionId);
             if (!mission) return;
             
-            const elapsed = Math.floor((Date.now() - mission.createdAt) / 1000);
-            const remaining = Math.max(0, 30 - elapsed);
-            
-            const timerBar = document.getElementById(`timer-${missionId}`);
-            const timerText = document.getElementById(`timer-text-${missionId}`);
-            
-            if (timerBar && timerText) {
-                timerBar.style.width = (remaining / 30 * 100) + '%';
-                timerText.innerHTML = `<i class="fas fa-clock"></i> ${remaining}s restantes`;
-                
-                if (remaining <= 0) {
-                    mission.status = 'declined';
-                    saveMissions();
-                    loadTechMissions();
-                }
-            }
-        }
-
-        async function respondMission(missionId, response) {
-            const mission = missions.find(m => m.id === missionId);
-            if (!mission) return;
-            
-            mission.status = response === 'accepted' ? 'completed' : 'declined';
+            mission.status = response;
+            mission.respondedAt = Date.now();
             saveMissions();
             
+            // Send confirmation to Discord
             try {
-                await fetch(`${BACKEND_URL}/api/tech-response`, {
+                await fetch(CONFIRMATION_WEBHOOK, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ missionId, techName: currentUser.name, response })
+                    body: JSON.stringify({
+                        content: response === 'confirmed' 
+                            ? `✅ **MISSION CONFIRMÉE**\n👤 **Client:** ${mission.clientName}\n📞 **Tél:** ${mission.clientPhone}\n🔧 **Technicien:** ${mission.techName}\n🛠️ **Service:** ${mission.service}`
+                            : `❌ **MISSION REFUSÉE**\n👤 **Client:** ${mission.clientName}\n🔧 **Technicien:** ${mission.techName}`
+                    })
                 });
             } catch (e) {}
             
-            showToast(response === 'accepted' ? 'Mission acceptée!' : 'Mission refusée');
+            showToast(response === 'confirmed' ? 'Mission confirmée!' : 'Mission refusée');
             loadTechMissions();
         }
 
@@ -1709,11 +1596,14 @@
                 mission.price = price;
                 saveMissions();
                 
+                // Send price to Discord
                 try {
-                    await fetch(`${BACKEND_URL}/api/tech-response`, {
+                    await fetch(CONFIRMATION_WEBHOOK, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ missionId, techName: currentUser.name, response: 'accepted', price })
+                        body: JSON.stringify({
+                            content: `💰 **Prix déclaré**\n🆔 **Mission:** ${missionId}\n💵 **Montant:** ${price} MAD`
+                        })
                     });
                 } catch (e) {}
                 
@@ -1725,8 +1615,11 @@
         // ==================== NOTIFICATIONS ====================
         function startNotificationCheck() {
             notificationInterval = setInterval(() => {
-                const pending = missions.filter(m => m.status === 'pending').length;
-                document.getElementById('notification-dot').classList.toggle('active', pending > 0);
+                if (currentRole === 'tech') {
+                    loadTechMissions();
+                    const pending = missions.filter(m => m.status === 'pending').length;
+                    document.getElementById('notification-dot').classList.toggle('active', pending > 0);
+                }
             }, 2000);
         }
 
@@ -1762,15 +1655,37 @@
             }
             
             try {
-                await fetch(`${BACKEND_URL}/api/recruit`, {
+                await fetch(RECRUITMENT_WEBHOOK, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, phone, email, city, specialty })
+                    body: JSON.stringify({
+                        content: `📄 **NOUVELLE CANDIDATURE**\n👤 **Nom:** ${name}\n📱 **Tél:** ${phone}\n📧 **Email:** ${email}\n📍 **Ville:** ${city}\n🔧 **Spécialité:** ${specialty}`
+                    })
                 });
             } catch (e) {}
             
             showToast('Candidature envoyée!');
             goHome();
+        }
+
+        // ==================== SEARCH ====================
+        function searchProblem() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            
+            const keywords = {
+                electricite: ['électricité', 'panne', 'prise', 'lumière'],
+                plomberie: ['plomberie', 'fuite', 'wc', 'robinet'],
+                antenne: ['antenne', 'parabole', 'signal', 'tv'],
+                telephone: ['téléphone', 'smartphone', 'iphone', 'samsung']
+            };
+            
+            for (const [service, words] of Object.entries(keywords)) {
+                if (words.some(word => query.includes(word))) {
+                    selectService(service);
+                    return;
+                }
+            }
+            showToast('Veuillez préciser votre problème', 'error');
         }
 
         // ==================== LOCAL STORAGE ====================
