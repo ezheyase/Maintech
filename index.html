@@ -14,7 +14,6 @@
         }
 
         :root {
-            /* Dark Mode - Professional */
             --bg: #0A0A0A;
             --card: #141414;
             --text: #FFFFFF;
@@ -142,6 +141,7 @@
             color: var(--danger);
             font-size: 13px;
             margin-top: 12px;
+            min-height: 20px;
         }
 
         /* Navbar */
@@ -1047,15 +1047,7 @@
                 <p>En ligne • Réponse rapide</p>
             </div>
         </div>
-        <div class="support-messages" id="support-messages">
-            <div class="message support">
-                <div class="message-avatar">M</div>
-                <div class="message-bubble">
-                    <div>Salam! Comment puis-je vous aider?</div>
-                    <span class="message-time">Maintenant</span>
-                </div>
-            </div>
-        </div>
+        <div class="support-messages" id="support-messages"></div>
         <div class="support-input">
             <input type="text" id="support-input" placeholder="Écrire un message..." onkeypress="if(event.key==='Enter') sendSupport()">
             <button onclick="sendSupport()"><i class="fas fa-paper-plane"></i></button>
@@ -1108,6 +1100,9 @@
         let waitingTimer = null;
         let waitingSeconds = 30;
         let notificationInterval = null;
+        let supportMessages = [];
+        let supportCheckInterval = null;
+        let lastMessageCount = 0;
 
         // ==================== LOGIN ====================
         function switchTab(role) {
@@ -1174,6 +1169,7 @@
                 document.getElementById('user-badge').innerHTML = '<i class="fas fa-user"></i> ' + currentUser.name;
                 buildCategories();
                 detectLocation();
+                startSupportCheck();
             }
         }
 
@@ -1184,6 +1180,7 @@
             document.getElementById('navbar').style.display = 'none';
             document.getElementById('main-container').style.display = 'none';
             if (notificationInterval) clearInterval(notificationInterval);
+            if (supportCheckInterval) clearInterval(supportCheckInterval);
         }
 
         // ==================== LOCATION ====================
@@ -1223,39 +1220,114 @@
 
         // ==================== SUPPORT ====================
         function toggleSupport() {
-            document.getElementById('support-modal').classList.toggle('open');
+            const modal = document.getElementById('support-modal');
+            modal.classList.toggle('open');
+            if (modal.classList.contains('open')) {
+                loadSupportMessages();
+            }
+        }
+
+        function loadSupportMessages() {
+            const saved = localStorage.getItem('mentech_support_' + currentUser?.name);
+            if (saved) {
+                supportMessages = JSON.parse(saved);
+                renderSupportMessages();
+            } else {
+                const welcomeMsg = {
+                    id: Date.now(),
+                    text: 'Salam! Comment puis-je vous aider?',
+                    sender: 'support',
+                    time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+                };
+                supportMessages = [welcomeMsg];
+                saveSupportMessages();
+                renderSupportMessages();
+            }
+        }
+
+        function saveSupportMessages() {
+            if (currentUser) {
+                localStorage.setItem('mentech_support_' + currentUser.name, JSON.stringify(supportMessages));
+            }
+        }
+
+        function renderSupportMessages() {
+            const container = document.getElementById('support-messages');
+            container.innerHTML = supportMessages.map(msg => `
+                <div class="message ${msg.sender}">
+                    <div class="message-avatar">${msg.sender === 'support' ? 'M' : 'U'}</div>
+                    <div class="message-bubble">
+                        <div>${msg.text}</div>
+                        <span class="message-time">${msg.time}</span>
+                    </div>
+                </div>
+            `).join('');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function startSupportCheck() {
+            supportCheckInterval = setInterval(() => {
+                // Vérifier les nouvelles réponses dans localStorage
+                const saved = localStorage.getItem('mentech_support_replies');
+                if (saved) {
+                    const replies = JSON.parse(saved);
+                    const newReplies = replies.filter(r => !supportMessages.some(m => m.id === r.id));
+                    
+                    if (newReplies.length > 0) {
+                        supportMessages = [...supportMessages, ...newReplies];
+                        saveSupportMessages();
+                        renderSupportMessages();
+                    }
+                }
+            }, 2000);
         }
 
         async function sendSupport() {
             const input = document.getElementById('support-input');
-            const message = input.value.trim();
-            if (!message || !currentUser) return;
+            const text = input.value.trim();
+            if (!text || !currentUser) return;
             
-            const messages = document.getElementById('support-messages');
             const time = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+            const msgId = Date.now();
             
-            messages.innerHTML += `
-                <div class="message user">
-                    <div class="message-avatar">U</div>
-                    <div class="message-bubble">
-                        <div>${message}</div>
-                        <span class="message-time">${time}</span>
-                    </div>
-                </div>
-            `;
+            const userMsg = {
+                id: msgId,
+                text: text,
+                sender: 'user',
+                time: time
+            };
+            
+            supportMessages.push(userMsg);
+            saveSupportMessages();
+            renderSupportMessages();
             
             input.value = '';
-            messages.scrollTop = messages.scrollHeight;
             
+            // Send to Discord
             try {
                 await fetch(SUPPORT_WEBHOOK, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        content: `📞 **SUPPORT**\n👤 ${currentUser.name}\n📱 ${currentUser.phone || 'Non renseigné'}\n💬 ${message}`
+                        content: `📞 **SUPPORT**\n👤 **Client:** ${currentUser.name}\n📱 **Tél:** ${currentUser.phone}\n💬 **Message:** ${text}`
                     })
                 });
             } catch (e) {}
+            
+            // Simuler une réponse automatique après 2 secondes
+            setTimeout(() => {
+                const replyId = Date.now() + 1;
+                const replyMsg = {
+                    id: replyId,
+                    text: 'Merci pour votre message. Un agent va vous répondre dans quelques instants.',
+                    sender: 'support',
+                    time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+                };
+                
+                supportMessages.push(replyMsg);
+                saveSupportMessages();
+                renderSupportMessages();
+            }, 2000);
         }
 
         // ==================== SERVICES ====================
@@ -1581,6 +1653,12 @@
                     })
                 });
             } catch (e) {}
+            
+            // If confirmed, close waiting screen for client
+            if (response === 'confirmed') {
+                document.getElementById('waiting-screen').classList.remove('active');
+                if (waitingTimer) clearInterval(waitingTimer);
+            }
             
             showToast(response === 'confirmed' ? 'Mission confirmée!' : 'Mission refusée');
             loadTechMissions();
