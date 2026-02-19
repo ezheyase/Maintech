@@ -3,1783 +3,965 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MENTECH — Just Fix It.</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>MENTECH - Techniciens près de chez vous</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
-        :root {
-            --bg: #0A0A0A;
-            --card: #141414;
-            --text: #FFFFFF;
-            --text-gray: #A0A0A0;
-            --border: #2A2A2A;
-            --primary: #E31C23;
-            --primary-hover: #B31217;
-            --success: #10B981;
-            --warning: #F59E0B;
-            --danger: #EF4444;
-            --whatsapp: #25D366;
-            --discord: #5865F2;
-        }
-
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
+            background: #f5f5f5;
         }
-
-        /* Login Page */
-        #login-page {
-            position: fixed;
-            inset: 0;
-            z-index: 2000;
-            background: var(--bg);
+        /* Bannière d'information */
+        .info-banner {
+            background: #1e3c72;
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-size: 14px;
+        }
+        .info-banner a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        /* Header */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+        .logo span {
+            color: #ff7e5f;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .user-greeting {
+            font-weight: 500;
+        }
+        .notif-bell {
+            position: relative;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        .notif-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: red;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
+            display: none;
+        }
+        .logout-btn {
+            background: #f0f0f0;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .logout-btn:hover {
+            background: #e0e0e0;
+        }
+        /* Main layout */
+        .main-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+        }
+        /* Contenu principal */
+        .content {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
             padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-
-        .login-card {
+        .card h3 {
+            margin-bottom: 15px;
+            color: #1e3c72;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        /* Login */
+        .login-container {
             max-width: 400px;
-            width: 100%;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
-
-        .login-header {
-            padding: 32px 24px 16px;
+        .login-container h2 {
             text-align: center;
+            margin-bottom: 25px;
+            color: #1e3c72;
         }
-
-        .login-logo {
-            font-size: 32px;
-            font-weight: 800;
-        }
-
-        .login-logo span {
-            color: var(--primary);
-        }
-
         .login-tabs {
             display: flex;
-            gap: 8px;
-            padding: 0 24px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
         }
-
-        .login-tab {
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-weight: 500;
+        }
+        .tab.active {
+            color: #1e3c72;
+            border-bottom: 3px solid #1e3c72;
+        }
+        .login-form input, .login-form select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .login-form button {
+            width: 100%;
+            padding: 12px;
+            background: #1e3c72;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .login-form button:hover {
+            background: #2a4a8a;
+        }
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .service-card {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .service-card:hover {
+            border-color: #1e3c72;
+            background: #f0f4fa;
+        }
+        .service-card.selected {
+            border-color: #1e3c72;
+            background: #e6ecf5;
+        }
+        .service-card .emoji {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+        .service-card .title {
+            font-weight: 500;
+        }
+        /* Problèmes */
+        .problem-list {
+            margin-top: 20px;
+        }
+        .problem-item {
+            padding: 12px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .problem-item:hover {
+            border-color: #1e3c72;
+        }
+        .problem-item.selected {
+            border-color: #1e3c72;
+            background: #e6ecf5;
+        }
+        /* Techniciens */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .tech-card {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .tech-card:hover {
+            border-color: #1e3c72;
+        }
+        .tech-card.selected {
+            border-color: #1e3c72;
+            background: #e6ecf5;
+        }
+        .tech-card .avatar {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        .tech-card .name {
+            font-weight: bold;
+        }
+        .tech-card .rating {
+            color: #ffb400;
+            margin: 5px 0;
+        }
+        .tech-card .specialty {
+            font-size: 14px;
+            color: #666;
+        }
+        /* Support chat */
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #fafafa;
+        }
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+        }
+        .message.support {
+            justify-content: flex-start;
+        }
+        .message.client {
+            justify-content: flex-end;
+        }
+        .message .bubble {
+            max-width: 70%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            background: #e4e6eb;
+            word-wrap: break-word;
+        }
+        .message.client .bubble {
+            background: #1e3c72;
+            color: white;
+        }
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input-area input {
             flex: 1;
             padding: 12px;
-            text-align: center;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            background: transparent;
-            color: var(--text-gray);
-            border: 1px solid var(--border);
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
         }
-
-        .login-tab.active {
-            background: var(--primary);
+        .chat-input-area button {
+            padding: 12px 20px;
+            background: #1e3c72;
             color: white;
-            border-color: var(--primary);
-        }
-
-        .login-body {
-            padding: 0 24px 24px;
-        }
-
-        .login-field {
-            margin-bottom: 16px;
-        }
-
-        .login-field label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-gray);
-            margin-bottom: 6px;
-        }
-
-        .login-input {
-            width: 100%;
-            padding: 14px 16px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text);
-            font-size: 15px;
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 16px;
-            background: var(--primary);
             border: none;
-            border-radius: 8px;
-            color: white;
-            font-weight: 600;
+            border-radius: 5px;
             cursor: pointer;
-            margin-top: 8px;
         }
-
-        .login-btn:hover {
-            background: var(--primary-hover);
-        }
-
-        .login-error {
-            color: var(--danger);
-            font-size: 13px;
-            margin-top: 12px;
-            min-height: 20px;
-        }
-
-        /* Navbar */
-        #navbar {
+        /* Mission waiting */
+        .waiting-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            height: 70px;
-            background: var(--card);
-            border-bottom: 1px solid var(--border);
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 32px;
-            z-index: 100;
-        }
-
-        .nav-logo {
-            font-size: 22px;
-            font-weight: 800;
-            cursor: pointer;
-        }
-
-        .nav-logo span {
-            color: var(--primary);
-        }
-
-        .nav-user {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .nav-badge {
-            padding: 8px 16px;
-            background: rgba(227, 28, 35, 0.1);
-            border: 1px solid rgba(227, 28, 35, 0.3);
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .notification-bell {
-            position: relative;
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .notification-dot {
-            position: absolute;
-            top: -2px;
-            right: -2px;
-            width: 10px;
-            height: 10px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: none;
-        }
-
-        .notification-dot.active {
-            display: block;
-        }
-
-        .logout-btn {
-            padding: 8px 16px;
-            background: transparent;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text-gray);
-            cursor: pointer;
-        }
-
-        /* Main Container */
-        #main-container {
-            margin-top: 70px;
-            padding: 20px 32px;
-            display: none;
-        }
-
-        /* Views */
-        .view {
-            display: none;
-        }
-
-        .view.active {
-            display: block;
-        }
-
-        /* Support Chat */
-        .support-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: var(--whatsapp);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 28px;
-            cursor: pointer;
-            z-index: 90;
-            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
-        }
-
-        .support-modal {
-            position: fixed;
-            bottom: 100px;
-            right: 30px;
-            width: 350px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            display: none;
-            z-index: 95;
-        }
-
-        .support-modal.open {
-            display: block;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .support-header {
-            padding: 16px;
-            background: var(--whatsapp);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .support-avatar {
-            width: 40px;
-            height: 40px;
-            background: white;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--whatsapp);
-            font-weight: 700;
-        }
-
-        .support-messages {
-            height: 300px;
-            overflow-y: auto;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .message {
-            display: flex;
-            gap: 8px;
-            max-width: 80%;
-        }
-
-        .message.support {
-            align-self: flex-start;
-        }
-
-        .message.user {
-            align-self: flex-end;
-            flex-direction: row-reverse;
-        }
-
-        .message-avatar {
-            width: 28px;
-            height: 28px;
-            background: var(--whatsapp);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .message-bubble {
-            padding: 10px 14px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            font-size: 13px;
-        }
-
-        .message.support .message-bubble {
-            background: rgba(37, 211, 102, 0.1);
-            border-color: rgba(37, 211, 102, 0.3);
-        }
-
-        .message-time {
-            font-size: 10px;
-            color: var(--text-gray);
-            margin-top: 4px;
-            display: block;
-        }
-
-        .support-input {
-            padding: 12px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            gap: 8px;
-        }
-
-        .support-input input {
-            flex: 1;
-            padding: 12px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text);
-        }
-
-        .support-input button {
-            width: 45px;
-            height: 45px;
-            background: var(--whatsapp);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            cursor: pointer;
-        }
-
-        /* Home */
-        .hero {
-            min-height: 400px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            margin-bottom: 40px;
-        }
-
-        .hero h1 {
-            font-size: 48px;
-            font-weight: 800;
-            margin-bottom: 16px;
-        }
-
-        .hero h1 span {
-            color: var(--primary);
-        }
-
-        .hero p {
-            color: var(--text-gray);
-            font-size: 16px;
-            max-width: 500px;
-            margin-bottom: 24px;
-        }
-
-        .search-box {
-            max-width: 500px;
-            display: flex;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .search-box input {
-            flex: 1;
-            padding: 14px 20px;
-            background: transparent;
-            border: none;
-            color: var(--text);
-            font-size: 15px;
-            outline: none;
-        }
-
-        .search-box button {
-            padding: 0 24px;
-            background: var(--primary);
-            border: none;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .search-box button:hover {
-            background: var(--primary-hover);
-        }
-
-        /* Categories */
-        .section-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 16px;
-        }
-
-        .category-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .category-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-4px);
-        }
-
-        .category-icon {
-            font-size: 32px;
-            color: var(--primary);
-            margin-bottom: 12px;
-        }
-
-        .category-name {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .category-count {
-            font-size: 12px;
-            color: var(--text-gray);
-        }
-
-        /* Problems */
-        .problems-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1px;
-            background: var(--border);
-            border: 1px solid var(--border);
-            margin-top: 20px;
-        }
-
-        .problem-item {
-            background: var(--card);
-            padding: 16px 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .problem-item:hover {
-            background: rgba(227, 28, 35, 0.1);
-        }
-
-        .problem-item i {
-            color: var(--primary);
-        }
-
-        /* Technicians */
-        .technicians-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 16px;
-            margin-top: 20px;
-        }
-
-        .tech-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .tech-header {
-            padding: 16px;
-            background: rgba(227, 28, 35, 0.05);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .tech-avatar {
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            font-weight: 700;
-            color: white;
-        }
-
-        .tech-info h3 {
-            font-size: 16px;
-            margin-bottom: 4px;
-        }
-
-        .tech-info p {
-            font-size: 12px;
-            color: var(--text-gray);
-        }
-
-        .tech-body {
-            padding: 16px;
-        }
-
-        .tech-detail {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            margin-bottom: 8px;
-        }
-
-        .tech-detail i {
-            width: 18px;
-            color: var(--primary);
-        }
-
-        .tech-footer {
-            padding: 16px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .hire-btn {
-            padding: 8px 20px;
-            background: var(--primary);
-            border: none;
-            border-radius: 6px;
-            color: white;
-            font-weight: 600;
-            font-size: 12px;
-            cursor: pointer;
-        }
-
-        .hire-btn:hover {
-            background: var(--primary-hover);
-        }
-
-        /* Tech Dashboard */
-        .tech-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 20px;
-        }
-
-        .stat-number {
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 4px;
-        }
-
-        .missions-list {
-            display: grid;
-            gap: 16px;
-            margin-bottom: 30px;
-        }
-
-        .mission-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .mission-header {
-            padding: 16px;
-            background: rgba(227, 28, 35, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .mission-id {
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .mission-time {
-            font-size: 12px;
-            color: var(--text-gray);
-        }
-
-        .mission-body {
-            padding: 16px;
-        }
-
-        .mission-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 13px;
-        }
-
-        .mission-label {
-            color: var(--text-gray);
-        }
-
-        .mission-timer {
-            padding: 16px;
-            border-top: 1px solid var(--border);
-        }
-
-        .timer-bar {
             width: 100%;
-            height: 6px;
-            background: var(--border);
-            border-radius: 3px;
-            overflow: hidden;
-            margin: 8px 0;
-        }
-
-        .timer-progress {
             height: 100%;
-            background: var(--primary);
-            transition: width 1s linear;
-        }
-
-        .timer-text {
-            font-size: 12px;
-            color: var(--warning);
-        }
-
-        .mission-actions {
-            padding: 16px;
-            display: flex;
-            gap: 8px;
-            border-top: 1px solid var(--border);
-        }
-
-        .accept-btn {
-            flex: 1;
-            padding: 12px;
-            background: var(--success);
-            border: none;
-            border-radius: 6px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .decline-btn {
-            flex: 1;
-            padding: 12px;
-            background: var(--danger);
-            border: none;
-            border-radius: 6px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        /* Waiting Screen */
-        #waiting-screen {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(0,0,0,0.7);
             display: none;
-            align-items: center;
             justify-content: center;
-            z-index: 3000;
+            align-items: center;
+            z-index: 1000;
         }
-
-        #waiting-screen.active {
-            display: flex;
-        }
-
         .waiting-card {
-            max-width: 450px;
-            width: 90%;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 32px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
             text-align: center;
+            max-width: 400px;
         }
-
-        .waiting-spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid var(--border);
-            border-top-color: var(--primary);
+        .waiting-card .timer {
+            font-size: 48px;
+            font-weight: bold;
+            color: #1e3c72;
+            margin: 20px 0;
+        }
+        .waiting-card .status {
+            margin: 15px 0;
+            font-size: 18px;
+        }
+        .waiting-card .cancel-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        /* Recrutement form */
+        .recruit-form input, .recruit-form textarea, .recruit-form select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .recruit-form button {
+            width: 100%;
+            padding: 12px;
+            background: #1e3c72;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        /* Loading */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #1e3c72;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 24px;
         }
-
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-
-        .waiting-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .waiting-sub {
-            color: var(--text-gray);
-            margin-bottom: 24px;
-        }
-
-        .waiting-timer {
-            font-size: 48px;
-            font-weight: 800;
-            color: var(--warning);
-            margin-bottom: 24px;
-        }
-
-        .waiting-bar {
-            width: 100%;
-            height: 8px;
-            background: var(--border);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 16px;
-        }
-
-        .waiting-progress {
-            height: 100%;
-            background: var(--primary);
-            transition: width 1s linear;
-        }
-
-        .waiting-cancel {
-            margin-top: 16px;
-            color: var(--text-gray);
-            font-size: 14px;
-        }
-
-        .waiting-cancel button {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 8px 16px;
-            border-radius: 6px;
-            margin-left: 8px;
-            cursor: pointer;
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--primary);
-            color: white;
-            padding: 16px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            display: none;
-            z-index: 2000;
-        }
-
-        .back-btn {
-            padding: 8px 16px;
-            background: transparent;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: var(--text-gray);
-            cursor: pointer;
-            margin-bottom: 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .back-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
+        /* Responsive */
         @media (max-width: 768px) {
-            #main-container { padding: 20px; }
-            .stats-grid { grid-template-columns: 1fr; }
-            .support-modal { width: calc(100% - 40px); right: 20px; }
+            .main-container {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Login Page -->
-    <div id="login-page">
-        <div class="login-card">
-            <div class="login-header">
-                <div class="login-logo">MEN<span>TECH</span></div>
-                <p style="color: var(--text-gray); font-size: 13px;">Connectez-vous pour continuer</p>
-            </div>
-            
-            <div class="login-tabs">
-                <div class="login-tab active" onclick="switchTab('client')">CLIENT</div>
-                <div class="login-tab" onclick="switchTab('tech')">TECHNICIEN</div>
-            </div>
+    <div class="info-banner">
+        ⚡ Service rapide au Maroc · Support sur Discord <a href="#" id="discord-link">Rejoindre</a>
+    </div>
 
-            <div class="login-body">
-                <!-- Client Login -->
-                <div id="client-login">
-                    <div class="login-field">
-                        <label>Votre prénom</label>
-                        <input class="login-input" id="client-name" type="text" placeholder="Ex: Yassine">
+    <!-- Structure principale cachée tant que non connecté -->
+    <div id="app" style="display: none;">
+        <header>
+            <div class="header-container">
+                <div class="logo">MENT<span>ECH</span></div>
+                <div class="user-info">
+                    <span class="user-greeting" id="greeting"></span>
+                    <div class="notif-bell" id="notifBell">
+                        🔔
+                        <span class="notif-badge" id="notifBadge">1</span>
                     </div>
-                    <div class="login-field">
-                        <label>Votre téléphone</label>
-                        <input class="login-input" id="client-phone" type="tel" placeholder="06 XX XX XX XX">
-                    </div>
+                    <button class="logout-btn" id="logoutBtn">Déconnexion</button>
                 </div>
+            </div>
+        </header>
 
-                <!-- Tech Login -->
-                <div id="tech-login" style="display: none;">
-                    <div class="login-field">
-                        <label>Identifiant</label>
-                        <input class="login-input" id="tech-id" type="text" placeholder="Ex: TECH001">
-                    </div>
-                    <div class="login-field">
-                        <label>Mot de passe</label>
-                        <input class="login-input" id="tech-password" type="password" placeholder="••••••">
-                    </div>
+        <div class="main-container">
+            <div class="content" id="mainContent">
+                <!-- Le contenu dynamique sera injecté ici -->
+            </div>
+            <div class="sidebar">
+                <div class="card">
+                    <h3>📞 Support Client</h3>
+                    <p>Posez vos questions à Majda</p>
+                    <button id="openSupportBtn" style="width:100%; padding:10px; background:#1e3c72; color:white; border:none; border-radius:5px; cursor:pointer;">Ouvrir le chat</button>
                 </div>
-
-                <div class="login-error" id="login-error"></div>
-
-                <button class="login-btn" onclick="handleLogin()">
-                    SE CONNECTER
-                </button>
-
-                <p style="text-align: center; margin-top: 16px; font-size: 12px; color: var(--text-gray);">
-                    Pas encore technicien ? 
-                    <span style="color: var(--primary); cursor: pointer;" onclick="showRecruitment()">Rejoignez-nous</span>
-                </p>
+                <div class="card">
+                    <h3>🔧 Devenir technicien</h3>
+                    <p>Rejoignez notre réseau</p>
+                    <button id="openRecruitBtn" style="width:100%; padding:10px; background:#ff7e5f; color:white; border:none; border-radius:5px; cursor:pointer;">Postuler</button>
+                </div>
+                <div class="card">
+                    <h3>📍 Ma position</h3>
+                    <p id="cityDisplay">Ville: détection en cours...</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Navbar -->
-    <nav id="navbar">
-        <div class="nav-logo" onclick="goHome()">MEN<span>TECH</span></div>
-        <div class="nav-user">
-            <div class="nav-badge" id="user-badge">
-                <i class="fas fa-user"></i> <span id="user-name"></span>
-            </div>
-            <div class="notification-bell" onclick="showNotifications()">
-                <i class="fas fa-bell"></i>
-                <span class="notification-dot" id="notification-dot"></span>
-            </div>
-            <div class="logout-btn" onclick="logout()">
-                <i class="fas fa-sign-out-alt"></i>
-            </div>
+    <!-- Écran de login -->
+    <div id="loginContainer" class="login-container">
+        <h2>MENTECH</h2>
+        <div class="login-tabs">
+            <button class="tab active" id="tabClient">Client</button>
+            <button class="tab" id="tabTech">Technicien</button>
         </div>
-    </nav>
-
-    <!-- Main Container -->
-    <div id="main-container">
-        <!-- Client Views -->
-        <div id="client-views">
-            <!-- Home -->
-            <div class="view active" id="home-view">
-                <div class="hero">
-                    <h1>JUST <span>FIX IT.</span></h1>
-                    <p>Trouvez un technicien certifié près de chez vous</p>
-                    
-                    <div class="search-box">
-                        <input type="text" id="search-input" placeholder="Décrivez votre problème...">
-                        <button onclick="searchProblem()"><i class="fas fa-search"></i></button>
-                    </div>
-                </div>
-
-                <div>
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-                        <h2 class="section-title">NOS SERVICES</h2>
-                        <div style="color: var(--text-gray); font-size: 13px;">
-                            <i class="fas fa-map-marker-alt" style="color: var(--primary);"></i>
-                            <span id="location-display">Localisation...</span>
-                        </div>
-                    </div>
-                    <div class="categories-grid" id="categories-grid"></div>
-                </div>
-            </div>
-
-            <!-- Problems -->
-            <div class="view" id="problems-view">
-                <button class="back-btn" onclick="goHome()"><i class="fas fa-arrow-left"></i> Retour</button>
-                <h2 class="section-title" id="problems-title">Services</h2>
-                <div class="problems-grid" id="problems-grid"></div>
-            </div>
-
-            <!-- Technicians -->
-            <div class="view" id="techs-view">
-                <button class="back-btn" onclick="backToProblems()"><i class="fas fa-arrow-left"></i> Retour</button>
-                <h2 class="section-title" id="techs-title">Techniciens</h2>
-                <div class="technicians-grid" id="technicians-grid"></div>
-            </div>
-
-            <!-- Recruitment -->
-            <div class="view" id="recruitment-view">
-                <button class="back-btn" onclick="goHome()"><i class="fas fa-arrow-left"></i> Retour</button>
-                
-                <div style="max-width: 500px; margin: 0 auto; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 32px;">
-                    <h2 style="text-align: center; margin-bottom: 24px;">REJOINDRE MENTECH</h2>
-                    
-                    <div style="margin-bottom: 20px;">
-                        <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px;">Nom complet</label>
-                        <input class="login-input" id="recruit-name" placeholder="Ex: Yassine Ezher">
-                    </div>
-                    <div style="margin-bottom: 20px;">
-                        <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px;">Téléphone</label>
-                        <input class="login-input" id="recruit-phone" placeholder="06 XX XX XX XX">
-                    </div>
-                    <div style="margin-bottom: 20px;">
-                        <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px;">Email</label>
-                        <input class="login-input" id="recruit-email" placeholder="email@exemple.com">
-                    </div>
-                    <div style="margin-bottom: 20px;">
-                        <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px;">Ville</label>
-                        <input class="login-input" id="recruit-city" placeholder="Ex: Casablanca">
-                    </div>
-                    <div style="margin-bottom: 20px;">
-                        <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px;">Spécialité</label>
-                        <select class="login-input" id="recruit-specialty">
-                            <option>Électricité</option>
-                            <option>Plomberie</option>
-                            <option>Antenne/Parabole</option>
-                            <option>Téléphone</option>
-                            <option>Climatisation</option>
-                            <option>Menuiserie</option>
-                            <option>Peinture</option>
-                            <option>Nettoyage</option>
-                        </select>
-                    </div>
-                    <div style="margin-bottom: 20px;">
-                        <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px;">CV (PDF)</label>
-                        <div style="padding: 30px; background: var(--bg); border: 2px dashed var(--border); border-radius: 12px; text-align: center; cursor: pointer;" onclick="document.getElementById('cv-file').click()">
-                            <i class="fas fa-cloud-upload-alt" style="font-size: 32px; color: var(--primary); margin-bottom: 8px;"></i>
-                            <span id="cv-file-name">Cliquez pour sélectionner</span>
-                        </div>
-                        <input type="file" id="cv-file" accept=".pdf" style="display: none;" onchange="updateCVName(this)">
-                    </div>
-                    <button class="login-btn" onclick="submitRecruitment()">ENVOYER MA CANDIDATURE</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tech Views -->
-        <div id="tech-views" style="display: none;">
-            <div class="tech-stats">
-                <div class="stat-card">
-                    <div class="stat-number" id="pending-count">0</div>
-                    <div class="stat-label">En attente</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="completed-count">0</div>
-                    <div class="stat-label">Terminées</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="total-earned">0</div>
-                    <div class="stat-label">MAD gagnés</div>
-                </div>
-            </div>
-
-            <h2 class="section-title">MISSIONS EN ATTENTE</h2>
-            <div class="missions-list" id="pending-missions"></div>
-
-            <h2 class="section-title">HISTORIQUE</h2>
-            <div class="missions-list" id="completed-missions"></div>
+        <div id="loginForm" class="login-form">
+            <!-- Contenu généré par JS -->
         </div>
     </div>
 
-    <!-- Support Chat -->
-    <div class="support-btn" onclick="toggleSupport()">
-        <i class="fab fa-whatsapp"></i>
-    </div>
-
-    <div class="support-modal" id="support-modal">
-        <div class="support-header">
-            <div class="support-avatar">M</div>
-            <div>
-                <h4>Support</h4>
-                <p>En ligne • Réponse rapide</p>
-            </div>
+    <!-- Modale de chat support -->
+    <div id="supportModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; width:90%; max-width:500px; border-radius:10px; box-shadow:0 10px 40px rgba(0,0,0,0.3); z-index:2000;">
+        <div style="padding:20px; border-bottom:1px solid #eee; display:flex; justify-content:space-between;">
+            <h3>💬 Support - Majda</h3>
+            <button id="closeSupportBtn" style="background:none; border:none; font-size:20px; cursor:pointer;">&times;</button>
         </div>
-        <div class="support-messages" id="support-messages"></div>
-        <div class="support-input">
-            <input type="text" id="support-input" placeholder="Écrire un message..." onkeypress="if(event.key==='Enter') sendSupport()">
-            <button onclick="sendSupport()"><i class="fas fa-paper-plane"></i></button>
+        <div id="supportMessages" class="chat-messages" style="height:300px; padding:15px; overflow-y:auto;">
+            <!-- Messages -->
+        </div>
+        <div style="padding:15px; border-top:1px solid #eee; display:flex; gap:10px;">
+            <input type="text" id="supportInput" placeholder="Écrivez votre message..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:5px;">
+            <button id="sendSupportBtn" style="padding:10px 20px; background:#1e3c72; color:white; border:none; border-radius:5px;">Envoyer</button>
         </div>
     </div>
 
-    <!-- Waiting Screen -->
-    <div id="waiting-screen">
+    <!-- Modale d'attente de mission -->
+    <div id="waitingModal" class="waiting-overlay">
         <div class="waiting-card">
-            <div class="waiting-spinner"></div>
-            <h2 class="waiting-title">EN ATTENTE</h2>
-            <p class="waiting-sub" id="waiting-message">En attente de confirmation du technicien...</p>
-            <div class="waiting-timer" id="waiting-timer">30s</div>
-            <div class="waiting-bar">
-                <div class="waiting-progress" id="waiting-progress" style="width: 100%;"></div>
-            </div>
-            <div class="waiting-cancel">
-                <span>Annuler la demande</span>
-                <button onclick="cancelWaiting()">Annuler</button>
-            </div>
+            <h3>⏳ Recherche du technicien</h3>
+            <div class="timer" id="waitingTimer">30</div>
+            <div class="status" id="waitingStatus">En attente de réponse...</div>
+            <button class="cancel-btn" id="cancelMissionBtn">Annuler</button>
         </div>
     </div>
 
-    <!-- Toast -->
-    <div class="toast" id="toast"></div>
+    <!-- Modale de recrutement -->
+    <div id="recruitModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; width:90%; max-width:500px; border-radius:10px; box-shadow:0 10px 40px rgba(0,0,0,0.3); z-index:2000; max-height:80vh; overflow-y:auto;">
+        <div style="padding:20px; border-bottom:1px solid #eee; display:flex; justify-content:space-between;">
+            <h3>📝 Devenir technicien</h3>
+            <button id="closeRecruitBtn" style="background:none; border:none; font-size:20px; cursor:pointer;">&times;</button>
+        </div>
+        <div style="padding:20px;">
+            <form id="recruitForm" class="recruit-form">
+                <input type="text" id="recruitName" placeholder="Nom complet" required>
+                <input type="tel" id="recruitPhone" placeholder="Téléphone" required>
+                <input type="email" id="recruitEmail" placeholder="Email" required>
+                <input type="text" id="recruitCity" placeholder="Ville" required>
+                <select id="recruitSpecialty" required>
+                    <option value="">Spécialité</option>
+                    <option>Électricien</option>
+                    <option>Plombier</option>
+                    <option>Antenniste</option>
+                    <option>Réparateur téléphone</option>
+                    <option>Climatisation</option>
+                    <option>Électroménager</option>
+                </select>
+                <label for="recruitCV">CV (PDF)</label>
+                <input type="file" id="recruitCV" accept=".pdf" required>
+                <button type="submit">Envoyer ma candidature</button>
+            </form>
+        </div>
+    </div>
 
     <script>
-        // ==================== CONFIG ====================
-        const SUPPORT_WEBHOOK = 'https://discord.com/api/webhooks/1473875137165135924/jkbRfQ1NtKICiKfVLJ5mb7aCcEyoyXECjv35lL5FgvP6v8hv3Pq7nnZr3SZt8hpetv6O';
-        const CONFIRMATION_WEBHOOK = 'https://discord.com/api/webhooks/1473811156626837617/N1_ynWzRTcgErVHaV2OiOq8bWmAnLtU8FDOqAYOia621T6u-XhIrfBJgHE6t4EPzbDhC';
-        const RECRUITMENT_WEBHOOK = 'https://discord.com/api/webhooks/1473825828700946555/TU29M7GsUXb24Hn8nphfviURKa3uHdt6KA5JyVWvzkLvj83Moy7UdZWR0-GXE1O-fIYj';
-        
-        const TECH_ACCOUNTS = {
-            'TECH001': 'mentech2025',
-            'YASSINE': 'ezher123',
-            'MOHAMED': 'berrada123',
-            'SAID': 'bennani123',
-            'RACHID': 'cherkaoui123'
-        };
+        // ---------- CONFIGURATION ----------
+        const API_BASE_URL = 'https://mentech-backend.pxxl.click'; // À remplacer par l'URL de votre backend après déploiement
+        // -----------------------------------
 
-        // ==================== STATE ====================
-        let currentUser = null;
-        let currentRole = null;
-        let currentCity = 'Maroc';
-        let currentService = null;
-        let currentProblem = null;
-        let currentTech = null;
-        let currentMission = null;
-        let missions = [];
-        let waitingTimer = null;
+        // État global
+        let currentUser = null; // { type: 'client' ou 'tech', name, phone ou id }
+        let currentSessionId = null;
+        let supportLastMessageId = 0;
+        let supportPollInterval = null;
+        let currentMissionId = null;
+        let waitingTimerInterval = null;
         let waitingSeconds = 30;
-        let notificationInterval = null;
-        let supportMessages = [];
-        let supportCheckInterval = null;
-        let lastMessageCount = 0;
+        let notifications = [];
 
-        // ==================== LOGIN ====================
-        function switchTab(role) {
-            document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            if (role === 'client') {
-                document.getElementById('client-login').style.display = 'block';
-                document.getElementById('tech-login').style.display = 'none';
+        // Éléments DOM
+        const loginContainer = document.getElementById('loginContainer');
+        const appContainer = document.getElementById('app');
+        const mainContent = document.getElementById('mainContent');
+        const loginFormDiv = document.getElementById('loginForm');
+        const tabClient = document.getElementById('tabClient');
+        const tabTech = document.getElementById('tabTech');
+        const greeting = document.getElementById('greeting');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const notifBell = document.getElementById('notifBell');
+        const notifBadge = document.getElementById('notifBadge');
+        const openSupportBtn = document.getElementById('openSupportBtn');
+        const supportModal = document.getElementById('supportModal');
+        const closeSupportBtn = document.getElementById('closeSupportBtn');
+        const supportMessages = document.getElementById('supportMessages');
+        const supportInput = document.getElementById('supportInput');
+        const sendSupportBtn = document.getElementById('sendSupportBtn');
+        const waitingModal = document.getElementById('waitingModal');
+        const waitingTimer = document.getElementById('waitingTimer');
+        const waitingStatus = document.getElementById('waitingStatus');
+        const cancelMissionBtn = document.getElementById('cancelMissionBtn');
+        const openRecruitBtn = document.getElementById('openRecruitBtn');
+        const recruitModal = document.getElementById('recruitModal');
+        const closeRecruitBtn = document.getElementById('closeRecruitBtn');
+        const recruitForm = document.getElementById('recruitForm');
+        const cityDisplay = document.getElementById('cityDisplay');
+
+        // Données des services et techniciens
+        const services = [
+            { id: 'electricite', name: 'Électricité', emoji: '⚡', problems: ['Panne de courant', 'Prise défectueuse', 'Installation', 'Tableau électrique'] },
+            { id: 'plomberie', name: 'Plomberie', emoji: '🔧', problems: ['Fuite d\'eau', 'Robinet qui fuit', 'Chasse d\'eau', 'Débouchage'] },
+            { id: 'antenne', name: 'Antenne & TV', emoji: '📡', problems: ['Pas de signal', 'Mauvaise réception', 'Installation', 'Réorientation'] },
+            { id: 'telephone', name: 'Téléphone', emoji: '📱', problems: ['Écran cassé', 'Batterie', 'Chargeur', 'Logiciel'] },
+            { id: 'climatisation', name: 'Climatisation', emoji: '❄️', problems: ['En panne', 'Fuite gaz', 'Nettoyage', 'Installation'] },
+            { id: 'electromenager', name: 'Électroménager', emoji: '🧺', problems: ['Lave-linge', 'Réfrigérateur', 'Four', 'Lave-vaisselle'] },
+            { id: 'serrurerie', name: 'Serrurerie', emoji: '🔑', problems: ['Porte bloquée', 'Changement serrure', 'Clé perdue'] },
+            { id: 'informatique', name: 'Informatique', emoji: '💻', problems: ['Ordinateur lent', 'Virus', 'Installation', 'Réseau'] }
+        ];
+
+        const techniciens = [
+            { id: 'TECH001', name: 'Karim', specialty: 'Électricien', rating: 4.8, avatar: '👨‍🔧', city: 'Casablanca' },
+            { id: 'YASSINE', name: 'Yassine', specialty: 'Plombier', rating: 4.9, avatar: '👨‍🔧', city: 'Rabat' },
+            { id: 'TECH003', name: 'Mehdi', specialty: 'Antenniste', rating: 4.7, avatar: '👨‍🔧', city: 'Fès' },
+            { id: 'TECH004', name: 'Omar', specialty: 'Réparateur téléphone', rating: 4.6, avatar: '👨‍🔧', city: 'Marrakech' },
+            { id: 'TECH005', name: 'Hassan', specialty: 'Climatisation', rating: 4.9, avatar: '👨‍🔧', city: 'Tanger' },
+            { id: 'TECH006', name: 'Rachid', specialty: 'Électroménager', rating: 4.5, avatar: '👨‍🔧', city: 'Agadir' },
+            { id: 'TECH007', name: 'Said', specialty: 'Serrurier', rating: 4.8, avatar: '👨‍🔧', city: 'Meknès' }
+        ];
+
+        // Détection de la ville
+        function detectCity() {
+            fetch('https://ipapi.co/json/')
+                .then(res => res.json())
+                .then(data => {
+                    const city = data.city || 'Casablanca';
+                    cityDisplay.textContent = `Ville: ${city}`;
+                    localStorage.setItem('userCity', city);
+                })
+                .catch(() => {
+                    cityDisplay.textContent = 'Ville: Non détectée';
+                });
+        }
+
+        // Gestion du login
+        function showLogin() {
+            loginContainer.style.display = 'block';
+            appContainer.style.display = 'none';
+            renderLoginForm('client');
+        }
+
+        function renderLoginForm(type) {
+            if (type === 'client') {
+                loginFormDiv.innerHTML = `
+                    <input type="text" id="clientName" placeholder="Votre nom" required>
+                    <input type="tel" id="clientPhone" placeholder="Téléphone" required>
+                    <button id="loginClientBtn">Se connecter comme client</button>
+                `;
+                document.getElementById('loginClientBtn').addEventListener('click', loginClient);
             } else {
-                document.getElementById('client-login').style.display = 'none';
-                document.getElementById('tech-login').style.display = 'block';
+                loginFormDiv.innerHTML = `
+                    <input type="text" id="techId" placeholder="Identifiant" required>
+                    <input type="password" id="techPassword" placeholder="Mot de passe" required>
+                    <button id="loginTechBtn">Se connecter comme technicien</button>
+                `;
+                document.getElementById('loginTechBtn').addEventListener('click', loginTech);
             }
         }
 
-        function handleLogin() {
-            const activeTab = document.querySelector('.login-tab.active').textContent.trim();
-            
-            if (activeTab === 'CLIENT') {
-                const name = document.getElementById('client-name').value.trim();
-                const phone = document.getElementById('client-phone').value.trim();
-                
-                if (!name || !phone) {
-                    document.getElementById('login-error').textContent = 'Veuillez remplir tous les champs';
-                    return;
-                }
-                
-                currentUser = { name, phone, role: 'client' };
-                currentRole = 'client';
-                
+        function loginClient() {
+            const name = document.getElementById('clientName').value.trim();
+            const phone = document.getElementById('clientPhone').value.trim();
+            if (!name || !phone) return alert('Veuillez remplir tous les champs');
+            currentUser = { type: 'client', name, phone };
+            currentSessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('mentech_user', JSON.stringify(currentUser));
+            localStorage.setItem('mentech_session', currentSessionId);
+            loginContainer.style.display = 'none';
+            appContainer.style.display = 'block';
+            greeting.textContent = `Bonjour, ${name}`;
+            loadClientDashboard();
+            detectCity();
+        }
+
+        function loginTech() {
+            const id = document.getElementById('techId').value.trim();
+            const pwd = document.getElementById('techPassword').value.trim();
+            const validTechs = { 'TECH001': 'mentech2025', 'YASSINE': 'ezher123' };
+            if (validTechs[id] && validTechs[id] === pwd) {
+                const tech = techniciens.find(t => t.id === id) || { name: id, specialty: 'Technicien' };
+                currentUser = { type: 'tech', id, name: tech.name };
+                localStorage.setItem('mentech_user', JSON.stringify(currentUser));
+                loginContainer.style.display = 'none';
+                appContainer.style.display = 'block';
+                greeting.textContent = `Bonjour, ${tech.name}`;
+                loadTechDashboard();
+                detectCity();
             } else {
-                const id = document.getElementById('tech-id').value.trim();
-                const pass = document.getElementById('tech-password').value.trim();
-                
-                if (!id || !pass) {
-                    document.getElementById('login-error').textContent = 'Veuillez remplir tous les champs';
-                    return;
-                }
-                
-                if (TECH_ACCOUNTS[id] && TECH_ACCOUNTS[id] === pass) {
-                    currentUser = { name: id, role: 'tech' };
-                    currentRole = 'tech';
-                } else {
-                    document.getElementById('login-error').textContent = 'Identifiant ou mot de passe incorrect';
-                    return;
-                }
-            }
-            
-            // Login success
-            document.getElementById('login-page').style.display = 'none';
-            document.getElementById('navbar').style.display = 'flex';
-            document.getElementById('main-container').style.display = 'block';
-            document.getElementById('user-name').textContent = currentUser.name;
-            
-            if (currentRole === 'tech') {
-                document.getElementById('client-views').style.display = 'none';
-                document.getElementById('tech-views').style.display = 'block';
-                document.getElementById('user-badge').innerHTML = '<i class="fas fa-toolbox"></i> ' + currentUser.name;
-                loadTechMissions();
-                startNotificationCheck();
-            } else {
-                document.getElementById('client-views').style.display = 'block';
-                document.getElementById('tech-views').style.display = 'none';
-                document.getElementById('user-badge').innerHTML = '<i class="fas fa-user"></i> ' + currentUser.name;
-                buildCategories();
-                detectLocation();
-                startSupportCheck();
+                alert('Identifiant ou mot de passe incorrect');
             }
         }
 
-        function logout() {
+        tabClient.addEventListener('click', () => {
+            tabClient.classList.add('active');
+            tabTech.classList.remove('active');
+            renderLoginForm('client');
+        });
+        tabTech.addEventListener('click', () => {
+            tabTech.classList.add('active');
+            tabClient.classList.remove('active');
+            renderLoginForm('tech');
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('mentech_user');
+            localStorage.removeItem('mentech_session');
+            if (supportPollInterval) clearInterval(supportPollInterval);
             currentUser = null;
-            currentRole = null;
-            document.getElementById('login-page').style.display = 'flex';
-            document.getElementById('navbar').style.display = 'none';
-            document.getElementById('main-container').style.display = 'none';
-            if (notificationInterval) clearInterval(notificationInterval);
-            if (supportCheckInterval) clearInterval(supportCheckInterval);
+            showLogin();
+        });
+
+        // Chargement des tableaux de bord
+        function loadClientDashboard() {
+            mainContent.innerHTML = `
+                <h2>Trouver un technicien</h2>
+                <div id="step1">
+                    <h3>1. Choisissez un service</h3>
+                    <div class="services-grid" id="servicesGrid"></div>
+                </div>
+                <div id="step2" style="display:none;">
+                    <h3>2. Quel est le problème ?</h3>
+                    <div class="problem-list" id="problemList"></div>
+                    <button id="backToServices" style="margin-top:10px;">← Retour</button>
+                </div>
+                <div id="step3" style="display:none;">
+                    <h3>3. Choisissez un technicien</h3>
+                    <div class="tech-grid" id="techGrid"></div>
+                    <button id="backToProblems" style="margin-top:10px;">← Retour</button>
+                </div>
+            `;
+            renderServices();
         }
 
-        // ==================== LOCATION ====================
-        function detectLocation() {
-            if (!navigator.geolocation) {
-                setCity('Maroc');
+        function renderServices() {
+            const grid = document.getElementById('servicesGrid');
+            services.forEach(s => {
+                const card = document.createElement('div');
+                card.className = 'service-card';
+                card.innerHTML = `<div class="emoji">${s.emoji}</div><div class="title">${s.name}</div>`;
+                card.addEventListener('click', () => selectService(s));
+                grid.appendChild(card);
+            });
+        }
+
+        let selectedService = null;
+        function selectService(service) {
+            selectedService = service;
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+            const problemList = document.getElementById('problemList');
+            problemList.innerHTML = '';
+            service.problems.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'problem-item';
+                div.textContent = p;
+                div.addEventListener('click', () => selectProblem(p));
+                problemList.appendChild(div);
+            });
+        }
+
+        let selectedProblem = null;
+        function selectProblem(problem) {
+            selectedProblem = problem;
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step3').style.display = 'block';
+            renderTechsForService(selectedService);
+        }
+
+        function renderTechsForService(service) {
+            const grid = document.getElementById('techGrid');
+            grid.innerHTML = '';
+            const filtered = techniciens.filter(t => t.specialty.includes(service.name) || service.name.includes(t.specialty));
+            if (filtered.length === 0) {
+                grid.innerHTML = '<p>Aucun technicien disponible pour ce service dans votre région.</p>';
                 return;
             }
-            navigator.geolocation.getCurrentPosition(
-                async (pos) => {
-                    try {
-                        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json&accept-language=fr`);
-                        const data = await res.json();
-                        const city = data.address.city || data.address.town || data.address.village || 'Maroc';
-                        setCity(city);
-                    } catch {
-                        setCity('Ain Aouda');
-                    }
-                },
-                () => setCity('Ain Aouda')
-            );
+            filtered.forEach(t => {
+                const card = document.createElement('div');
+                card.className = 'tech-card';
+                card.innerHTML = `
+                    <div class="avatar">${t.avatar}</div>
+                    <div class="name">${t.name}</div>
+                    <div class="rating">★ ${t.rating}</div>
+                    <div class="specialty">${t.specialty}</div>
+                `;
+                card.addEventListener('click', () => selectTech(t));
+                grid.appendChild(card);
+            });
         }
 
-        function setCity(city) {
-            currentCity = city;
-            document.getElementById('location-display').textContent = city;
-        }
-
-        // ==================== TOAST ====================
-        function showToast(msg, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.style.background = type === 'success' ? 'var(--primary)' : 'var(--danger)';
-            toast.style.display = 'block';
-            setTimeout(() => toast.style.display = 'none', 3000);
-        }
-
-        // ==================== SUPPORT ====================
-        function toggleSupport() {
-            const modal = document.getElementById('support-modal');
-            modal.classList.toggle('open');
-            if (modal.classList.contains('open')) {
-                loadSupportMessages();
-            }
-        }
-
-        function loadSupportMessages() {
-            const saved = localStorage.getItem('mentech_support_' + currentUser?.name);
-            if (saved) {
-                supportMessages = JSON.parse(saved);
-                renderSupportMessages();
-            } else {
-                const welcomeMsg = {
-                    id: Date.now(),
-                    text: 'Salam! Comment puis-je vous aider?',
-                    sender: 'support',
-                    time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
-                };
-                supportMessages = [welcomeMsg];
-                saveSupportMessages();
-                renderSupportMessages();
-            }
-        }
-
-        function saveSupportMessages() {
-            if (currentUser) {
-                localStorage.setItem('mentech_support_' + currentUser.name, JSON.stringify(supportMessages));
-            }
-        }
-
-        function renderSupportMessages() {
-            const container = document.getElementById('support-messages');
-            container.innerHTML = supportMessages.map(msg => `
-                <div class="message ${msg.sender}">
-                    <div class="message-avatar">${msg.sender === 'support' ? 'M' : 'U'}</div>
-                    <div class="message-bubble">
-                        <div>${msg.text}</div>
-                        <span class="message-time">${msg.time}</span>
-                    </div>
-                </div>
-            `).join('');
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function startSupportCheck() {
-            supportCheckInterval = setInterval(() => {
-                // Vérifier les nouvelles réponses dans localStorage
-                const saved = localStorage.getItem('mentech_support_replies');
-                if (saved) {
-                    const replies = JSON.parse(saved);
-                    const newReplies = replies.filter(r => !supportMessages.some(m => m.id === r.id));
-                    
-                    if (newReplies.length > 0) {
-                        supportMessages = [...supportMessages, ...newReplies];
-                        saveSupportMessages();
-                        renderSupportMessages();
-                    }
-                }
-            }, 2000);
-        }
-
-        async function sendSupport() {
-            const input = document.getElementById('support-input');
-            const text = input.value.trim();
-            if (!text || !currentUser) return;
-            
-            const time = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-            const msgId = Date.now();
-            
-            const userMsg = {
-                id: msgId,
-                text: text,
-                sender: 'user',
-                time: time
-            };
-            
-            supportMessages.push(userMsg);
-            saveSupportMessages();
-            renderSupportMessages();
-            
-            input.value = '';
-            
-            // Send to Discord
-            try {
-                await fetch(SUPPORT_WEBHOOK, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        content: `📞 **SUPPORT**\n👤 **Client:** ${currentUser.name}\n📱 **Tél:** ${currentUser.phone}\n💬 **Message:** ${text}`
-                    })
-                });
-            } catch (e) {}
-            
-            // Simuler une réponse automatique après 2 secondes
-            setTimeout(() => {
-                const replyId = Date.now() + 1;
-                const replyMsg = {
-                    id: replyId,
-                    text: 'Merci pour votre message. Un agent va vous répondre dans quelques instants.',
-                    sender: 'support',
-                    time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
-                };
-                
-                supportMessages.push(replyMsg);
-                saveSupportMessages();
-                renderSupportMessages();
-            }, 2000);
-        }
-
-        // ==================== SERVICES ====================
-        const SERVICES = [
-            { id: 'electricite', name: 'Électricité', icon: 'fa-bolt', count: 12, techs: ['Mohamed Berrada', 'Said Bennani'] },
-            { id: 'plomberie', name: 'Plomberie', icon: 'fa-wrench', count: 8, techs: ['Youssef El Idrissi', 'Rachid Cherkaoui'] },
-            { id: 'antenne', name: 'Antenne/Parabole', icon: 'fa-satellite-dish', count: 6, techs: ['Yassine Ezher', 'Karim Naciri'] },
-            { id: 'telephone', name: 'Téléphone', icon: 'fa-mobile-alt', count: 15, techs: ['Said Bennani', 'Hicham Zouheir'] },
-            { id: 'climatisation', name: 'Climatisation', icon: 'fa-snowflake', count: 7, techs: ['Rachid Cherkaoui', 'Mohamed Berrada'] },
-            { id: 'menuiserie', name: 'Menuiserie', icon: 'fa-tree', count: 5, techs: ['Hicham Zouheir'] },
-            { id: 'peinture', name: 'Peinture', icon: 'fa-paint-roller', count: 9, techs: ['Karim Naciri'] },
-            { id: 'nettoyage', name: 'Nettoyage', icon: 'fa-broom', count: 11, techs: ['Youssef El Idrissi'] }
-        ];
-
-        const PROBLEMS = {
-            electricite: ['Panne de courant', 'Court-circuit', 'Disjoncteur qui saute', 'Prise défectueuse', 'Installation tableau'],
-            plomberie: ['Fuite d\'eau', 'WC bouché', 'Chauffe-eau en panne', 'Robinet qui fuit', 'Douche bouchée'],
-            antenne: ['Pas de signal', 'Image qui neige', 'Installation antenne', 'Orientation parabole', 'Câble endommagé'],
-            telephone: ['Écran cassé', 'Batterie qui tient pas', 'Ne charge pas', 'Haut-parleur HS', 'Téléphone lent'],
-            climatisation: ['Ne refroidit pas', 'Fuite d\'eau', 'Installation neuve', 'Recharge gaz', 'Bruit anormal'],
-            menuiserie: ['Porte qui grince', 'Fenêtre bloquée', 'Montage meuble', 'Pose parquet', 'Réparation meuble'],
-            peinture: ['Peinture intérieure', 'Peinture extérieure', 'Enduit lissage', 'Pose papier peint', 'Ravalement'],
-            nettoyage: ['Nettoyage complet', 'Lavage vitres', 'Nettoyage tapis', 'Désinfection', 'Après travaux']
-        };
-
-        const TECHNICIANS = [
-            { id: 1, name: 'Yassine Ezher', specialty: 'antenne', rating: 5.0, reviews: 312, phone: '0719089944' },
-            { id: 2, name: 'Mohamed Berrada', specialty: 'electricite', rating: 4.9, reviews: 234, phone: '0612345678' },
-            { id: 3, name: 'Youssef El Idrissi', specialty: 'plomberie', rating: 4.8, reviews: 187, phone: '0634567890' },
-            { id: 4, name: 'Said Bennani', specialty: 'telephone', rating: 4.9, reviews: 312, phone: '0656789012' },
-            { id: 5, name: 'Rachid Cherkaoui', specialty: 'climatisation', rating: 4.8, reviews: 143, phone: '0667890123' },
-            { id: 6, name: 'Hicham Zouheir', specialty: 'menuiserie', rating: 4.7, reviews: 132, phone: '0678901234' },
-            { id: 7, name: 'Karim Naciri', specialty: 'antenne', rating: 4.7, reviews: 156, phone: '0645678901' }
-        ];
-
-        // ==================== CLIENT FLOW ====================
-        function buildCategories() {
-            document.getElementById('categories-grid').innerHTML = SERVICES.map(s => `
-                <div class="category-card" onclick="selectService('${s.id}')">
-                    <div class="category-icon"><i class="fas ${s.icon}"></i></div>
-                    <div class="category-name">${s.name}</div>
-                    <div class="category-count">${s.count} techniciens</div>
-                </div>
-            `).join('');
-        }
-
-        function selectService(serviceId) {
-            currentService = SERVICES.find(s => s.id === serviceId);
-            document.getElementById('problems-title').textContent = currentService.name;
-            
-            const problems = PROBLEMS[serviceId] || [];
-            document.getElementById('problems-grid').innerHTML = problems.map(p => `
-                <div class="problem-item" onclick="selectProblem('${p}')">
-                    <span>${p}</span>
-                    <i class="fas fa-arrow-right"></i>
-                </div>
-            `).join('');
-            
-            showClientView('problems-view');
-        }
-
-        function selectProblem(problem) {
-            currentProblem = problem;
-            document.getElementById('techs-title').textContent = problem;
-            
-            const techs = TECHNICIANS.filter(t => t.specialty === currentService.id);
-            
-            document.getElementById('technicians-grid').innerHTML = techs.map(t => `
-                <div class="tech-card">
-                    <div class="tech-header">
-                        <div class="tech-avatar">${t.name.charAt(0)}</div>
-                        <div class="tech-info">
-                            <h3>${t.name}</h3>
-                            <p>${currentService.name}</p>
-                        </div>
-                    </div>
-                    <div class="tech-body">
-                        <div class="tech-detail">
-                            <i class="fas fa-star" style="color: #FBBF24;"></i>
-                            <span>${t.rating} (${t.reviews} avis)</span>
-                        </div>
-                        <div class="tech-detail">
-                            <i class="fas fa-phone"></i>
-                            <span>${t.phone}</span>
-                        </div>
-                    </div>
-                    <div class="tech-footer">
-                        <span style="color: var(--warning);">Prix à négocier</span>
-                        <button class="hire-btn" onclick="createMission(${t.id})">Engager</button>
-                    </div>
-                </div>
-            `).join('');
-            
-            showClientView('techs-view');
-        }
-
-        function backToProblems() {
-            if (currentService) selectService(currentService.id);
-        }
-
-        function goHome() {
-            showClientView('home-view');
-        }
-
-        function showClientView(viewId) {
-            document.querySelectorAll('#client-views .view').forEach(v => v.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
-        }
-
-        // ==================== WAITING SCREEN ====================
-        function showWaitingScreen(techName) {
-            const screen = document.getElementById('waiting-screen');
-            document.getElementById('waiting-message').textContent = `En attente de confirmation de ${techName}...`;
-            document.getElementById('waiting-timer').textContent = '30s';
-            document.getElementById('waiting-progress').style.width = '100%';
-            screen.classList.add('active');
-            
-            waitingSeconds = 30;
-            startWaitingTimer();
-        }
-
-        function startWaitingTimer() {
-            if (waitingTimer) clearInterval(waitingTimer);
-            
-            waitingTimer = setInterval(() => {
-                waitingSeconds--;
-                document.getElementById('waiting-timer').textContent = waitingSeconds + 's';
-                document.getElementById('waiting-progress').style.width = (waitingSeconds / 30 * 100) + '%';
-                
-                if (waitingSeconds <= 0) {
-                    clearInterval(waitingTimer);
-                    handleTimeout();
-                }
-            }, 1000);
-        }
-
-        function handleTimeout() {
-            document.getElementById('waiting-screen').classList.remove('active');
-            if (currentMission) {
-                currentMission.status = 'declined';
-                saveMissions();
-            }
-            showToast('⏱️ Délai dépassé - Mission annulée', 'error');
-            goHome();
-        }
-
-        function cancelWaiting() {
-            clearInterval(waitingTimer);
-            document.getElementById('waiting-screen').classList.remove('active');
-            if (currentMission) {
-                currentMission.status = 'declined';
-                saveMissions();
-            }
-            showToast('Mission annulée', 'error');
-            goHome();
-        }
-
-        // ==================== MISSIONS ====================
-        async function createMission(techId) {
-            const tech = TECHNICIANS.find(t => t.id === techId);
-            currentTech = tech;
-            
-            const missionId = 'MT-' + Date.now().toString(36).toUpperCase();
-            const now = new Date().toLocaleString('fr-FR');
-            
-            currentMission = {
+        function selectTech(tech) {
+            // Créer la mission
+            const missionId = 'mission_' + Date.now();
+            currentMissionId = missionId;
+            const mission = {
                 id: missionId,
                 clientName: currentUser.name,
                 clientPhone: currentUser.phone,
                 techName: tech.name,
-                techPhone: tech.phone,
-                service: currentService.name,
-                problem: currentProblem,
-                city: currentCity,
-                time: now,
-                status: 'pending',
-                createdAt: Date.now()
+                techId: tech.id,
+                service: selectedService.name,
+                problem: selectedProblem,
+                city: cityDisplay.textContent.replace('Ville: ', '') || 'Maroc'
             };
-            
-            missions.push(currentMission);
-            saveMissions();
-            
-            // Send to Discord confirmation channel
-            try {
-                await fetch(CONFIRMATION_WEBHOOK, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        content: `🔧 **NOUVELLE MISSION - ${missionId}**\n👤 **Client:** ${currentUser.name}\n📞 **Tél:** ${currentUser.phone}\n🔧 **Technicien:** ${tech.name}\n🛠️ **Service:** ${currentService.name}\n🔍 **Problème:** ${currentProblem}\n📍 **Ville:** ${currentCity}\n⏱️ **Délai:** 30 secondes pour répondre`
-                    })
-                });
-            } catch (e) {}
-            
-            // Show waiting screen
-            showWaitingScreen(tech.name);
+            // Envoyer au backend
+            fetch(`${API_BASE_URL}/api/mission`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(mission)
+            }).then(res => res.json()).then(data => {
+                if (data.success) {
+                    showWaitingModal(missionId, tech);
+                }
+            }).catch(err => {
+                alert('Erreur lors de la création de la mission');
+            });
         }
 
-        // ==================== TECH VIEW ====================
-        function loadTechMissions() {
-            const pending = missions.filter(m => m.status === 'pending');
-            const completed = missions.filter(m => m.status === 'confirmed' || m.status === 'declined');
-            
-            document.getElementById('pending-count').textContent = pending.length;
-            document.getElementById('completed-count').textContent = completed.length;
-            
-            const totalEarned = missions
-                .filter(m => m.status === 'confirmed' && m.price)
-                .reduce((sum, m) => sum + parseInt(m.price || 0), 0);
-            document.getElementById('total-earned').textContent = totalEarned;
-            
-            // Pending missions
-            document.getElementById('pending-missions').innerHTML = pending.map(m => {
-                const elapsed = Math.floor((Date.now() - m.createdAt) / 1000);
-                const remaining = Math.max(0, 30 - elapsed);
-                const percent = (remaining / 30) * 100;
-                
-                return `
-                    <div class="mission-card">
-                        <div class="mission-header">
-                            <span class="mission-id">${m.id}</span>
-                            <span class="mission-time">${m.time}</span>
-                        </div>
-                        <div class="mission-body">
-                            <div class="mission-row">
-                                <span class="mission-label">Client</span>
-                                <span>${m.clientName}</span>
-                            </div>
-                            <div class="mission-row">
-                                <span class="mission-label">Téléphone</span>
-                                <span>${m.clientPhone}</span>
-                            </div>
-                            <div class="mission-row">
-                                <span class="mission-label">Service</span>
-                                <span>${m.service}</span>
-                            </div>
-                            <div class="mission-row">
-                                <span class="mission-label">Problème</span>
-                                <span>${m.problem}</span>
-                            </div>
-                            <div class="mission-row">
-                                <span class="mission-label">Ville</span>
-                                <span>${m.city}</span>
-                            </div>
-                        </div>
-                        <div class="mission-timer">
-                            <div class="timer-bar">
-                                <div class="timer-progress" style="width: ${percent}%;"></div>
-                            </div>
-                            <div class="timer-text">
-                                <i class="fas fa-clock"></i> ${remaining}s restantes
-                            </div>
-                        </div>
-                        <div class="mission-actions">
-                            <button class="accept-btn" onclick="respondToMission('${m.id}', 'confirmed')">
-                                ✅ Accepter
-                            </button>
-                            <button class="decline-btn" onclick="respondToMission('${m.id}', 'declined')">
-                                ❌ Refuser
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-            
-            // Completed missions
-            document.getElementById('completed-missions').innerHTML = completed.map(m => `
-                <div class="mission-card">
-                    <div class="mission-header">
-                        <span class="mission-id">${m.id}</span>
-                        <span class="mission-time">${m.time}</span>
-                    </div>
-                    <div class="mission-body">
-                        <div class="mission-row">
-                            <span class="mission-label">Client</span>
-                            <span>${m.clientName}</span>
-                        </div>
-                        <div class="mission-row">
-                            <span class="mission-label">Service</span>
-                            <span>${m.service}</span>
-                        </div>
-                        <div class="mission-row">
-                            <span class="mission-label">Statut</span>
-                            <span style="color: ${m.status === 'confirmed' ? 'var(--success)' : 'var(--danger)'}">
-                                ${m.status === 'confirmed' ? '✅ Confirmée' : '❌ Refusée'}
-                            </span>
-                        </div>
-                        ${m.price ? `
-                        <div class="mission-row">
-                            <span class="mission-label">Prix</span>
-                            <span>${m.price} MAD</span>
-                        </div>
-                        ` : ''}
-                    </div>
-                    ${m.status === 'confirmed' && !m.price ? `
-                    <div style="padding: 16px; border-top: 1px solid var(--border);">
-                        <div style="display: flex; gap: 8px;">
-                            <input type="number" id="price-${m.id}" placeholder="Montant reçu" style="flex: 1; padding: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text);">
-                            <button onclick="declarePrice('${m.id}')" style="padding: 12px 20px; background: var(--warning); border: none; border-radius: 6px; color: white; cursor: pointer;">Valider</button>
-                        </div>
-                    </div>
-                    ` : ''}
-                </div>
-            `).join('');
+        document.getElementById('backToServices')?.addEventListener('click', () => {
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step1').style.display = 'block';
+        });
+        document.getElementById('backToProblems')?.addEventListener('click', () => {
+            document.getElementById('step3').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+        });
+
+        function showWaitingModal(missionId, tech) {
+            waitingModal.style.display = 'flex';
+            waitingSeconds = 30;
+            waitingTimer.textContent = waitingSeconds;
+            waitingStatus.textContent = `En attente de ${tech.name}...`;
+            const interval = setInterval(() => {
+                waitingSeconds--;
+                waitingTimer.textContent = waitingSeconds;
+                if (waitingSeconds <= 0) {
+                    clearInterval(interval);
+                    waitingStatus.textContent = '⏰ Délai dépassé. Le technicien n\'a pas répondu.';
+                }
+            }, 1000);
+            waitingTimerInterval = interval;
+
+            // Poll du statut
+            const poll = setInterval(() => {
+                fetch(`${API_BASE_URL}/api/mission/status/${missionId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === 'confirmed') {
+                            clearInterval(interval);
+                            clearInterval(poll);
+                            waitingStatus.innerHTML = `✅ Mission confirmée ! Prix: ${data.price || 'à discuter'} MAD`;
+                            setTimeout(() => {
+                                waitingModal.style.display = 'none';
+                                loadClientDashboard(); // retour à l'accueil
+                            }, 3000);
+                        } else if (data.status === 'refused') {
+                            clearInterval(interval);
+                            clearInterval(poll);
+                            waitingStatus.textContent = '❌ Le technicien a refusé la mission.';
+                            setTimeout(() => {
+                                waitingModal.style.display = 'none';
+                            }, 3000);
+                        }
+                    });
+            }, 2000);
+
+            // Stocker pour annulation
+            window.currentMissionPoll = poll;
         }
 
-        async function respondToMission(missionId, response) {
-            const mission = missions.find(m => m.id === missionId);
-            if (!mission) return;
-            
-            mission.status = response;
-            mission.respondedAt = Date.now();
-            saveMissions();
-            
-            // Send confirmation to Discord
-            try {
-                await fetch(CONFIRMATION_WEBHOOK, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        content: response === 'confirmed' 
-                            ? `✅ **MISSION CONFIRMÉE**\n👤 **Client:** ${mission.clientName}\n📞 **Tél:** ${mission.clientPhone}\n🔧 **Technicien:** ${mission.techName}\n🛠️ **Service:** ${mission.service}`
-                            : `❌ **MISSION REFUSÉE**\n👤 **Client:** ${mission.clientName}\n🔧 **Technicien:** ${mission.techName}`
-                    })
-                });
-            } catch (e) {}
-            
-            // If confirmed, close waiting screen for client
-            if (response === 'confirmed') {
-                document.getElementById('waiting-screen').classList.remove('active');
-                if (waitingTimer) clearInterval(waitingTimer);
-            }
-            
-            showToast(response === 'confirmed' ? 'Mission confirmée!' : 'Mission refusée');
-            loadTechMissions();
-        }
+        cancelMissionBtn.addEventListener('click', () => {
+            if (window.currentMissionPoll) clearInterval(window.currentMissionPoll);
+            if (waitingTimerInterval) clearInterval(waitingTimerInterval);
+            waitingModal.style.display = 'none';
+            loadClientDashboard();
+        });
 
-        async function declarePrice(missionId) {
-            const input = document.getElementById(`price-${missionId}`);
-            const price = input.value.trim();
-            if (!price) return;
-            
-            const mission = missions.find(m => m.id === missionId);
-            if (mission) {
-                mission.price = price;
-                saveMissions();
-                
-                // Send price to Discord
-                try {
-                    await fetch(CONFIRMATION_WEBHOOK, {
+        // Dashboard technicien (simplifié)
+        function loadTechDashboard() {
+            mainContent.innerHTML = `
+                <h2>Tableau de bord technicien</h2>
+                <p>Bienvenue ${currentUser.name}. Les missions en attente apparaîtront ici (simulation).</p>
+                <div id="techMissions"></div>
+            `;
+            // Pour tester, on simule une mission
+            setTimeout(() => {
+                if (confirm('Nouvelle mission ! Accepter ?')) {
+                    const price = prompt('Proposez un prix (MAD)');
+                    fetch(`${API_BASE_URL}/api/tech-response`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            content: `💰 **Prix déclaré**\n🆔 **Mission:** ${missionId}\n💵 **Montant:** ${price} MAD`
+                            missionId: 'mission_' + Date.now(), // À adapter
+                            techName: currentUser.name,
+                            response: 'confirmed',
+                            price: price || 0
                         })
                     });
-                } catch (e) {}
-                
-                showToast(`Prix ${price} MAD enregistré!`);
-                loadTechMissions();
-            }
-        }
-
-        // ==================== NOTIFICATIONS ====================
-        function startNotificationCheck() {
-            notificationInterval = setInterval(() => {
-                if (currentRole === 'tech') {
-                    loadTechMissions();
-                    const pending = missions.filter(m => m.status === 'pending').length;
-                    document.getElementById('notification-dot').classList.toggle('active', pending > 0);
+                } else {
+                    fetch(`${API_BASE_URL}/api/tech-response`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            missionId: 'mission_' + Date.now(),
+                            techName: currentUser.name,
+                            response: 'refused'
+                        })
+                    });
                 }
-            }, 2000);
+            }, 5000);
         }
 
-        function showNotifications() {
-            const pending = missions.filter(m => m.status === 'pending').length;
-            showToast(pending ? `${pending} mission(s) en attente` : 'Aucune notification');
-        }
-
-        // ==================== RECRUITMENT ====================
-        function showRecruitment() {
-            document.getElementById('login-page').style.display = 'none';
-            document.getElementById('navbar').style.display = 'flex';
-            document.getElementById('main-container').style.display = 'block';
-            document.getElementById('client-views').style.display = 'block';
-            document.getElementById('tech-views').style.display = 'none';
-            showClientView('recruitment-view');
-        }
-
-        function updateCVName(input) {
-            document.getElementById('cv-file-name').textContent = input.files[0]?.name || 'Cliquez pour sélectionner';
-        }
-
-        async function submitRecruitment() {
-            const name = document.getElementById('recruit-name').value.trim();
-            const phone = document.getElementById('recruit-phone').value.trim();
-            const email = document.getElementById('recruit-email').value.trim();
-            const city = document.getElementById('recruit-city').value.trim();
-            const specialty = document.getElementById('recruit-specialty').value;
-            
-            if (!name || !phone || !email || !city) {
-                showToast('Veuillez remplir tous les champs', 'error');
-                return;
+        // Support Chat
+        openSupportBtn.addEventListener('click', () => {
+            supportModal.style.display = 'block';
+            loadSupportMessages();
+            if (!supportPollInterval) {
+                supportPollInterval = setInterval(loadSupportMessages, 2000);
             }
-            
-            try {
-                await fetch(RECRUITMENT_WEBHOOK, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        content: `📄 **NOUVELLE CANDIDATURE**\n👤 **Nom:** ${name}\n📱 **Tél:** ${phone}\n📧 **Email:** ${email}\n📍 **Ville:** ${city}\n🔧 **Spécialité:** ${specialty}`
-                    })
+        });
+
+        closeSupportBtn.addEventListener('click', () => {
+            supportModal.style.display = 'none';
+        });
+
+        function loadSupportMessages() {
+            if (!currentSessionId) return;
+            fetch(`${API_BASE_URL}/api/support/messages/${currentSessionId}?since=${supportLastMessageId}`)
+                .then(res => res.json())
+                .then(data => {
+                    data.messages.forEach(msg => {
+                        displaySupportMessage(msg);
+                        if (msg.id > supportLastMessageId) supportLastMessageId = msg.id;
+                    });
                 });
-            } catch (e) {}
-            
-            showToast('Candidature envoyée!');
-            goHome();
         }
 
-        // ==================== SEARCH ====================
-        function searchProblem() {
-            const query = document.getElementById('search-input').value.toLowerCase();
-            
-            const keywords = {
-                electricite: ['électricité', 'panne', 'prise', 'lumière'],
-                plomberie: ['plomberie', 'fuite', 'wc', 'robinet'],
-                antenne: ['antenne', 'parabole', 'signal', 'tv'],
-                telephone: ['téléphone', 'smartphone', 'iphone', 'samsung']
-            };
-            
-            for (const [service, words] of Object.entries(keywords)) {
-                if (words.some(word => query.includes(word))) {
-                    selectService(service);
-                    return;
+        function displaySupportMessage(msg) {
+            const div = document.createElement('div');
+            div.className = `message ${msg.from === 'client' ? 'client' : 'support'}`;
+            div.innerHTML = `<div class="bubble">${msg.text}</div>`;
+            supportMessages.appendChild(div);
+            supportMessages.scrollTop = supportMessages.scrollHeight;
+        }
+
+        sendSupportBtn.addEventListener('click', () => {
+            const text = supportInput.value.trim();
+            if (!text) return;
+            supportInput.value = '';
+            fetch(`${API_BASE_URL}/api/support`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: currentUser.name,
+                    phone: currentUser.phone,
+                    message: text,
+                    sessionId: currentSessionId
+                })
+            }).then(() => {
+                // Pas besoin d'attendre, le polling montrera le message
+            });
+        });
+
+        // Recrutement
+        openRecruitBtn.addEventListener('click', () => {
+            recruitModal.style.display = 'block';
+        });
+        closeRecruitBtn.addEventListener('click', () => {
+            recruitModal.style.display = 'none';
+        });
+
+        recruitForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('recruitName').value;
+            const phone = document.getElementById('recruitPhone').value;
+            const email = document.getElementById('recruitEmail').value;
+            const city = document.getElementById('recruitCity').value;
+            const specialty = document.getElementById('recruitSpecialty').value;
+            const cvFile = document.getElementById('recruitCV').files[0];
+            if (!cvFile) return alert('Veuillez joindre votre CV');
+
+            // Simulation d'envoi (pas de stockage réel du fichier)
+            fetch(`${API_BASE_URL}/api/recruit`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, phone, email, city, specialty })
+            }).then(res => res.json()).then(data => {
+                if (data.success) {
+                    alert('Candidature envoyée ! Nous vous contacterons.');
+                    recruitModal.style.display = 'none';
                 }
+            }).catch(() => {
+                alert('Erreur lors de l\'envoi');
+            });
+        });
+
+        // Initialisation
+        (function init() {
+            const savedUser = localStorage.getItem('mentech_user');
+            const savedSession = localStorage.getItem('mentech_session');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                currentSessionId = savedSession;
+                loginContainer.style.display = 'none';
+                appContainer.style.display = 'block';
+                greeting.textContent = `Bonjour, ${currentUser.name}`;
+                if (currentUser.type === 'client') loadClientDashboard();
+                else loadTechDashboard();
+                detectCity();
+            } else {
+                showLogin();
             }
-            showToast('Veuillez préciser votre problème', 'error');
-        }
-
-        // ==================== LOCAL STORAGE ====================
-        function saveMissions() {
-            localStorage.setItem('mentech_missions', JSON.stringify(missions));
-        }
-
-        function loadMissions() {
-            const saved = localStorage.getItem('mentech_missions');
-            if (saved) missions = JSON.parse(saved);
-        }
-
-        // ==================== INIT ====================
-        loadMissions();
-        buildCategories();
-        detectLocation();
+        })();
     </script>
 </body>
 </html>
