@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     // ==================== CONFIGURATION FIREBASE ====================
     const firebaseConfig = {

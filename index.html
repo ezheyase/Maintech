@@ -15,6 +15,24 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div id="splash-screen">
+        <div class="logo-container">
+            <img src="radius.png" alt="MenTech Logo" class="splash-logo">
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                if(splash) {
+                    splash.classList.add('fade-out'); // Lance l'animation de sortie
+                    // Supprime totalement l'élément après l'animation pour ne pas bloquer les clics
+                    setTimeout(() => { splash.style.display = 'none'; }, 600);
+                }
+            }, 2000); // 2000 millisecondes = 2 secondes
+        });
+    </script>
     <div id="login-page">
         <div class="login-card">
             <div class="login-header">

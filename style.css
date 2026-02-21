@@ -185,3 +185,47 @@ body { background-color: var(--bg-dark); color: var(--text-light); min-height: 1
 .support-messages { height: 350px; padding: 15px; overflow-y: auto; background: #E5DDD5; display: flex; flex-direction: column; gap: 10px; }
 .support-input { display: flex; padding: 15px; background: var(--bg-input); gap: 10px; }
 .support-input input { flex: 1; padding: 15px; border-radius: 20px; border: none; outline: none; background: var(--bg-dark); color: white; }
+/* ==================== SPLASH SCREEN (ANIMATION PRO) ==================== */
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--bg-dark); /* Ton fond sombre */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999;
+    /* Transition ultra fluide pour la sortie */
+    transition: opacity 0.5s ease-in-out, transform 0.6s cubic-bezier(0.8, 0, 0.2, 1);
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* L'animation d'entrée avec l'effet rebond ! */
+    animation: appLaunchBounce 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.splash-logo {
+    width: 160px; /* Taille de ton logo */
+    /* Petit effet lumineux autour du logo pour faire premium */
+    filter: drop-shadow(0px 10px 25px rgba(99, 102, 241, 0.6)); 
+}
+
+/* 1. ANIMATION D'ENTRÉE : Départ tout petit, grossit trop, puis reprend sa taille normale */
+@keyframes appLaunchBounce {
+    0% { transform: scale(0.1); opacity: 0; }
+    60% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* 2. ANIMATION DE SORTIE : Zoom vers l'utilisateur et fond en fondu */
+.fade-out {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: scale(1.3); /* Le zoom final façon Instagram */
+    pointer-events: none;
+}
