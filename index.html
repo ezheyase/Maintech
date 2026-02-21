@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MenTech - Maintenance Pro</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="login-page">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">Men<span>Tech</span></div>
+                <p>La maintenance, simplifiée.</p>
+            </div>
+            <div class="login-tabs">
+                <div class="login-tab active" onclick="switchTab('client')"><i class="fas fa-user"></i> CLIENT</div>
+                <div class="login-tab" onclick="switchTab('tech')"><i class="fas fa-toolbox"></i> PRO / STAFF</div>
+            </div>
+            <div class="login-body">
+                <div id="client-login">
+                    <div class="input-group"><i class="fas fa-user"></i><input id="client-name" placeholder="Votre Prénom"></div>
+                    <div class="input-group"><i class="fas fa-phone"></i><input id="client-phone" placeholder="Téléphone"></div>
+                </div>
+                <div id="tech-login" style="display:none;">
+                    <div class="input-group"><i class="fas fa-id-badge"></i><input id="tech-id" placeholder="Identifiant (Ex: TECH1, SUPPORT1)"></div>
+                    <div class="input-group"><i class="fas fa-lock"></i><input id="tech-password" type="password" placeholder="Mot de passe"></div>
+                </div>
+                <div class="login-error" id="login-error"></div>
+                <button class="btn-primary" onclick="handleLogin()">SE CONNECTER</button>
+                <p class="login-footer">Vous êtes un pro ? <span onclick="showRecruitment()">Rejoignez le réseau</span></p>
+            </div>
+        </div>
+    </div>
+
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo"><i class="fas fa-bolt"></i>Men<span>Tech</span></div>
+            <div class="nav-actions">
+                <div class="user-pill"><i class="fas fa-circle-user"></i> <span id="user-name">Client</span></div>
+                <button class="logout-btn" onclick="logout()"><i class="fas fa-power-off"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="main-container">
+        
+        <div id="client-views">
+            <div class="view active" id="home-view">
+                <div class="hero-section">
+                    <h1>Réparation <span class="text-gradient">Immédiate</span></h1>
+                    <p>Sélectionnez votre domaine d'intervention.</p>
+                </div>
+                <div class="grid-container" id="categories-grid"></div>
+            </div>
+
+            <div class="view" id="devices-view">
+                <button class="back-link" onclick="goHome()"><i class="fas fa-chevron-left"></i> Retour aux catégories</button>
+                <h2 class="view-title" id="selected-category-title">...</h2>
+                <p class="view-subtitle">Quel appareil est concerné ?</p>
+                <div class="grid-container" id="devices-grid"></div>
+            </div>
+
+            <div class="view" id="problems-view">
+                <button class="back-link" onclick="backToDevices()"><i class="fas fa-chevron-left"></i> Retour aux appareils</button>
+                <div class="selected-device-header">
+                    <div class="device-icon-large" id="selected-device-icon"></div>
+                    <div>
+                        <h2 class="view-title" id="selected-device-title">...</h2>
+                        <p class="view-subtitle">Quel est le problème ?</p>
+                    </div>
+                </div>
+                <div class="list-container" id="problems-list"></div>
+            </div>
+
+            <div class="view" id="techs-view">
+                <button class="back-link" onclick="backToProblems()"><i class="fas fa-chevron-left"></i> Retour aux problèmes</button>
+                <h2 class="view-title">Techniciens Disponibles</h2>
+                <p class="view-subtitle">Experts qualifiés pour votre problème.</p>
+                <div class="tech-grid" id="technicians-grid"></div>
+            </div>
+            
+            <div class="view" id="recruitment-view">
+                <button class="back-link" onclick="logout()"><i class="fas fa-chevron-left"></i> Retour</button>
+                <div class="form-card" style="background:var(--bg-card); padding:40px; border-radius:24px; max-width:500px; margin:auto;">
+                    <h2>Devenir Partenaire MenTech</h2>
+                    <br>
+                    <div class="input-group"><i class="fas fa-user"></i><input id="recruit-name" placeholder="Nom complet"></div>
+                    <div class="input-group"><i class="fas fa-phone"></i><input id="recruit-phone" placeholder="Téléphone"></div>
+                    <div class="input-group"><i class="fas fa-city"></i><input id="recruit-city" placeholder="Ville"></div>
+                    <button class="btn-primary" onclick="submitRecruitment()">ENVOYER CANDIDATURE</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="tech-views" style="display:none;">
+            <h2 class="view-title">Tableau de bord Tech</h2>
+           <div class="stats-row" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="stat-card pending">
+                    <h3 style="font-size:0.8rem;">En attente</h3>
+                    <div class="stat-value" id="pending-count">0</div>
+                </div>
+                <div class="stat-card" style="border-bottom: 4px solid var(--primary);">
+                    <h3 style="font-size:0.8rem;">En cours</h3>
+                    <div class="stat-value" id="approved-count">0</div>
+                </div>
+                <div class="stat-card earned">
+                    <h3 style="font-size:0.8rem;">Terminées</h3>
+                    <div class="stat-value" id="completed-count">0</div>
+                </div>
+                <div class="stat-card" style="border-bottom: 4px solid #fbbf24;">
+                    <h3 style="font-size:0.8rem;">Gain (MAD)</h3>
+                    <div class="stat-value" style="color: #fbbf24;"><span id="total-earned">0</span></div>
+                </div>
+            </div>
+            <h3 class="section-header">Missions en cours</h3>
+            <div class="missions-list" id="pending-missions"></div>
+            <h3 class="section-header">Historique récent</h3>
+            <div class="missions-list history" id="completed-missions"></div>
+        </div>
+
+        <div id="support-views" style="display:none;">
+            <h2 class="view-title" style="margin-bottom: 5px;"><i class="fas fa-headset text-gradient"></i> Centre de Support Live</h2>
+            <p class="view-subtitle">Gérez les demandes clients en temps réel.</p>
+            
+            <div style="display: flex; gap: 24px; height: 60vh; margin-top: 20px;">
+                <div style="flex: 1; background: var(--bg-card); border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); padding: 20px; overflow-y: auto;" id="support-ticket-list">
+                    <p style="color: var(--text-dim); text-align: center; margin-top: 20px;">Aucun message en attente.</p>
+                </div>
+                
+                <div id="admin-chat-window" style="flex: 2; background: var(--bg-card); border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); display: none; flex-direction: column; overflow: hidden;">
+                    <div style="padding: 20px; background: var(--bg-input); border-bottom: 1px solid rgba(255,255,255,0.05);">
+                        <h3 id="admin-chat-client-name" style="font-weight: 700; font-size: 1.2rem; color: white;">Client</h3>
+                    </div>
+                    <div id="admin-chat-messages" style="flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;">
+                        </div>
+                    <div style="padding: 20px; background: var(--bg-input); display: flex; gap: 12px; border-top: 1px solid rgba(255,255,255,0.05);">
+                        <input type="text" id="admin-chat-input" placeholder="Répondre au client..." style="flex: 1; background: var(--bg-dark); border: 1px solid rgba(255,255,255,0.1); padding: 15px 20px; border-radius: 12px; color: white; outline: none;" onkeypress="if(event.key === 'Enter') sendAdminMessage()">
+                        <button style="background: var(--primary); border: none; color: white; padding: 0 25px; border-radius: 12px; cursor: pointer;" onclick="sendAdminMessage()"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+<div class="view" id="view-chat">
+            <div style="background: var(--bg-card); border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); max-width: 800px; margin: 0 auto; height: 75vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+                
+                <div style="background: var(--bg-input); padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="width: 50px; height: 50px; background: var(--gradient-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold;"><i class="fas fa-tools"></i></div>
+                        <div>
+                            <h3 style="font-weight: 700; font-size: 1.2rem;" id="chat-title">Intervention en cours</h3>
+                            <p style="font-size: 0.9rem; color: var(--success); display: flex; align-items: center; gap: 5px;"><i class="fas fa-circle" style="font-size: 8px;"></i> Connecté en direct</p>
+                        </div>
+                    </div>
+                    <button class="btn-primary" style="background: var(--danger); width: auto; padding: 12px 20px; box-shadow: none;" onclick="endMission()"><i class="fas fa-flag-checkered"></i> Terminer</button>
+                </div>
+                
+                <div id="chat-messages-box" style="flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: var(--bg-dark);">
+                    </div>
+                
+                <div style="background: var(--bg-input); padding: 20px; display: flex; gap: 15px; border-top: 1px solid rgba(255,255,255,0.05);">
+                    <input type="text" id="chat-input" placeholder="Message direct..." style="flex: 1; background: var(--bg-dark); border: 1px solid rgba(255,255,255,0.1); padding: 15px 20px; border-radius: 16px; color: white; outline: none; font-size: 1rem;" onkeypress="if(event.key === 'Enter') sendChatMessage()">
+                    <button class="btn-primary" style="width: auto; padding: 0 25px; border-radius: 16px;" onclick="sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="waiting-screen">
+        <div class="waiting-content">
+            <div class="pulse-ring"></div>
+            <h2 id="wait-tech-name">Recherche...</h2>
+            <p>En attente de confirmation</p>
+            <div class="timer-wrapper">
+                <svg class="timer-svg" viewBox="0 0 100 100">
+                    <circle class="timer-path-gray" cx="50" cy="50" r="45"></circle>
+                    <circle class="timer-path-color" id="timer-path" cx="50" cy="50" r="45"></circle>
+                </svg>
+                <div class="timer-text" id="waiting-timer">30</div>
+            </div>
+            <button class="btn-text" onclick="cancelWaiting()">Annuler la demande</button>
+        </div>
+    </div>
+
+    <div id="mission-modal" class="modal-overlay">
+        <div class="modal-card">
+            <h3><i class="fas fa-map-marker-alt"></i> Détails de l'intervention</h3>
+            <div class="input-group"><i class="fas fa-home"></i><input id="mission-address" placeholder="Adresse exacte *"></div>
+            <div class="input-group"><i class="fas fa-comment-alt"></i><textarea id="mission-note" rows="3" placeholder="Note (Code porte, étage, etc.)"></textarea></div>
+            <div class="modal-actions">
+                <button class="btn-text" onclick="closeMissionModal()">Annuler</button>
+                <button class="btn-primary" onclick="confirmMission()">CONFIRMER</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="support-widget" style="display:none;">
+        <div class="support-btn" onclick="toggleSupport()"><i class="fab fa-whatsapp"></i></div>
+        <div class="support-modal" id="support-modal">
+            <div class="support-header">
+                <div class="support-avatar">M</div>
+                <div><h4 style="font-size:16px; font-weight:bold; color:white;">Majda - Support</h4><p style="font-size:12px; margin-top:2px; opacity:0.8; color:white;">En ligne</p></div>
+            </div>
+            <div class="support-messages" id="support-messages"></div>
+            <div class="support-input">
+                <input type="text" id="support-input" placeholder="Besoin d'aide ?" style="color:black; background:white;" onkeypress="if(event.key==='Enter') sendSupport()">
+                <button onclick="sendSupport()" style="background:#25D366; border:none; width:45px; height:45px; border-radius:50%; color:white; cursor:pointer;"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
