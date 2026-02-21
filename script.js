@@ -96,12 +96,14 @@ document.addEventListener('DOMContentLoaded', () => {
         currentRole = role;
     }
 
-    window.handleLogin = function() {
+  window.handleLogin = function() {
         const errorDiv = document.getElementById('login-error');
         errorDiv.textContent = 'Connexion en cours...';
 
         if (currentRole === 'tech') {
-            const id = document.getElementById('tech-id').value.toUpperCase();
+            // NOUVEAU : On nettoie le nom saisi (Majuscules, suppression des espaces et des tirets)
+            const rawId = document.getElementById('tech-id').value;
+            const id = rawId.toUpperCase().replace(/[\s-]/g, ''); 
             const pass = document.getElementById('tech-password').value;
             
             db.ref('users/' + id).once('value').then(snap => {
@@ -110,11 +112,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     currentUser = { id: id, name: userData.name, role: userData.role, specialty: userData.specialty };
                     supportSessionId = 'SUP-TECH-' + id; 
                     
-                    // ON INSCRIT AUTOMATIQUEMENT LE TECH DANS LE DASHBOARD DU SUPPORT !
                     if (userData.role === 'tech') {
                         db.ref('support_metadata/' + supportSessionId).update({
                             clientName: `👷 ${currentUser.name} (Tech)`,
-                            phone: id,
+                            phone: rawId,
                             lastMsg: "✅ En ligne",
                             timestamp: Date.now(),
                             unreadByAdmin: true
@@ -123,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     enterApp(userData.role);
                 } else {
-                    errorDiv.textContent = "Identifiants ou mot de passe incorrects.";
+                    errorDiv.textContent = "Nom ou mot de passe incorrect.";
                 }
             }).catch(err => { errorDiv.textContent = "Erreur de connexion à la base de données."; });
         } else {
