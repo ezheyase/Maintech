@@ -14,15 +14,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const db = firebase.database();
 
     // ==================== SYSTÈME DE SONS ET NOTIFICATIONS ====================
+   // Utilisation des serveurs officiels Google (0 blocage CORS)
     const SOUNDS = {
-        pop: new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3'),
-        ring: new Audio('https://assets.mixkit.co/active_storage/sfx/1081/1081-preview.mp3')
+        pop: new Audio('https://actions.google.com/sounds/v1/water/water_drop.ogg'),
+        ring: new Audio('https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg')
     };
 
-    function playSound(type) {
+function playSound(type) {
         try {
             SOUNDS[type].currentTime = 0;
-            SOUNDS[type].play().catch(e => console.log("Son en attente d'interaction."));
+            let playPromise = SOUNDS[type].play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log("Lecture du son bloquée par le navigateur (attente d'un clic).");
+                });
+            }
         } catch (e) {}
     }
 
@@ -48,11 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==================== DONNÉES LOCALES ====================
+// ==================== DONNÉES LOCALES ====================
     const DATA = {
         electromenager: {
             title: "Électroménager", icon: "fa-plug",
             devices: {
-                // ================= GROS ÉLECTROMÉNAGER (LAVAGE & FROID) =================
                 lave_linge: { 
                     title: "Lave-linge", icon: "fa-soap", 
                     problems: ["Ne vidange pas", "Le tambour ne tourne pas", "Fuit par le bas", "Fait un bruit très fort à l'essorage", "Code erreur affiché", "La porte refuse de s'ouvrir"] 
@@ -77,8 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     title: "Cave à vin", icon: "fa-wine-bottle", 
                     problems: ["La température est instable", "Fait beaucoup de bruit", "L'écran d'affichage est HS", "De la condensation se forme"] 
                 },
-
-                // ================= GROS ÉLECTROMÉNAGER (CUISSON) =================
                 four_encastrable: { 
                     title: "Four Encastrable", icon: "fa-fire-burner", 
                     problems: ["Ne chauffe plus du tout", "Chauffe trop et brûle tout", "La chaleur tournante ne marche plus", "La vitre de la porte est cassée", "Porte bloquée après pyrolyse"] 
@@ -95,8 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     title: "Cuisinière (Gaz/Mixte)", icon: "fa-fire", 
                     problems: ["Les brûleurs gaz s'éteignent tout seuls", "L'étincelle (piezo) ne marche plus", "Odeur de gaz suspecte"] 
                 },
-
-                // ================= PETIT ÉLECTROMÉNAGER (CUISINE) =================
                 micro_ondes: { 
                     title: "Micro-ondes", icon: "fa-microwave", 
                     problems: ["Ne chauffe pas les aliments", "Le plateau ne tourne plus", "Fait des étincelles à l'intérieur", "Ne s'allume plus du tout", "Les touches tactiles sont HS"] 
@@ -125,8 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     title: "Grille-pain", icon: "fa-bread-slice", 
                     problems: ["Le levier ne reste pas en bas", "La résistance ne chauffe plus", "Le pain est bloqué dedans", "Odeur de court-circuit"] 
                 },
-
-                // ================= ENTRETIEN (SOLS, LINGE & AIR) =================
                 aspirateur_classique: { 
                     title: "Aspirateur Traîneau / Balai", icon: "fa-broom", 
                     problems: ["Perte totale d'aspiration", "Le moteur siffle fortement", "La brosse rotative ne tourne plus", "La batterie ne tient plus (Balai)", "Le câble ne s'enroule plus"] 
